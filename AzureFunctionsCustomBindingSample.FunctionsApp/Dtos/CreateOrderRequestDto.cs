@@ -7,8 +7,12 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Dtos
   using System;
   using System.Collections.Generic;
 
-  public sealed class CreateOrderRequestDto
+  using AzureFunctionsCustomBindingSample.FunctionsApp.Queries;
+  
+  public sealed class CreateOrderRequestDto : IGetProductsQuery
   {
     public IDictionary<Guid, int> Products { get; set; }
+
+    IEnumerable<Guid> IGetProductsQuery.Products => Products.Keys;
   }
 }

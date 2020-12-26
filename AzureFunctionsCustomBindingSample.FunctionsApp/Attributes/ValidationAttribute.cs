@@ -2,10 +2,9 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.FunctionsApp.Queries
+namespace AzureFunctionsCustomBindingSample.FunctionsApp.Attributes
 {
-  public interface ISearchProductsQuery
-  {
-    public string ProductName { get; set; }
-  }
+  using System;
+
+  public sealed class ValidationAttribute : Attribute { }
 }

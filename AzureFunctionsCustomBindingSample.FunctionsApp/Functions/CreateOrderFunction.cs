@@ -12,8 +12,10 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Functions
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
+  using AzureFunctionsCustomBindingSample.FunctionsApp.Attributes;
   using AzureFunctionsCustomBindingSample.FunctionsApp.Dtos;
   using AzureFunctionsCustomBindingSample.FunctionsApp.Entities;
+  using AzureFunctionsCustomBindingSample.FunctionsApp.Enums;
   using AzureFunctionsCustomBindingSample.FunctionsApp.Services;
 
   public static class CreateOrderFunction
@@ -21,12 +23,11 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Functions
     [FunctionName(nameof(CreateOrderFunction))]
     public static async Task<OrderEntity> ExecuteAsync(
       [HttpTrigger("post", Route = "order")] HttpRequest request,
-      [LoadFromRequest] CreateOrderRequestDto requestDto,
-      [LoadForRequest<CreateOrderRequestDto>(request => request.Products.Keys)] IDictionary<Guid, ProductEntity> productEntityDictionary,
-      [LoadForAuthorization] UserEntity userEntity,
-      [LoadFromService] IOrderService orderService,
-      [ValidateRequest] ValidationResult validationResult,
-      [AuthorizeRequest] AuthorizationResult authorizationResult,
+      [Request] CreateOrderRequestDto requestDto,
+      [Entity] IDictionary<Guid, ProductEntity> productEntityDictionary,
+      [Validation] ValidationResult validationResult,
+      [Authorization(Permission = Permission.Administrator)] UserEntity userEntity,
+      [Service] IOrderService orderService,
       CancellationToken cancellationToken)
       => await orderService.CreateOrderAsync(
         requestDto.Products, productEntityDictionary, userEntity, cancellationToken);

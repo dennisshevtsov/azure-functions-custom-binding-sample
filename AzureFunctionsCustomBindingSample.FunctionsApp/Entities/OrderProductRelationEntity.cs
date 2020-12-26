@@ -8,10 +8,14 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Entities
 
   public sealed class OrderProductRelationEntity
   {
-    public Guid OrderId { get; set; }
-
     public Guid ProductId { get; set; }
 
-    public int ProductCount { get; set; }
+    public string Name { get; set; }
+
+    public float PricePerUnit { get; set; }
+
+    public float Price { get; set; }
+
+    public int Units { get; set; }
   }
 }

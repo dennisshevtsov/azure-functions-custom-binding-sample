@@ -6,7 +6,7 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Entities
 {
   using System;
 
-  public sealed class UserEntity
+  public sealed class OrderUserRelationEntity
   {
     public Guid UserId { get; set; }
 

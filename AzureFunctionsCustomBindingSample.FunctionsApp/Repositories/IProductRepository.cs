@@ -16,7 +16,5 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Repositories
     public Task<ProductEntity> GetProductAsync(Guid productId, CancellationToken cancellationToken);
 
     public Task<IEnumerable<ProductEntity>> GetProductsAsync(IEnumerable<Guid> products, CancellationToken cancellationToken);
-
-    public Task<IEnumerable<ProductEntity>> SearchProductsAsync(string productName, CancellationToken cancellationToken);
   }
 }
