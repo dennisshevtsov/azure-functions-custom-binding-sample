@@ -7,14 +7,15 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Functions
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
+  using AzureFunctionsCustomBindingSample.FunctionsApp.Binding;
   using AzureFunctionsCustomBindingSample.FunctionsApp.Entities;
 
   public static class GetOrderFunction
   {
-    [FunctionName(nameof(CreateOrderFunction))]
+    [FunctionName(nameof(GetOrderFunction))]
     public static OrderEntity Execute(
       [HttpTrigger("get", Route = "order/{orderId}")] HttpRequest request,
-      OrderEntity orderEntity)
+      [Entity] OrderEntity orderEntity)
       => orderEntity;
   }
 }
