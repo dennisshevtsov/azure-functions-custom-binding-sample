@@ -2,15 +2,15 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.FunctionsApp.Services
+namespace AzureFunctionsCustomBindingSample.ServiceModel
 {
   using System;
   using System.Collections.Generic;
   using System.Threading;
   using System.Threading.Tasks;
 
-  using AzureFunctionsCustomBindingSample.FunctionsApp.Entities;
-  using AzureFunctionsCustomBindingSample.FunctionsApp.Repositories;
+  using AzureFunctionsCustomBindingSample.EntityModel;
+  using AzureFunctionsCustomBindingSample.RepositoryModel;
 
   public sealed class OrderService : IOrderService
   {
@@ -28,7 +28,8 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Services
       CancellationToken cancellationToken)
     {
       var orderEntity = OrderEntity.New(products, productEntityDictionary, userEntity);
-      orderEntity = await _orderRepository.CreateOrderAsync(orderEntity, cancellationToken);
+
+      await _orderRepository.InsertAsync(orderEntity, cancellationToken);
 
       return orderEntity;
     }

@@ -2,20 +2,18 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.FunctionsApp.Entities
+namespace AzureFunctionsCustomBindingSample.EntityModel
 {
   using System;
 
-  public sealed class OrderProductRelationEntity
+  public sealed class ProductEntity
   {
     public Guid ProductId { get; set; }
 
     public string Name { get; set; }
 
-    public float PricePerUnit { get; set; }
+    public string Description { get; set; }
 
     public float Price { get; set; }
-
-    public int Units { get; set; }
   }
 }

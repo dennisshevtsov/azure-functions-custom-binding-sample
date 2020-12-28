@@ -10,7 +10,7 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Binding
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs.Host.Bindings;
 
-  using AzureFunctionsCustomBindingSample.FunctionsApp.Entities;
+  using AzureFunctionsCustomBindingSample.EntityModel;
 
   public sealed class AuthorizationValueProvider : IValueProvider
   {

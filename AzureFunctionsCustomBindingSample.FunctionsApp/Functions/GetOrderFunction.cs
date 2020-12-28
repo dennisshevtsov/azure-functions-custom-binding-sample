@@ -7,8 +7,8 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Functions
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
+  using AzureFunctionsCustomBindingSample.EntityModel;
   using AzureFunctionsCustomBindingSample.FunctionsApp.Binding;
-  using AzureFunctionsCustomBindingSample.FunctionsApp.Entities;
 
   public static class GetOrderFunction
   {

@@ -12,11 +12,11 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApp.Functions
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
+  using AzureFunctionsCustomBindingSample.EntityModel;
   using AzureFunctionsCustomBindingSample.FunctionsApp.Binding;
   using AzureFunctionsCustomBindingSample.FunctionsApp.Dtos;
-  using AzureFunctionsCustomBindingSample.FunctionsApp.Entities;
   using AzureFunctionsCustomBindingSample.FunctionsApp.Enums;
-  using AzureFunctionsCustomBindingSample.FunctionsApp.Services;
+  using AzureFunctionsCustomBindingSample.ServiceModel;
 
   public static class CreateOrderFunction
   {

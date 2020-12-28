@@ -7,6 +7,11 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.7" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.EntityModel\AzureFunctionsCustomBindingSample.EntityModel.csproj" />
+    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.RepositoryModel\AzureFunctionsCustomBindingSample.RepositoryModel.csproj" />
+    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.ServiceModel\AzureFunctionsCustomBindingSample.ServiceModel.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Update="host.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
