@@ -29,7 +29,7 @@ namespace AzureFunctionsCustomBindingSample.ServiceModel
     {
       var orderEntity = OrderEntity.New(products, productEntityDictionary, userEntity);
 
-      await _orderRepository.InsertAsync(orderEntity, cancellationToken);
+      await _orderRepository.InsertAsync(orderEntity, nameof(OrderEntity), cancellationToken);
 
       return orderEntity;
     }

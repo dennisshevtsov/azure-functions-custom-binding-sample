@@ -10,14 +10,18 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
 
   public interface IRepository<TEntity> where TEntity : class
   {
-    public Task<Document<TEntity>> GetAsync(string primaryKey, string partitionKey, CancellationToken cancellationToken);
+    public Task<Document<TEntity>> FirstOrDefaultAsync(string primaryKey, string partitionKey, CancellationToken cancellationToken);
 
-    public IAsyncEnumerable<Document<TEntity>> AsEnumerableAsync(CancellationToken cancellationToken);
+    public IAsyncEnumerable<Document<TEntity>> AsEnumerableAsync(
+      string partitionId,
+      string query,
+      IDictionary<string, object> parameters,
+      CancellationToken cancellationToken);
 
-    public Task InsertAsync(TEntity entity, CancellationToken cancellationToken);
+    public Task InsertAsync(TEntity entity, string partitionKey, CancellationToken cancellationToken);
 
-    public Task UpdateAsync(Document<TEntity> document, CancellationToken cancellationToken);
+    public Task UpdateAsync(Document<TEntity> document, string id, string partitionKey, CancellationToken cancellationToken);
 
-    public Task DeleteAsync(Document<TEntity> document, CancellationToken cancellationToken);
+    public Task DeleteAsync(Document<TEntity> document, string id, string partitionKey, CancellationToken cancellationToken);
   }
 }
