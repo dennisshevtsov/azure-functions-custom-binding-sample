@@ -6,6 +6,7 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
 {
   using System;
   using System.Collections.Generic;
+  using System.Linq;
   using System.Runtime.CompilerServices;
   using System.Text.Json;
   using System.Threading;
@@ -14,13 +15,18 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
   using Microsoft.Azure.Cosmos;
   using Microsoft.IO;
 
-  public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class
+  /// <summary>Provides a simple API to Cosmos DB.</summary>
+  public sealed class DocumentClient : IDocumentClient
   {
     private readonly RequestOptions _requestOptions;
     private readonly Container _container;
     private readonly RecyclableMemoryStreamManager _streamManager;
 
-    protected RepositoryBase(
+    /// <summary>Initializes a new instance of the <see cref="DocumentClient"/> class.</summary>
+    /// <param name="requestOptions">An object that represents options of a request to Cosmos DB.</param>
+    /// <param name="container">An object that provides operations for reading, replacing, or deleting a specific, existing container or item in a container by ID.</param>
+    /// <param name="streamManager">An object that manages pools of RecyclableMemoryStream objects.</param>
+    public DocumentClient(
       RequestOptions requestOptions,
       Container container,
       RecyclableMemoryStreamManager streamManager)
@@ -30,13 +36,27 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
       _streamManager = streamManager ?? throw new ArgumentNullException(nameof(streamManager));
     }
 
-    public Task<Document<TEntity>> FirstOrDefaultAsync(string primaryKey, string partitionKey, CancellationToken cancellationToken) => throw new NotImplementedException();
+    public async Task<Document<TEntity>> FirstOrDefaultAsync<TEntity>(
+      string id, string partitionKey, CancellationToken cancellationToken) where TEntity : class
+    {
+      using (var responseMessage = await _container.ReadItemStreamAsync(id, new PartitionKey(partitionKey), null, cancellationToken))
+      {
+        responseMessage.EnsureSuccessStatusCode();
 
-    public async IAsyncEnumerable<Document<TEntity>> AsEnumerableAsync(
+        var documentResponse = await JsonSerializer.DeserializeAsync<DocumentResponse<TEntity>>(
+          responseMessage.Content,
+          new JsonSerializerOptions(),
+          cancellationToken);
+
+        return documentResponse.Documents.FirstOrDefault();
+      }
+    }
+
+    public async IAsyncEnumerable<Document<TEntity>> AsEnumerableAsync<TEntity>(
       string partitionId,
       string query,
       IDictionary<string, object> parameters,
-      [EnumeratorCancellation] CancellationToken cancellationToken)
+      [EnumeratorCancellation] CancellationToken cancellationToken) where TEntity : class
     {
       var queryDefinition = new QueryDefinition(query);
 
@@ -73,18 +93,29 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
       }
     }
 
-    public async Task InsertAsync(TEntity entity, string partitionKey, CancellationToken cancellationToken)
+    public async Task<Document<TEntity>> InsertAsync<TEntity>(
+      TEntity entity, string partitionKey, CancellationToken cancellationToken) where TEntity : class
     {
       using (var stream = _streamManager.GetStream())
       {
-        await JsonSerializer.SerializeAsync(stream, entity, null, new JsonSerializerOptions(), cancellationToken);
-        var responseMessage = await _container.CreateItemStreamAsync(stream, new PartitionKey(partitionKey), null, cancellationToken);
+        await JsonSerializer.SerializeAsync(stream, entity, new JsonSerializerOptions(), cancellationToken);
 
-        responseMessage.EnsureSuccessStatusCode();
+        using (var responseMessage = await _container.CreateItemStreamAsync(stream, new PartitionKey(partitionKey), null, cancellationToken))
+        {
+          responseMessage.EnsureSuccessStatusCode();
+
+          var documentResponse = await JsonSerializer.DeserializeAsync<DocumentResponse<TEntity>>(
+            responseMessage.Content,
+            new JsonSerializerOptions(),
+            cancellationToken);
+
+          return documentResponse.Documents.FirstOrDefault();
+        }
       }
     }
 
-    public async Task UpdateAsync(Document<TEntity> document, string id, string partitionKey, CancellationToken cancellationToken)
+    public async Task<Document<TEntity>> UpdateAsync<TEntity>(
+      Document<TEntity> document, string id, string partitionKey, CancellationToken cancellationToken) where TEntity : class
     {
       using (var stream = _streamManager.GetStream())
       {
@@ -93,11 +124,18 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
         using (var responseMessage = await _container.ReplaceItemStreamAsync(stream, id, new PartitionKey(partitionKey), null, cancellationToken))
         {
           responseMessage.EnsureSuccessStatusCode();
+
+          var documentResponse = await JsonSerializer.DeserializeAsync<DocumentResponse<TEntity>>(
+            responseMessage.Content,
+            new JsonSerializerOptions(),
+            cancellationToken);
+
+          return documentResponse.Documents.FirstOrDefault();
         }
       }
     }
 
-    public async Task DeleteAsync(Document<TEntity> document, string id, string partitionKey, CancellationToken cancellationToken)
+    public async Task DeleteAsync<TEntity>(string id, string partitionKey, CancellationToken cancellationToken) where TEntity : class
     {
       using (var responseMessage = await _container.DeleteItemStreamAsync(id, new PartitionKey(partitionKey), null, cancellationToken))
       {

@@ -4,6 +4,8 @@
 
 namespace AzureFunctionsCustomBindingSample.RepositoryModel
 {
+  /// <summary>Represents a document node of Cosmos DB.</summary>
+  /// <typeparam name="TEntity">A type of an entity that it stores in Cosmos DB.</typeparam>
   public sealed class Document<TEntity> where TEntity : class
   {
   }
