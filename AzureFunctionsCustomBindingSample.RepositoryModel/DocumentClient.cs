@@ -6,6 +6,7 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
 {
   using System;
   using System.Collections.Generic;
+  using System.IO;
   using System.Linq;
   using System.Runtime.CompilerServices;
   using System.Text.Json;
@@ -13,12 +14,13 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
   using System.Threading.Tasks;
 
   using Microsoft.Azure.Cosmos;
+  using Microsoft.Extensions.Options;
   using Microsoft.IO;
 
   /// <summary>Provides a simple API to Cosmos DB.</summary>
   public sealed class DocumentClient : IDocumentClient
   {
-    private readonly RequestOptions _requestOptions;
+    private readonly DocumentClientOptions _requestOptions;
     private readonly Container _container;
     private readonly RecyclableMemoryStreamManager _streamManager;
 
@@ -27,11 +29,11 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
     /// <param name="container">An object that provides operations for reading, replacing, or deleting a specific, existing container or item in a container by ID.</param>
     /// <param name="streamManager">An object that manages pools of RecyclableMemoryStream objects.</param>
     public DocumentClient(
-      RequestOptions requestOptions,
+      IOptions<DocumentClientOptions> requestOptions,
       Container container,
       RecyclableMemoryStreamManager streamManager)
     {
-      _requestOptions = requestOptions ?? throw new ArgumentNullException(nameof(requestOptions));
+      _requestOptions = requestOptions?.Value ?? throw new ArgumentNullException(nameof(requestOptions));
       _container = container ?? throw new ArgumentNullException(nameof(container));
       _streamManager = streamManager ?? throw new ArgumentNullException(nameof(streamManager));
     }
@@ -98,18 +100,27 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
     {
       using (var stream = _streamManager.GetStream())
       {
-        await JsonSerializer.SerializeAsync(stream, entity, new JsonSerializerOptions(), cancellationToken);
+        var creatingDocument = new Document<TEntity> { Id = Guid.NewGuid().ToString(), Entity = entity, };
+
+        var jsonSerializerOptions = new JsonSerializerOptions
+        {
+          PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+        jsonSerializerOptions.Converters.Add(new DocumentJsonConverterFactory());
+
+        await JsonSerializer.SerializeAsync(stream, creatingDocument, jsonSerializerOptions, cancellationToken);
+        stream.Seek(0, SeekOrigin.Begin);
 
         using (var responseMessage = await _container.CreateItemStreamAsync(stream, new PartitionKey(partitionKey), null, cancellationToken))
         {
           responseMessage.EnsureSuccessStatusCode();
 
-          var documentResponse = await JsonSerializer.DeserializeAsync<DocumentResponse<TEntity>>(
+          var createdDocument = await JsonSerializer.DeserializeAsync<Document<TEntity>>(
             responseMessage.Content,
-            new JsonSerializerOptions(),
+            jsonSerializerOptions,
             cancellationToken);
 
-          return documentResponse.Documents.FirstOrDefault();
+          return createdDocument;
         }
       }
     }
@@ -119,10 +130,18 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
     {
       using (var stream = _streamManager.GetStream())
       {
+        var jsonSerializerOptions = new JsonSerializerOptions
+        {
+          PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+        jsonSerializerOptions.Converters.Add(new DocumentJsonConverterFactory());
         await JsonSerializer.SerializeAsync(stream, document, null, new JsonSerializerOptions(), cancellationToken);
+        stream.Seek(0, SeekOrigin.Begin);
 
         using (var responseMessage = await _container.ReplaceItemStreamAsync(stream, id, new PartitionKey(partitionKey), null, cancellationToken))
         {
+          string requestBody = await new StreamReader(responseMessage.Content).ReadToEndAsync();
+
           responseMessage.EnsureSuccessStatusCode();
 
           var documentResponse = await JsonSerializer.DeserializeAsync<DocumentResponse<TEntity>>(
