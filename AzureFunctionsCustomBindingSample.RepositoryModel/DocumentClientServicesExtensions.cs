@@ -8,9 +8,9 @@ namespace Microsoft.Extensions.DependencyInjection
   
   using Microsoft.Azure.Cosmos;
   using Microsoft.Extensions.Options;
+  using Microsoft.IO;
 
   using AzureFunctionsCustomBindingSample.RepositoryModel;
-  using Microsoft.IO;
 
   public static class DocumentClientServicesExtensions
   {
@@ -43,6 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
       services.AddScoped<RecyclableMemoryStreamManager>();
 
+      services.AddScoped(provider => Serializer.Get());
       services.AddScoped<IDocumentClient, DocumentClient>();
       services.Configure(configure);
 
