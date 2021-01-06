@@ -6,6 +6,7 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
 {
   using System;
   using System.Collections.Generic;
+  using System.Linq;
   using System.Reflection;
   using System.Text.Json;
   using System.Text.Json.Serialization;
@@ -24,6 +25,11 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
         { DocumentJsonConverter.TsPropertyName, typeof(Document<TEntity>).GetProperty(nameof(Document.Ts)) },
       };
 
+    public static readonly IDictionary<string, PropertyInfo> EntityProperties =
+      typeof(TEntity).GetProperties()
+                     .ToDictionary(property => JsonNamingPolicy.CamelCase.ConvertName(property.Name),
+                                   property => property);
+
     public override Document<TEntity> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
       var document = new Document<TEntity>
@@ -40,7 +46,7 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
 
         var propertyName = reader.GetString();
 
-        if (!TryReadDocumentProperty(ref reader, document, propertyName))
+        if (!TryReadDocumentProperty(ref reader, options, document, propertyName))
         {
           ReadEntityProperty(ref reader, options, document.Entity, propertyName);
         }
@@ -72,7 +78,7 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
       writer.WriteEndObject();
     }
 
-    private bool TryReadDocumentProperty(ref Utf8JsonReader reader, Document<TEntity> document, string propertyName)
+    private bool TryReadDocumentProperty(ref Utf8JsonReader reader, JsonSerializerOptions options, Document<TEntity> document, string propertyName)
     {
       var read = false;
 
@@ -80,23 +86,11 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
       {
         reader.Read();
 
-        if (property.PropertyType == typeof(string))
-        {
-          var documentPropertyValue = reader.GetString();
+        var propertyValue = JsonSerializer.Deserialize(ref reader, property.PropertyType, options);
 
-          property.SetValue(document, documentPropertyValue);
-        }
-        else if (property.PropertyType == typeof(Guid))
+        if (propertyValue != null)
         {
-          var documentPropertyValue = reader.GetGuid();
-
-          property.SetValue(document, documentPropertyValue);
-        }
-        else if (property.PropertyType == typeof(int))
-        {
-          var documentPropertyValue = reader.GetInt32();
-
-          property.SetValue(document, documentPropertyValue);
+          property.SetValue(document, propertyValue);
         }
 
         read = true;
@@ -109,10 +103,12 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
     {
       reader.Read();
 
-      var property = entity.GetType().GetProperty(propertyName);
-      var propertyValue = JsonSerializer.Deserialize(ref reader, property.PropertyType, options);
+      if (EntityProperties.TryGetValue(propertyName, out var property))
+      {
+        var propertyValue = JsonSerializer.Deserialize(ref reader, property.PropertyType, options);
 
-      property.SetValue(entity, propertyValue);
+        property.SetValue(entity, propertyValue);
+      }
     }
   }
 }

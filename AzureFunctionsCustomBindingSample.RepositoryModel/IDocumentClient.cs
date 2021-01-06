@@ -4,6 +4,7 @@
 
 namespace AzureFunctionsCustomBindingSample.RepositoryModel
 {
+  using System;
   using System.Collections.Generic;
   using System.Threading;
   using System.Threading.Tasks;
@@ -20,12 +21,10 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
       IDictionary<string, object> parameters,
       CancellationToken cancellationToken) where TEntity : class;
 
-    public Task<Document<TEntity>> InsertAsync<TEntity>(
-      TEntity entity, string partitionKey, CancellationToken cancellationToken) where TEntity : class;
+    public Task<Document<TEntity>> InsertAsync<TEntity>(Document<TEntity> document, CancellationToken cancellationToken) where TEntity : class;
 
-    public Task<Document<TEntity>> UpdateAsync<TEntity>(
-      Document<TEntity> document, string id, string partitionKey, CancellationToken cancellationToken) where TEntity : class;
+    public Task<Document<TEntity>> UpdateAsync<TEntity>(Document<TEntity> document, CancellationToken cancellationToken) where TEntity : class;
 
-    public Task DeleteAsync<TEntity>(string id, string partitionKey, CancellationToken cancellationToken) where TEntity : class;
+    public Task DeleteAsync<TEntity>(Guid id, string partitionKey, CancellationToken cancellationToken) where TEntity : class;
   }
 }

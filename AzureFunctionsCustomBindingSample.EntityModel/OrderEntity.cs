@@ -10,8 +10,6 @@ namespace AzureFunctionsCustomBindingSample.EntityModel
 
   public sealed class OrderEntity
   {
-    public Guid OrderId { get; set; }
-
     public DateTime CreatedOn { get; set; }
 
     public OrderUserRelationEntity CreatedBy { get; set; }
@@ -24,7 +22,6 @@ namespace AzureFunctionsCustomBindingSample.EntityModel
       UserEntity userEntity)
       => new OrderEntity
       {
-        OrderId = Guid.NewGuid(),
         CreatedOn = DateTime.UtcNow,
         CreatedBy = new OrderUserRelationEntity
         {

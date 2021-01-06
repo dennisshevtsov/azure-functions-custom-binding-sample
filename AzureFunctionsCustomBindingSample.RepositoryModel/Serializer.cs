@@ -20,7 +20,7 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
     public Task SerializeAsync<TEntity>(Stream output, TEntity entity, CancellationToken cancellationToken) where TEntity : class
       => JsonSerializer.SerializeAsync(output, entity, _jsonSerializerOptions, cancellationToken);
 
-    public ValueTask<TEntity> DeserializeAsync<TEntity>(Stream input, CancellationToken cancellationToken)
+    public ValueTask<TEntity> DeserializeAsync<TEntity>(Stream input, CancellationToken cancellationToken) where TEntity : class
       => JsonSerializer.DeserializeAsync<TEntity>(input, _jsonSerializerOptions, cancellationToken);
 
     public static ISerializer Get()

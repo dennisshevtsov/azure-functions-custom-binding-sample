@@ -97,51 +97,49 @@ namespace AzureFunctionsCustomBindingSample.RepositoryModel
       }
     }
 
-    public async Task<Document<TEntity>> InsertAsync<TEntity>(
-      TEntity entity, string partitionKey, CancellationToken cancellationToken) where TEntity : class
-    {
-      using (var stream = _streamManager.GetStream())
-      {
-        var creatingDocument = new Document<TEntity> { Id = Guid.NewGuid().ToString(), Entity = entity, };
-
-        await _serializer.SerializeAsync(stream, creatingDocument, cancellationToken);
-        stream.Seek(0, SeekOrigin.Begin);
-
-        using (var responseMessage = await _container.CreateItemStreamAsync(stream, new PartitionKey(partitionKey), null, cancellationToken))
-        {
-          responseMessage.EnsureSuccessStatusCode();
-
-          var createdDocument = await _serializer.DeserializeAsync<Document<TEntity>>(
-            responseMessage.Content, cancellationToken);
-
-          return createdDocument;
-        }
-      }
-    }
-
-    public async Task<Document<TEntity>> UpdateAsync<TEntity>(
-      Document<TEntity> document, string id, string partitionKey, CancellationToken cancellationToken) where TEntity : class
+    public async Task<Document<TEntity>> InsertAsync<TEntity>(Document<TEntity> document, CancellationToken cancellationToken) where TEntity : class
     {
       using (var stream = _streamManager.GetStream())
       {
         await _serializer.SerializeAsync(stream, document, cancellationToken);
         stream.Seek(0, SeekOrigin.Begin);
 
-        using (var responseMessage = await _container.ReplaceItemStreamAsync(stream, id, new PartitionKey(partitionKey), null, cancellationToken))
+        using (var responseMessage = await _container.CreateItemStreamAsync(
+          stream, new PartitionKey(document.PartitionKey), null, cancellationToken))
         {
           responseMessage.EnsureSuccessStatusCode();
 
-          var updatedDocument = await _serializer.DeserializeAsync<Document<TEntity>>(
+          document = await _serializer.DeserializeAsync<Document<TEntity>>(
             responseMessage.Content, cancellationToken);
 
-          return updatedDocument;
+          return document;
         }
       }
     }
 
-    public async Task DeleteAsync<TEntity>(string id, string partitionKey, CancellationToken cancellationToken) where TEntity : class
+    public async Task<Document<TEntity>> UpdateAsync<TEntity>(Document<TEntity> document, CancellationToken cancellationToken) where TEntity : class
     {
-      using (var responseMessage = await _container.DeleteItemStreamAsync(id, new PartitionKey(partitionKey), null, cancellationToken))
+      using (var stream = _streamManager.GetStream())
+      {
+        await _serializer.SerializeAsync(stream, document, cancellationToken);
+        stream.Seek(0, SeekOrigin.Begin);
+
+        using (var responseMessage = await _container.ReplaceItemStreamAsync(
+          stream, document.Id.ToString(), new PartitionKey(document.PartitionKey), null, cancellationToken))
+        {
+          responseMessage.EnsureSuccessStatusCode();
+
+          document = await _serializer.DeserializeAsync<Document<TEntity>>(
+            responseMessage.Content, cancellationToken);
+
+          return document;
+        }
+      }
+    }
+
+    public async Task DeleteAsync<TEntity>(Guid id, string partitionKey, CancellationToken cancellationToken) where TEntity : class
+    {
+      using (var responseMessage = await _container.DeleteItemStreamAsync(id.ToString(), new PartitionKey(partitionKey), null, cancellationToken))
       {
         responseMessage.EnsureSuccessStatusCode();
       }

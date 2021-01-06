@@ -30,7 +30,7 @@ namespace AzureFunctionsCustomBindingSample.Testing
                                     options.AccountEndpoint = "https://localhost:8081";
                                     options.AccountKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
                                     options.DatabaseId = "afcbs";
-                                    options.ContainerId = "order-db";
+                                    options.ContainerId = "orderdb";
                                   })
                                .BuildServiceProvider();
 
@@ -44,13 +44,20 @@ namespace AzureFunctionsCustomBindingSample.Testing
     [TestMethod]
     public async Task Test()
     {
-      var orderEntity = new OrderEntity
-      {
-        OrderId = Guid.NewGuid(),
-      };
+      var productEntity = ProductEntity.New("test product", "test test test", 100, DateTime.UtcNow);
+      var productDocument = Document.New(productEntity);
 
-      var orderEntityDocument = await _documentClient.InsertAsync(orderEntity, nameof(OrderEntity), CancellationToken.None);
+      Assert.IsTrue(productDocument.Id != default);
+      Assert.AreEqual(nameof(ProductEntity), productDocument.PartitionKey);
 
+      productDocument = await _documentClient.InsertAsync(productDocument, CancellationToken.None);
+
+      Assert.IsNotNull(productDocument);
+      Assert.IsFalse(string.IsNullOrWhiteSpace(productDocument.Rid));
+      Assert.IsFalse(string.IsNullOrWhiteSpace(productDocument.Self));
+      Assert.IsFalse(string.IsNullOrWhiteSpace(productDocument.Etag));
+      Assert.IsFalse(string.IsNullOrWhiteSpace(productDocument.Attachments));
+      Assert.IsTrue(productDocument.Ts != default);
     }
   }
 }
