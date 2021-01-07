@@ -11,8 +11,7 @@ namespace AzureFunctionsCustomBindingSample.Testing
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-  using AzureFunctionsCustomBindingSample.EntityModel;
-  using AzureFunctionsCustomBindingSample.RepositoryModel;
+  using AzureFunctionsCustomBindingSample.DocumentPersistence;
 
   [TestClass]
   public sealed class DocumentClientTest
@@ -42,22 +41,39 @@ namespace AzureFunctionsCustomBindingSample.Testing
     public void Cleanup() => _disposable?.Dispose();
 
     [TestMethod]
-    public async Task Test()
+    public async Task TestInsert()
     {
-      var productEntity = ProductEntity.New("test product", "test test test", 100, DateTime.UtcNow);
-      var productDocument = Document.New(productEntity);
+      var creating = new TestDocument
+      {
+        StringProperty = "test0",
+        DateTimeProperty = DateTime.UtcNow,
+        GuidProperty = Guid.NewGuid(),
+        EmbeddedProperty = new EmbeddedTestDocument
+        {
+          StringProperty = "test1",
+          DateTimeProperty = DateTime.UtcNow,
+          GuidProperty = Guid.NewGuid(),
+        },
+      };
 
-      Assert.IsTrue(productDocument.Id != default);
-      Assert.AreEqual(nameof(ProductEntity), productDocument.PartitionKey);
+      var created = await _documentClient.InsertAsync(creating, CancellationToken.None);
 
-      productDocument = await _documentClient.InsertAsync(productDocument, CancellationToken.None);
+      Assert.IsNotNull(created);
 
-      Assert.IsNotNull(productDocument);
-      Assert.IsFalse(string.IsNullOrWhiteSpace(productDocument.Rid));
-      Assert.IsFalse(string.IsNullOrWhiteSpace(productDocument.Self));
-      Assert.IsFalse(string.IsNullOrWhiteSpace(productDocument.Etag));
-      Assert.IsFalse(string.IsNullOrWhiteSpace(productDocument.Attachments));
-      Assert.IsTrue(productDocument.Ts != default);
+      Assert.IsFalse(string.IsNullOrWhiteSpace(created.Rid));
+      Assert.IsFalse(string.IsNullOrWhiteSpace(created.Self));
+      Assert.IsFalse(string.IsNullOrWhiteSpace(created.Etag));
+      Assert.IsFalse(string.IsNullOrWhiteSpace(created.Attachments));
+      Assert.IsTrue(created.Ts != default);
+
+      Assert.AreEqual(creating.StringProperty, created.StringProperty);
+      Assert.AreEqual(creating.DateTimeProperty, created.DateTimeProperty);
+      Assert.AreEqual(creating.GuidProperty, created.GuidProperty);
+
+      Assert.IsNotNull(created.EmbeddedProperty);
+      Assert.AreEqual(creating.EmbeddedProperty.StringProperty, created.EmbeddedProperty.StringProperty);
+      Assert.AreEqual(creating.EmbeddedProperty.DateTimeProperty, created.EmbeddedProperty.DateTimeProperty);
+      Assert.AreEqual(creating.EmbeddedProperty.GuidProperty, created.EmbeddedProperty.GuidProperty);
     }
   }
 }

@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.RepositoryModel
+namespace AzureFunctionsCustomBindingSample.DocumentPersistence
 {
   /// <summary>Represents options of a request to Cosmos DB.</summary>
   public sealed class DocumentClientOptions

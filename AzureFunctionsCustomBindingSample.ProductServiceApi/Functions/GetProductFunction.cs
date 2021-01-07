@@ -6,6 +6,5 @@ namespace AzureFunctionsCustomBindingSample.ProductServiceApi.Functions
 {
   public sealed class GetProductFunction
   {
-    public 
   }
 }

@@ -22,7 +22,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     public string Self { get; set; }
 
     /// <summary>Gets/sets a value that represents a etag of a document.</summary>
-    public Guid Etag { get; set; }
+    public string Etag { get; set; }
 
     /// <summary>Gets/sets a value that represents attachments of a document.</summary>
     public string Attachments { get; set; }

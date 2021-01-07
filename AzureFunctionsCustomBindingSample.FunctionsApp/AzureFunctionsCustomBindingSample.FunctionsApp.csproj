@@ -8,7 +8,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.EntityModel\AzureFunctionsCustomBindingSample.EntityModel.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.RepositoryModel\AzureFunctionsCustomBindingSample.RepositoryModel.csproj" />
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.ServiceModel\AzureFunctionsCustomBindingSample.ServiceModel.csproj" />
   </ItemGroup>
   <ItemGroup>

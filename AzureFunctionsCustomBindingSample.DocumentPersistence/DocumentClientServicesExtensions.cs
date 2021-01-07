@@ -5,12 +5,12 @@
 namespace Microsoft.Extensions.DependencyInjection
 {
   using System;
-  
+
   using Microsoft.Azure.Cosmos;
   using Microsoft.Extensions.Options;
   using Microsoft.IO;
 
-  using AzureFunctionsCustomBindingSample.RepositoryModel;
+  using AzureFunctionsCustomBindingSample.DocumentPersistence;
 
   public static class DocumentClientServicesExtensions
   {
@@ -41,8 +41,7 @@ namespace Microsoft.Extensions.DependencyInjection
         return container;
       });
 
-      services.AddScoped<RecyclableMemoryStreamManager>();
-
+      services.AddSingleton<RecyclableMemoryStreamManagerProvider>();
       services.AddScoped(provider => Serializer.Get());
       services.AddScoped<IDocumentClient, DocumentClient>();
       services.Configure(configure);
