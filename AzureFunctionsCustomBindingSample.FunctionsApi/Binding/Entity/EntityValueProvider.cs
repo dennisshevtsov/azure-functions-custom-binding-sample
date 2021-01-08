@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
+namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Entity
 {
   using System;
   using System.Threading.Tasks;
@@ -10,11 +10,11 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs.Host.Bindings;
 
-  public sealed class ValidationValueProvider : IValueProvider
+  public sealed class EntityValueProvider : IValueProvider
   {
     private readonly HttpRequest _httpRequest;
 
-    public ValidationValueProvider(Type type, HttpRequest httpRequest)
+    public EntityValueProvider(Type type, HttpRequest httpRequest)
     {
       Type = type ?? throw new ArgumentNullException(nameof(type));
       _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
@@ -24,6 +24,6 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
 
     public Task<object> GetValueAsync() => Task.FromResult(Activator.CreateInstance(Type));
 
-    public string ToInvokeString() => ServiceBinding.ParameterDescriptorName;
+    public string ToInvokeString() => EntityBinding.ParameterDescriptorName;
   }
 }

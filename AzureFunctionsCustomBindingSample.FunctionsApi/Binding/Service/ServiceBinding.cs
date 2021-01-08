@@ -2,17 +2,22 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
+namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Service
 {
   using System;
   using System.Threading.Tasks;
 
   using Microsoft.Azure.WebJobs.Host.Bindings;
   using Microsoft.Azure.WebJobs.Host.Protocols;
-
-  public sealed class AuthorizationBinding : IBinding
+  
+  public sealed class ServiceBinding : IBinding
   {
-    public const string ParameterDescriptorName = "authorization";
+    public const string ParameterDescriptorName = "service";
+
+    private readonly Type _parameterType;
+
+    public ServiceBinding(Type parameterType)
+      => _parameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
 
     public bool FromAttribute => true;
 
@@ -23,13 +28,13 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
     {
       if (context.TryGetHttpRequest(out var httpRequest))
       {
-        return Task.FromResult<IValueProvider>(new AuthorizationValueProvider(httpRequest));
+        return Task.FromResult<IValueProvider>(new EntityValueProvider(_parameterType, httpRequest));
       }
 
       throw new InvalidOperationException();
     }
 
     public ParameterDescriptor ToParameterDescriptor()
-      => new ParameterDescriptor { Name = AuthorizationBinding.ParameterDescriptorName, };
+      => new ParameterDescriptor { Name = ServiceBinding.ParameterDescriptorName, };
   }
 }

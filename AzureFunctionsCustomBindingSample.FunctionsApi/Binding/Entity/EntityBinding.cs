@@ -2,21 +2,21 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
+namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Entity
 {
   using System;
   using System.Threading.Tasks;
 
   using Microsoft.Azure.WebJobs.Host.Bindings;
   using Microsoft.Azure.WebJobs.Host.Protocols;
-  
-  public sealed class ServiceBinding : IBinding
+
+  public sealed class EntityBinding : IBinding
   {
-    public const string ParameterDescriptorName = "service";
+    public const string ParameterDescriptorName = "entity";
 
     private readonly Type _parameterType;
 
-    public ServiceBinding(Type parameterType)
+    public EntityBinding(Type parameterType)
       => _parameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
 
     public bool FromAttribute => true;
@@ -35,6 +35,6 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
     }
 
     public ParameterDescriptor ToParameterDescriptor()
-      => new ParameterDescriptor { Name = ServiceBinding.ParameterDescriptorName, };
+      => new ParameterDescriptor { Name = EntityBinding.ParameterDescriptorName, };
   }
 }

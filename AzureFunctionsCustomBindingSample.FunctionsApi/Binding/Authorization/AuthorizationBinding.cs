@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
+namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Authorization
 {
   using System;
   using System.Threading.Tasks;
@@ -10,14 +10,9 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
   using Microsoft.Azure.WebJobs.Host.Bindings;
   using Microsoft.Azure.WebJobs.Host.Protocols;
 
-  public sealed class RequestBinding : IBinding
+  public sealed class AuthorizationBinding : IBinding
   {
-    public const string ParameterDescriptorName = "request-dto";
-
-    private readonly Type _parameterType;
-
-    public RequestBinding(Type parameterType)
-      => _parameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
+    public const string ParameterDescriptorName = "authorization";
 
     public bool FromAttribute => true;
 
@@ -28,13 +23,13 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
     {
       if (context.TryGetHttpRequest(out var httpRequest))
       {
-        return Task.FromResult<IValueProvider>(new RequestValueProvider(_parameterType, httpRequest));
+        return Task.FromResult<IValueProvider>(new AuthorizationValueProvider(httpRequest));
       }
 
       throw new InvalidOperationException();
     }
 
     public ParameterDescriptor ToParameterDescriptor()
-      => new ParameterDescriptor { Name = EntityBinding.ParameterDescriptorName, };
+      => new ParameterDescriptor { Name = AuthorizationBinding.ParameterDescriptorName, };
   }
 }

@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
+namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Request
 {
   using System;
   using System.Threading.Tasks;
@@ -10,13 +10,13 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
   using Microsoft.Azure.WebJobs.Host.Bindings;
   using Microsoft.Azure.WebJobs.Host.Protocols;
 
-  public sealed class ValidationBinding : IBinding
+  public sealed class RequestBinding : IBinding
   {
-    public const string ParameterDescriptorName = "validation";
+    public const string ParameterDescriptorName = "request-dto";
 
     private readonly Type _parameterType;
 
-    public ValidationBinding(Type parameterType)
+    public RequestBinding(Type parameterType)
       => _parameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
 
     public bool FromAttribute => true;
@@ -28,13 +28,13 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
     {
       if (context.TryGetHttpRequest(out var httpRequest))
       {
-        return Task.FromResult<IValueProvider>(new EntityValueProvider(_parameterType, httpRequest));
+        return Task.FromResult<IValueProvider>(new RequestValueProvider(_parameterType, httpRequest));
       }
 
       throw new InvalidOperationException();
     }
 
     public ParameterDescriptor ToParameterDescriptor()
-      => new ParameterDescriptor { Name = ValidationBinding.ParameterDescriptorName, };
+      => new ParameterDescriptor { Name = EntityBinding.ParameterDescriptorName, };
   }
 }

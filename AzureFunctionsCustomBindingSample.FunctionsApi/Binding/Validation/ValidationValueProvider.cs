@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
+namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Validation
 {
   using System;
   using System.Threading.Tasks;
@@ -10,11 +10,11 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Binding
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs.Host.Bindings;
 
-  public sealed class ServiceValueProvider : IValueProvider
+  public sealed class ValidationValueProvider : IValueProvider
   {
     private readonly HttpRequest _httpRequest;
 
-    public ServiceValueProvider(Type type, HttpRequest httpRequest)
+    public ValidationValueProvider(Type type, HttpRequest httpRequest)
     {
       Type = type ?? throw new ArgumentNullException(nameof(type));
       _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
