@@ -10,9 +10,9 @@ namespace AzureFunctionsCustomBindingSample.ProductServiceApi.Functions
 
   using AzureFunctionsCustomBindingSample.ProductServiceApi.Documents;
 
-  public sealed class GetProductFunction
+  public sealed class SearchProductsFunction
   {
-    [FunctionName(nameof(GetProductFunction))]
+    [FunctionName(nameof(SearchProductsFunction))]
     public ProductDocument ExecuteAsync() => throw new NotImplementedException();
   }
 }

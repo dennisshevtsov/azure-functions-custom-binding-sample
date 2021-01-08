@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.FunctionsApp", "AzureFunctionsCustomBindingSample.FunctionsApp\AzureFunctionsCustomBindingSample.FunctionsApp.csproj", "{FCCCD825-2A56-4DC6-9921-1CED93638122}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Testing", "AzureFunctionsCustomBindingSample.Testing\AzureFunctionsCustomBindingSample.Testing.csproj", "{94B2D2CA-B574-4BFC-9931-802287E867A3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.EntityModel", "AzureFunctionsCustomBindingSample.EntityModel\AzureFunctionsCustomBindingSample.EntityModel.csproj", "{409ED6C1-901D-4FE0-9B37-088D05817CC1}"
@@ -15,16 +13,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBinding
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.DocumentPersistence", "AzureFunctionsCustomBindingSample.DocumentPersistence\AzureFunctionsCustomBindingSample.DocumentPersistence.csproj", "{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.FunctionsApi", "AzureFunctionsCustomBindingSample.FunctionsApi\AzureFunctionsCustomBindingSample.FunctionsApi.csproj", "{ED365CD3-23D8-48AF-861D-EB0B9648E7F5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.OrderServiceApi", "AzureFunctionsCustomBindingSample.OrderServiceApi\AzureFunctionsCustomBindingSample.OrderServiceApi.csproj", "{F00ECA85-942E-42A3-81D3-478B753FB4FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FCCCD825-2A56-4DC6-9921-1CED93638122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCCCD825-2A56-4DC6-9921-1CED93638122}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCCCD825-2A56-4DC6-9921-1CED93638122}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCCCD825-2A56-4DC6-9921-1CED93638122}.Release|Any CPU.Build.0 = Release|Any CPU
 		{94B2D2CA-B574-4BFC-9931-802287E867A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{94B2D2CA-B574-4BFC-9931-802287E867A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94B2D2CA-B574-4BFC-9931-802287E867A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +43,14 @@ Global
 		{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED365CD3-23D8-48AF-861D-EB0B9648E7F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED365CD3-23D8-48AF-861D-EB0B9648E7F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED365CD3-23D8-48AF-861D-EB0B9648E7F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED365CD3-23D8-48AF-861D-EB0B9648E7F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F00ECA85-942E-42A3-81D3-478B753FB4FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F00ECA85-942E-42A3-81D3-478B753FB4FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F00ECA85-942E-42A3-81D3-478B753FB4FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F00ECA85-942E-42A3-81D3-478B753FB4FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
