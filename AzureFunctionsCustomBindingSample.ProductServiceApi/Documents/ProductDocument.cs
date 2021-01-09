@@ -19,7 +19,7 @@ namespace AzureFunctionsCustomBindingSample.ProductServiceApi.Documents
     public float PricePerUnit { get; set; }
 
     /// <summary>Gets/sets a value that represents a unit of a product.</summary>
-    public string Unit { get; set; }
+    public ProductUnitDocument Unit { get; set; }
 
     /// <summary>Gets/sets a value that indicates if a product is enabled.</summary>
     public bool Enabled { get; set; }

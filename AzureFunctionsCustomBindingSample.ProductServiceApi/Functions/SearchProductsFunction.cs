@@ -4,15 +4,20 @@
 
 namespace AzureFunctionsCustomBindingSample.ProductServiceApi.Functions
 {
-  using System;
+  using System.Collections.Generic;
+  using System.Threading;
 
   using Microsoft.Azure.WebJobs;
 
   using AzureFunctionsCustomBindingSample.ProductServiceApi.Documents;
+  using AzureFunctionsCustomBindingSample.ProductServiceApi.Dtos;
 
   public sealed class SearchProductsFunction
   {
     [FunctionName(nameof(SearchProductsFunction))]
-    public ProductDocument ExecuteAsync() => throw new NotImplementedException();
+    public IEnumerable<ProductDocument> ExecuteAsync(
+      SearchProductsRequestDto request,
+      IEnumerable<ProductDocument> documents,
+      CancellationToken cancellationToken) => documents;
   }
 }

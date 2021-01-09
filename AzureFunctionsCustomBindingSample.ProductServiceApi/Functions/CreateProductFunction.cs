@@ -4,15 +4,22 @@
 
 namespace AzureFunctionsCustomBindingSample.ProductServiceApi.Functions
 {
-  using System;
-  
+  using System.Threading;
+  using System.Threading.Tasks;
+
   using Microsoft.Azure.WebJobs;
 
   using AzureFunctionsCustomBindingSample.ProductServiceApi.Documents;
+  using AzureFunctionsCustomBindingSample.ProductServiceApi.Dtos;
+  using AzureFunctionsCustomBindingSample.ProductServiceApi.Services;
 
-  public sealed class CreateProductFunction
+  public static class CreateProductFunction
   {
     [FunctionName(nameof(CreateProductFunction))]
-    public ProductDocument ExecuteAsync() => throw new NotImplementedException();
+    public static async Task<ProductDocument> ExecuteAsync(
+      IProductService service,
+      CreateProductRequestDto request,
+      CancellationToken cancellationToken)
+      => await service.CreateProductAsync(request, cancellationToken);
   }
 }
