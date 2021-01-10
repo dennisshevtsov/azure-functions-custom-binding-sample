@@ -7,6 +7,7 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.DocumentPersistence\AzureFunctionsCustomBindingSample.DocumentPersistence.csproj" />
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.EntityModel\AzureFunctionsCustomBindingSample.EntityModel.csproj" />
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.ServiceModel\AzureFunctionsCustomBindingSample.ServiceModel.csproj" />
   </ItemGroup>
