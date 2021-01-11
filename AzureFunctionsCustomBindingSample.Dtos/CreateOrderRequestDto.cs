@@ -2,12 +2,13 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.OrderServiceApi.Queries
+namespace AzureFunctionsCustomBindingSample.Dtos
 {
   using System;
+  using System.Collections.Generic;
 
-  public interface IGetProductQuery
+  public sealed class CreateOrderRequestDto
   {
-    public Guid ProductId { get; set; }
+    public IDictionary<int, Guid> Products { get; set; }
   }
 }

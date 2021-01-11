@@ -2,16 +2,16 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.ProductServiceApi.Functions
+namespace AzureFunctionsCustomBindingSample.FunctionsApi.Functions
 {
   using System.Threading;
   using System.Threading.Tasks;
 
   using Microsoft.Azure.WebJobs;
 
-  using AzureFunctionsCustomBindingSample.ProductServiceApi.Documents;
-  using AzureFunctionsCustomBindingSample.ProductServiceApi.Dtos;
-  using AzureFunctionsCustomBindingSample.ProductServiceApi.Services;
+  using AzureFunctionsCustomBindingSample.Documents;
+  using AzureFunctionsCustomBindingSample.Dtos;
+  using AzureFunctionsCustomBindingSample.Services;
 
   public static class CreateProductFunction
   {

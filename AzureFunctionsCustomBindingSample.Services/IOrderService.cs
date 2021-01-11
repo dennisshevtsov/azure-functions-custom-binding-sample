@@ -16,14 +16,14 @@ namespace AzureFunctionsCustomBindingSample.Services
   {
     /// <summary>Creates a new order.</summary>
     /// <param name="products">An object that represents a collection of pairs: a product and quantity.</param>
-    /// <param name="productEntityDictionary">An object that represents a collection of pairs: ID and a product. That exist in the DB.</param>
-    /// <param name="userEntity">An object that represents a user that created an order.</param>
+    /// <param name="productDocumentDictionary">An object that represents a collection of pairs: ID and a product. That exist in the DB.</param>
+    /// <param name="userDocument">An object that represents a user that created an order.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
     public Task<OrderDocument> CreateOrderAsync(
       IDictionary<Guid, int> products,
-      IDictionary<Guid, ProductDocument> productEntityDictionary,
-      UserDocument userEntity,
+      IDictionary<Guid, ProductDocument> productDocumentDictionary,
+      UserDocument userDocument,
       CancellationToken cancellationToken);
   }
 }

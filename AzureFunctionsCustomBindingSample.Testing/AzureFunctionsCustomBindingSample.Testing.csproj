@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.DocumentPersistence\AzureFunctionsCustomBindingSample.DocumentPersistence.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.EntityModel\AzureFunctionsCustomBindingSample.EntityModel.csproj" />
   </ItemGroup>
 
 </Project>
