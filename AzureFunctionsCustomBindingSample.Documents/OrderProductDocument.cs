@@ -12,7 +12,7 @@ namespace AzureFunctionsCustomBindingSample.Documents
 
     public string Name { get; set; }
 
-    public float Units { get; set; }
+    public int Units { get; set; }
 
     public ProductUnitDocument Unit { get; set; }
 

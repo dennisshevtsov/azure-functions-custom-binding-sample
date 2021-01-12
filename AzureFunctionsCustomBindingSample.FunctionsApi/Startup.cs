@@ -8,12 +8,14 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi
 {
   using Microsoft.Azure.WebJobs;
   using Microsoft.Azure.WebJobs.Hosting;
+  using Microsoft.Extensions.DependencyInjection;
 
   using AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Authorization;
   using AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Entity;
   using AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Request;
   using AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Service;
   using AzureFunctionsCustomBindingSample.FunctionsApi.Binding.Validation;
+  using AzureFunctionsCustomBindingSample.Services;
 
   public sealed class Startup : IWebJobsStartup
   {
@@ -24,6 +26,16 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi
       builder.AddExtension<RequestExtensionConfigProvider>();
       builder.AddExtension<ServiceExtensionConfigProvider>();
       builder.AddExtension<ValidationExtensionConfigProvider>();
+
+      builder.Services.AddDocumentClient(options =>
+      {
+        options.AccountEndpoint = "";
+        options.AccountKey = "";
+        options.DatabaseId = "";
+        options.ContainerId = "";
+        options.ItemsPerRequest = 10;
+      });
+      builder.Services.AddServices();
     }
   }
 }

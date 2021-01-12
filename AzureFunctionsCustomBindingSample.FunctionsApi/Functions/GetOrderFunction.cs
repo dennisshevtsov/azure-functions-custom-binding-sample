@@ -6,17 +6,20 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Functions
 {
   using System.Threading;
 
+  using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
+  using AzureFunctionsCustomBindingSample.FunctionsApi.Binding;
 
   public static class GetOrderFunction
   {
     [FunctionName(nameof(GetOrderFunction))]
     public static OrderDocument ExecuteAsync(
-      GetOrderRequestDto request,
-      OrderDocument document,
+      [HttpTrigger("get", Route = "order/{orderId}")] HttpRequest httpRequest,
+      [Request] GetOrderRequestDto requestDto,
+      [Entity] OrderDocument document,
       CancellationToken cancellationToken) => document;
   }
 }

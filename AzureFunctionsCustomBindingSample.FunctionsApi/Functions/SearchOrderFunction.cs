@@ -7,17 +7,20 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Functions
   using System.Collections.Generic;
   using System.Threading;
 
+  using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
+  using AzureFunctionsCustomBindingSample.FunctionsApi.Binding;
 
   public static class SearchOrderFunction
   {
     [FunctionName(nameof(SearchOrderFunction))]
     public static IEnumerable<OrderDocument> ExecuteAsync(
-      SearchOrdersRequestDto request,
-      IEnumerable<OrderDocument> documents,
+      [HttpTrigger("get", Route = "order")] HttpRequest httpRequest,
+      [Request] SearchOrdersRequestDto requestDto,
+      [Entity] IEnumerable<OrderDocument> documents,
       CancellationToken cancellationToken) => documents;
   }
 }

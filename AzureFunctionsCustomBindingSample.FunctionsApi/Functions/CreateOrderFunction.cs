@@ -7,21 +7,27 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Functions
   using System;
   using System.Collections.Generic;
   using System.Threading;
+  using System.Threading.Tasks;
 
+  using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
+  using AzureFunctionsCustomBindingSample.FunctionsApi.Binding;
   using AzureFunctionsCustomBindingSample.Services;
 
   public static class CreateOrderFunction
   {
     [FunctionName(nameof(CreateOrderFunction))]
-    public static OrderDocument ExecuteAsync(
-      CreateOrderRequestDto request,
-      IDictionary<Guid, ProductDocument> productDocumentDictionary,
-      IOrderService service,
+    public static async Task<OrderDocument> ExecuteAsync(
+      [HttpTrigger("post", Route = "order")] HttpRequest httpRequest,
+      [Request] CreateOrderRequestDto requestDto,
+      [Entity] IDictionary<Guid, ProductDocument> productDocumentDictionary,
+      [Authorization] UserDocument userDocument,
+      [Service] IOrderService service,
       CancellationToken cancellationToken)
-      => service.CreateOrderAsync(request.Products, productDocumentDictionary, cancellationToken);
+      => await service.CreateOrderAsync(
+        requestDto.Products, productDocumentDictionary, userDocument, cancellationToken);
   }
 }

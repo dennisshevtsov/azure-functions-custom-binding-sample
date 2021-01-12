@@ -7,18 +7,21 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Functions
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
   using AzureFunctionsCustomBindingSample.Services;
-
+  using AzureFunctionsCustomBindingSample.FunctionsApi.Binding;
+  
   public static class CreateProductFunction
   {
     [FunctionName(nameof(CreateProductFunction))]
     public static async Task<ProductDocument> ExecuteAsync(
-      IProductService service,
-      CreateProductRequestDto request,
+      [HttpTrigger("post", Route = "product")] HttpRequest httpRequest,
+      [Request] CreateProductRequestDto request,
+      [Service] IProductService service,
       CancellationToken cancellationToken)
       => await service.CreateProductAsync(request, cancellationToken);
   }

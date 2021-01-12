@@ -4,7 +4,10 @@
 
 namespace AzureFunctionsCustomBindingSample.Dtos
 {
+  using System;
+
   public sealed class GetOrderRequestDto
   {
+    public Guid OrderId { get; set; }
   }
 }

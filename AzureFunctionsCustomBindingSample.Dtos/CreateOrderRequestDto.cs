@@ -9,6 +9,6 @@ namespace AzureFunctionsCustomBindingSample.Dtos
 
   public sealed class CreateOrderRequestDto
   {
-    public IDictionary<int, Guid> Products { get; set; }
+    public IDictionary<Guid, int> Products { get; set; }
   }
 }

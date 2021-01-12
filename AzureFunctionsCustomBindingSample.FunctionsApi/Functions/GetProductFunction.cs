@@ -6,17 +6,20 @@ namespace AzureFunctionsCustomBindingSample.FunctionsApi.Functions
 {
   using System.Threading;
 
+  using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
+  using AzureFunctionsCustomBindingSample.FunctionsApi.Binding;
 
   public static class GetProductFunction
   {
     [FunctionName(nameof(GetProductFunction))]
     public static ProductDocument ExecuteAsync(
-      GetProductRequestDto request,
-      ProductDocument document,
+      [HttpTrigger("get", Route = "product/{productId}")] HttpRequest httpRequest,
+      [Request] GetProductRequestDto requestDto,
+      [Entity] ProductDocument document,
       CancellationToken cancellationToken) => document;
   }
 }
