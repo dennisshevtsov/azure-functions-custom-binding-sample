@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBinding
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.DocumentPersistence", "AzureFunctionsCustomBindingSample.DocumentPersistence\AzureFunctionsCustomBindingSample.DocumentPersistence.csproj", "{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.FunctionsApi", "AzureFunctionsCustomBindingSample.FunctionsApi\AzureFunctionsCustomBindingSample.FunctionsApi.csproj", "{ED365CD3-23D8-48AF-861D-EB0B9648E7F5}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Documents", "AzureFunctionsCustomBindingSample.Documents\AzureFunctionsCustomBindingSample.Documents.csproj", "{93395A76-B760-4AB6-AEB4-CB5B343A055C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Dtos", "AzureFunctionsCustomBindingSample.Dtos\AzureFunctionsCustomBindingSample.Dtos.csproj", "{92AF8996-6053-406D-B322-AFB1D6E1DC94}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Services", "AzureFunctionsCustomBindingSample.Services\AzureFunctionsCustomBindingSample.Services.csproj", "{C3392A8A-9BB5-4E0C-94D3-159B8976FCF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Api", "AzureFunctionsCustomBindingSample.Api\AzureFunctionsCustomBindingSample.Api.csproj", "{4C0C29F3-3779-40AD-81D9-267CF1B39C90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,6 @@ Global
 		{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED365CD3-23D8-48AF-861D-EB0B9648E7F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED365CD3-23D8-48AF-861D-EB0B9648E7F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED365CD3-23D8-48AF-861D-EB0B9648E7F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED365CD3-23D8-48AF-861D-EB0B9648E7F5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93395A76-B760-4AB6-AEB4-CB5B343A055C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93395A76-B760-4AB6-AEB4-CB5B343A055C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93395A76-B760-4AB6-AEB4-CB5B343A055C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{C3392A8A-9BB5-4E0C-94D3-159B8976FCF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3392A8A-9BB5-4E0C-94D3-159B8976FCF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3392A8A-9BB5-4E0C-94D3-159B8976FCF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C0C29F3-3779-40AD-81D9-267CF1B39C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C0C29F3-3779-40AD-81D9-267CF1B39C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C0C29F3-3779-40AD-81D9-267CF1B39C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C0C29F3-3779-40AD-81D9-267CF1B39C90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
