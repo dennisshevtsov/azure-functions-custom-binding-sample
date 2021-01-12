@@ -18,6 +18,8 @@ namespace AzureFunctionsCustomBindingSample.Documents
     /// <summary>Gets/sets a value that represents a price of a product unit.</summary>
     public float PricePerUnit { get; set; }
 
+    public float Units { get; set; }
+
     /// <summary>Gets/sets a value that represents a unit of a product.</summary>
     public ProductUnitDocument Unit { get; set; }
 

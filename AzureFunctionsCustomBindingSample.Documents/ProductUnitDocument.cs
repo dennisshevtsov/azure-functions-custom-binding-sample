@@ -4,8 +4,12 @@
 
 namespace AzureFunctionsCustomBindingSample.Documents
 {
+  using System;
+
   public sealed class ProductUnitDocument
   {
+    public Guid UnitId { get; set; }
+
     public string Name { get; set; }
   }
 }

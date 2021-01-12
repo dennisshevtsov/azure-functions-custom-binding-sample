@@ -36,11 +36,11 @@ namespace AzureFunctionsCustomBindingSample.Services
       UserDocument userDocument,
       CancellationToken cancellationToken)
     {
-      var orderEntity = OrderDocument.New(products, productDocumentDictionary, userDocument);
+      var orderDocument = OrderDocument.New(products, productDocumentDictionary, userDocument);
 
-      await _documentClient.InsertAsync(orderEntity, nameof(OrderDocument), cancellationToken);
+      await _documentClient.InsertAsync(orderDocument, cancellationToken);
 
-      return orderEntity;
+      return orderDocument;
     }
   }
 }
