@@ -5,16 +5,17 @@
 namespace AzureFunctionsCustomBindingSample.Api.Binding.Request
 {
   using System;
+  using System.Reflection;
   using System.Text.Json;
   using System.Threading.Tasks;
 
   using Microsoft.AspNetCore.Http;
+  using Microsoft.AspNetCore.Routing;
   using Microsoft.Azure.WebJobs.Host.Bindings;
 
   public sealed class RequestValueProvider : IValueProvider
   {
     private readonly HttpRequest _httpRequest;
-    private BindingContext _bindingContext;
 
     public RequestValueProvider(Type type, HttpRequest httpRequest)
     {
@@ -26,14 +27,52 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Request
 
     public async Task<object> GetValueAsync()
     {
-      var jsonSerializerOptions = new JsonSerializerOptions
-      {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-      };
-      var requestDto = await JsonSerializer.DeserializeAsync(
-        _httpRequest.Body, Type, jsonSerializerOptions, _httpRequest.HttpContext.RequestAborted);
+      object instance = null;
 
-      return requestDto;
+      if (_httpRequest.Body == null || _httpRequest.Body.Length == 0)
+      {
+        instance = Activator.CreateInstance(Type);
+      }
+      else
+      {
+        var jsonSerializerOptions = new JsonSerializerOptions
+        {
+          PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+
+        instance = await JsonSerializer.DeserializeAsync(
+          _httpRequest.Body, Type, jsonSerializerOptions, _httpRequest.HttpContext.RequestAborted);
+      }
+
+      foreach (var route in _httpRequest.HttpContext.GetRouteData().Values)
+      {
+        var property = Type.GetProperty(route.Key, BindingFlags.Public |
+                                                   BindingFlags.SetProperty |
+                                                   BindingFlags.IgnoreCase |
+                                                   BindingFlags.Instance);
+
+        if (property != null)
+        {
+          if (property.PropertyType == typeof(Guid))
+          {
+            if (Guid.TryParse(route.Value.ToString(), out var value))
+            {
+              property.SetValue(instance, value);
+            }
+          }
+          else if (property.PropertyType == typeof(int))
+          {
+            if (int.TryParse(route.Value.ToString(), out var value))
+            {
+              property.SetValue(instance, value);
+            }
+          }
+        }
+      }
+
+      _httpRequest.HttpContext.Items[RequestBinding.ParameterDescriptorName] = instance;
+
+      return instance;
     }
 
     public string ToInvokeString() => RequestBinding.ParameterDescriptorName;

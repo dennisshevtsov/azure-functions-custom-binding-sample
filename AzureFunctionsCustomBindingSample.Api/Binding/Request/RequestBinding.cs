@@ -12,7 +12,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Request
 
   public sealed class RequestBinding : IBinding
   {
-    public const string ParameterDescriptorName = "request-dto";
+    public const string ParameterDescriptorName = "__request__";
 
     private readonly Type _parameterType;
 
