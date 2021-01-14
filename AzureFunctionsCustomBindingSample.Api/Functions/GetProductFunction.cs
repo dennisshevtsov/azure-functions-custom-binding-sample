@@ -9,12 +9,19 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
+  using AzureFunctionsCustomBindingSample.Api.Binding;
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
-  using AzureFunctionsCustomBindingSample.Api.Binding;
 
+  /// <summary>Provides a simple API to handle HTTP requests.</summary>
   public static class GetProductFunction
   {
+    /// <summary>Gets an instance of the <see cref="ProductDocument"/> class that satisfies conditions that the <see cref="AzureFunctionsCustomBindingSample.Dtos.GetProductRequestDto"/> class represents.</summary>
+    /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
+    /// <param name="requestDto">An object that represents conditions to query products.</param>
+    /// <param name="document">An object that satisfies conditions that the <see cref="AzureFunctionsCustomBindingSample.Dtos.GetProductRequestDto"/> class represents.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An instance of the <see cref="ProductDocument"/> class that satisfies conditions that the <see cref="AzureFunctionsCustomBindingSample.Dtos.GetProductRequestDto"/> class represents.</returns>
     [FunctionName(nameof(GetProductFunction))]
     public static ProductDocument ExecuteAsync(
       [HttpTrigger("get", Route = "product/{productId}")] HttpRequest httpRequest,

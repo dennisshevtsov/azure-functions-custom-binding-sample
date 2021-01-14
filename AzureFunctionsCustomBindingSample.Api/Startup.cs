@@ -16,8 +16,11 @@ namespace AzureFunctionsCustomBindingSample.Api
   using AzureFunctionsCustomBindingSample.Api.Binding.Service;
   using AzureFunctionsCustomBindingSample.Api.Binding.Validation;
 
+  /// <summary>Provides an entry point to configure the function app.</summary>
   public sealed class Startup : IWebJobsStartup
   {
+    /// <summary>Configures the function app.</summary>
+    /// <param name="builder">An object that provides a simple API to configure the function app.</param>
     public void Configure(IWebJobsBuilder builder)
     {
       builder.AddExtension<AuthorizationExtensionConfigProvider>();

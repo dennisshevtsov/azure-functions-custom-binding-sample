@@ -10,13 +10,20 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
+  using AzureFunctionsCustomBindingSample.Api.Binding;
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
   using AzureFunctionsCustomBindingSample.Services;
-  using AzureFunctionsCustomBindingSample.Api.Binding;
-  
+
+  /// <summary>Provides a simple API to handle HTTP requests.</summary>
   public static class CreateProductFunction
   {
+    /// <summary></summary>
+    /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
+    /// <param name="request"></param>
+    /// <param name="service"></param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns></returns>
     [FunctionName(nameof(CreateProductFunction))]
     public static async Task<ProductDocument> ExecuteAsync(
       [HttpTrigger("post", Route = "product")] HttpRequest httpRequest,
