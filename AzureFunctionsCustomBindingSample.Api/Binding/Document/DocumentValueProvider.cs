@@ -6,9 +6,16 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Document
 {
   using System;
   using System.Threading.Tasks;
-
+  
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs.Host.Bindings;
+
+  using Microsoft.Extensions.DependencyInjection;
+
+  using AzureFunctionsCustomBindingSample.Api.Binding.Request;
+  using AzureFunctionsCustomBindingSample.DocumentPersistence;
+  using AzureFunctionsCustomBindingSample.Documents;
+  using AzureFunctionsCustomBindingSample.Dtos;
 
   public sealed class DocumentValueProvider : IValueProvider
   {
@@ -22,7 +29,27 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Document
 
     public Type Type { get; }
 
-    public Task<object> GetValueAsync() => Task.FromResult(Activator.CreateInstance(Type));
+    public async Task<object> GetValueAsync()
+    {
+      object instance = null;
+
+      var cancellationToken = _httpRequest.HttpContext.RequestAborted;
+      var documentClient = _httpRequest.HttpContext.RequestServices.GetRequiredService<IDocumentClient>();
+      var requestDto = _httpRequest.HttpContext.Items[RequestBinding.ParameterDescriptorName];
+
+      if (requestDto is GetProductRequestDto getProductRequestDto)
+      {
+        instance = await documentClient.FirstOrDefaultAsync<ProductDocument>(
+          getProductRequestDto.ProductId, nameof(ProductDocument), cancellationToken);
+      }
+      else if (requestDto is GetOrderRequestDto getOrderRequestDto)
+      {
+        instance = await documentClient.FirstOrDefaultAsync<ProductDocument>(
+          getOrderRequestDto.OrderId, nameof(OrderDocument), cancellationToken);
+      }
+
+      return instance;
+    }
 
     public string ToInvokeString() => DocumentBinding.ParameterDescriptorName;
   }
