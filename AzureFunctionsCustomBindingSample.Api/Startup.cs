@@ -11,7 +11,7 @@ namespace AzureFunctionsCustomBindingSample.Api
   using Microsoft.Extensions.DependencyInjection;
 
   using AzureFunctionsCustomBindingSample.Api.Binding.Authorization;
-  using AzureFunctionsCustomBindingSample.Api.Binding.Entity;
+  using AzureFunctionsCustomBindingSample.Api.Binding.Document;
   using AzureFunctionsCustomBindingSample.Api.Binding.Request;
   using AzureFunctionsCustomBindingSample.Api.Binding.Service;
   using AzureFunctionsCustomBindingSample.Api.Binding.Validation;

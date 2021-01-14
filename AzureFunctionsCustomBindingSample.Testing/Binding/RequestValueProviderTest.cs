@@ -1,19 +1,24 @@
-﻿using AzureFunctionsCustomBindingSample.Api.Binding.Request;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
+﻿// Copyright (c) Dennis Shevtsov. All rights reserved.
+// Licensed under the Apache License, Version 2.0.
+// See License.txt in the project root for license information.
 
 namespace AzureFunctionsCustomBindingSample.Testing.Binding
 {
+  using System;
+  using System.Collections.Generic;
+  using System.IO;
+  using System.Text.Json;
+  using System.Threading;
+  using System.Threading.Tasks;
+
+  using Microsoft.AspNetCore.Http;
+  using Microsoft.AspNetCore.Http.Features;
+  using Microsoft.AspNetCore.Routing;
+  using Microsoft.VisualStudio.TestTools.UnitTesting;
+  using Moq;
+
+  using AzureFunctionsCustomBindingSample.Api.Binding.Request;
+
   [TestClass]
   public sealed class RequestValueProviderTest
   {
@@ -24,13 +29,16 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
     public void Initialize()
     {
       _httpRequestMock = new Mock<HttpRequest>();
-      _requestValueProvider = new RequestValueProvider(typeof(TestDto), _httpRequestMock.Object);
+      _requestValueProvider = new RequestValueProvider(typeof(TestRequestDto), _httpRequestMock.Object);
     }
 
+    [TestCleanup]
+    public void Cleanup() => _httpRequestMock.Object.Body?.Dispose();
+
     [TestMethod]
-    public async Task Test()
+    public async Task GetValueAsync_Should_Populate_Body_And_Route_Values_To_Result_Object()
     {
-      var requestDto = new TestDto
+      var requestDto = new TestRequestDto
       {
         GuidProperty = Guid.NewGuid(),
         IntProperty = 123,
@@ -43,7 +51,7 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
 
       Assert.IsNotNull(value);
 
-      var actual = value as TestDto;
+      var actual = value as TestRequestDto;
 
       Assert.IsNotNull(actual);
       Assert.AreEqual(requestDto.GuidProperty, actual.GuidProperty);
@@ -52,7 +60,7 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
       Assert.AreEqual(testId, actual.TestId);
     }
 
-    private async Task SetupAsync(TestDto requestDto, Guid testId)
+    private async Task SetupAsync(TestRequestDto requestDto, Guid testId)
     {
       var stream = new MemoryStream();
       var options = new JsonSerializerOptions
@@ -75,7 +83,7 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
       var routingFeatureMock = new Mock<IRoutingFeature>();
 
       var routeData = new RouteData();
-      routeData.Values.Add("testId", testId);
+      routeData.Values.Add(JsonNamingPolicy.CamelCase.ConvertName(nameof(TestRequestDto.TestId)), testId);
 
       routingFeatureMock.SetupGet(feature => feature.RouteData)
                         .Returns(routeData);
@@ -103,7 +111,7 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
                       .Returns(httpContextMock.Object);
     }
 
-    public sealed class TestDto
+    public sealed class TestRequestDto
     {
       public Guid TestId { get; set; }
 
