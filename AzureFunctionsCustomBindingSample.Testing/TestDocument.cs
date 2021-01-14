@@ -1,8 +1,13 @@
-﻿using AzureFunctionsCustomBindingSample.DocumentPersistence;
-using System;
+﻿// Copyright (c) Dennis Shevtsov. All rights reserved.
+// Licensed under the Apache License, Version 2.0.
+// See License.txt in the project root for license information.
 
 namespace AzureFunctionsCustomBindingSample.Testing
 {
+  using System;
+
+  using AzureFunctionsCustomBindingSample.DocumentPersistence;
+
   public sealed class TestDocument : DocumentBase
   {
     public string StringProperty { get; set; }
