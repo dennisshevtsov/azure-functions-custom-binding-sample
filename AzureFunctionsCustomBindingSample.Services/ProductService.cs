@@ -33,7 +33,7 @@ namespace AzureFunctionsCustomBindingSample.Services
       CreateProductRequestDto command, UnitDocument unitDocument, CancellationToken cancellationToken)
     {
       var sku = Guid.NewGuid().ToString().Replace("-", "").ToUpper().Substring(0, 5);
-      var productDocument = ProductDocument.New(sku, command.Name, command.Description, unitDocument);
+      var productDocument = ProductDocument.New(sku, command.Name, command.Description, command.PricePerUnit, unitDocument);
 
       return _documentClient.InsertAsync(productDocument, cancellationToken);
     }

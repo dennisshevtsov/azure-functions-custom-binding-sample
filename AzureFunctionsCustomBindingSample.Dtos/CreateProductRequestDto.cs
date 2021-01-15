@@ -17,5 +17,8 @@ namespace AzureFunctionsCustomBindingSample.Dtos
 
     /// <summary>Gets/sets a value that represents an ID of a unit..</summary>
     public Guid Unit { get; set; }
+
+    /// <summary>Gets/sets a value that represents a price of a product unit.</summary>
+    public float PricePerUnit { get; set; }
   }
 }

@@ -31,6 +31,7 @@ namespace AzureFunctionsCustomBindingSample.Documents
       string sku,
       string name,
       string description,
+      float pricePerUnit,
       UnitDocument unitDocument)
     {
       var productDocument = new ProductDocument
@@ -43,6 +44,7 @@ namespace AzureFunctionsCustomBindingSample.Documents
           UnitId = unitDocument.Id,
           Name = unitDocument.Name,
         },
+        PricePerUnit = pricePerUnit,
         Enabled = false,
       };
 
