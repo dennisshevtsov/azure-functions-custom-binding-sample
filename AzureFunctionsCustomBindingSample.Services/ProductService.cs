@@ -11,8 +11,13 @@ namespace AzureFunctionsCustomBindingSample.Services
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
 
+  /// <summary>Provides a simple API to execute operation within instances of the <see cref="AzureFunctionsCustomBindingSample.Documents.ProductDocument"/> class.</summary>
   public sealed class ProductService : IProductService
   {
+    /// <summary>Creates a new product.</summary>
+    /// <param name="command">An object that represents a command to create a product.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an async operation.</returns>
     public Task<ProductDocument> CreateProductAsync(CreateProductRequestDto command, CancellationToken cancellationToken)
     {
       throw new NotImplementedException();

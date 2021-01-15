@@ -13,15 +13,15 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
 
-  /// <summary>Provides a simple API to handle HTTP requests.</summary>
+  /// <summary>Provides a simple API to handle an HTTP request.</summary>
   public static class GetOrderFunction
   {
-    /// <summary></summary>
+    /// <summary>Gets an instance of the <see cref="AzureFunctionsCustomBindingSample.Documents.OrderDocument"/> that satisfies conditions that the <see cref="AzureFunctionsCustomBindingSample.Dtos.GetOrderRequestDto"/> class represents.</summary>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
-    /// <param name="requestDto"></param>
-    /// <param name="document"></param>
+    /// <param name="requestDto">An object that represents conditions to query an order.</param>
+    /// <param name="document">An object that represents detail of an order.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
-    /// <returns></returns>
+    /// <returns>An instance of the <see cref="AzureFunctionsCustomBindingSample.Documents.OrderDocument"/> that satisfies conditions that the <see cref="AzureFunctionsCustomBindingSample.Dtos.GetOrderRequestDto"/> class represents.</returns>
     [FunctionName(nameof(GetOrderFunction))]
     public static OrderDocument ExecuteAsync(
       [HttpTrigger("get", Route = "order/{orderId}")] HttpRequest httpRequest,

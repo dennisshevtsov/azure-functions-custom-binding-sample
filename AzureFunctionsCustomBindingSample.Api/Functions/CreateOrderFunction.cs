@@ -17,17 +17,17 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Dtos;
   using AzureFunctionsCustomBindingSample.Services;
 
-  /// <summary>Provides a simple API to handle HTTP requests.</summary>
+  /// <summary>Provides a simple API to handle an HTTP request.</summary>
   public static class CreateOrderFunction
   {
-    /// <summary></summary>
+    /// <summary>Creates a new order.</summary>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
-    /// <param name="requestDto"></param>
-    /// <param name="productDocumentDictionary"></param>
-    /// <param name="userDocument"></param>
-    /// <param name="service"></param>
+    /// <param name="requestDto">An object that represents a command to create an order.</param>
+    /// <param name="productDocumentDictionary">An object that represents a dictionary of instances of the <see cref="AzureFunctionsCustomBindingSample.Documents.ProductDocument"/> classes that satisfies conditions that the <see cref="AzureFunctionsCustomBindingSample.Dtos.CreateOrderRequestDto"/> class represents.</param>
+    /// <param name="userDocument">An object that represents an authorized user.</param>
+    /// <param name="service">An object that provides a simpe API to operate within instances of the <see cref="AzureFunctionsCustomBindingSample.Documents.OrderDocument"/> class.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
-    /// <returns></returns>
+    /// <returns>An object that represents an async operation.</returns>
     [FunctionName(nameof(CreateOrderFunction))]
     public static async Task<OrderDocument> ExecuteAsync(
       [HttpTrigger("post", Route = "order")] HttpRequest httpRequest,

@@ -9,12 +9,23 @@ namespace AzureFunctionsCustomBindingSample.Documents
 
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
 
+  /// <summary>Represents detail of an order.</summary>
   public sealed class OrderDocument : DocumentBase
   {
+    /// <summary>Gets/sets a value that represents an order #.</summary>
+    public string OrderNo { get; set; }
+
+    /// <summary>Gets/sets a value that represents a total price of an order.</summary>
     public float TotalPrice { get; set; }
 
+    /// <summary>Gets/sets an object that represents a collection of ordered products.</summary>
     public IEnumerable<OrderProductDocument> Products { get; set; }
 
+    /// <summary>Creates an instance of the <see cref="OrderDocument"/> class that represents a new order.</summary>
+    /// <param name="products">An object that represents a dictionary of ordered product numbers.</param>
+    /// <param name="productDocumentDictionary">An object that represents a dictionary of available products.</param>
+    /// <param name="userDocument">An object that represents a user that creates an order.</param>
+    /// <returns>An instance of the <see cref="OrderDocument"/> class.</returns>
     public static OrderDocument New(
       IDictionary<Guid, int> products,
       IDictionary<Guid, ProductDocument> productDocumentDictionary,

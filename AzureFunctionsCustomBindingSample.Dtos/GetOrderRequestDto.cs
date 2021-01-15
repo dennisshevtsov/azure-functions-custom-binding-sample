@@ -6,8 +6,10 @@ namespace AzureFunctionsCustomBindingSample.Dtos
 {
   using System;
 
+  /// <summary>Represents conditions to query an order.</summary>
   public sealed class GetOrderRequestDto
   {
+    /// <summary>Gets/sets a value that represents an ID of an order.</summary>
     public Guid OrderId { get; set; }
   }
 }

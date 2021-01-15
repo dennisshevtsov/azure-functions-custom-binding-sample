@@ -13,7 +13,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
 
-  /// <summary>Provides a simple API to handle HTTP requests.</summary>
+  /// <summary>Provides a simple API to handle an HTTP request.</summary>
   public static class GetProductFunction
   {
     /// <summary>Gets an instance of the <see cref="ProductDocument"/> class that satisfies conditions that the <see cref="AzureFunctionsCustomBindingSample.Dtos.GetProductRequestDto"/> class represents.</summary>

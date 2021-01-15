@@ -15,15 +15,15 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Dtos;
   using AzureFunctionsCustomBindingSample.Services;
 
-  /// <summary>Provides a simple API to handle HTTP requests.</summary>
+  /// <summary>Provides a simple API to handle an HTTP request.</summary>
   public static class CreateProductFunction
   {
-    /// <summary></summary>
+    /// <summary>Creates a new product.</summary>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
-    /// <param name="request"></param>
-    /// <param name="service"></param>
+    /// <param name="request">An object that represents a command to create a product.</param>
+    /// <param name="service">An object that provides a simple API to execute operation within instances of the <see cref="AzureFunctionsCustomBindingSample.Documents.ProductDocument"/> class.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
-    /// <returns></returns>
+    /// <returns>An object that represents an async operation.</returns>
     [FunctionName(nameof(CreateProductFunction))]
     public static async Task<ProductDocument> ExecuteAsync(
       [HttpTrigger("post", Route = "product")] HttpRequest httpRequest,

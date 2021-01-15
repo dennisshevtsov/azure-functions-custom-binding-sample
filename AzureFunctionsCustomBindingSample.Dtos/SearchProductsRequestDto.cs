@@ -4,8 +4,10 @@
 
 namespace AzureFunctionsCustomBindingSample.Dtos
 {
+  /// <summary>Represents conditions to query products.</summary>
   public sealed class SearchProductsRequestDto
   {
+    /// <summary>Gets/sets a value that represents a part of a product name.</summary>
     public string Name { get; set; }
   }
 }
