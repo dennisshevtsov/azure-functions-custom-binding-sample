@@ -41,13 +41,14 @@ namespace AzureFunctionsCustomBindingSample.Documents
       foreach (var productPair in productDocumentDictionary)
       {
         var orderProductDocument = new OrderProductDocument();
+        var units = products[productPair.Key];
 
         orderProductDocument.ProductId = productPair.Key;
         orderProductDocument.Name = productPair.Value.Name;
-        orderProductDocument.Units = productPair.Value.Units;
+        orderProductDocument.Units = units;
         orderProductDocument.Unit = productPair.Value.Unit;
         orderProductDocument.PricePerUnit = productPair.Value.PricePerUnit;
-        orderProductDocument.TotalPrice = productPair.Value.PricePerUnit * products[productPair.Key];
+        orderProductDocument.TotalPrice = productPair.Value.PricePerUnit * units;
 
         totalPrice += orderProductDocument.TotalPrice;
 
