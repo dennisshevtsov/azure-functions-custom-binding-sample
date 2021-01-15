@@ -5,18 +5,18 @@
 namespace AzureFunctionsCustomBindingSample.Api.Binding.Document
 {
   using System;
+  using System.Collections.Generic;
   using System.Threading.Tasks;
-  
+
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs.Host.Bindings;
-
   using Microsoft.Extensions.DependencyInjection;
 
   using AzureFunctionsCustomBindingSample.Api.Binding.Request;
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
-
+  
   public sealed class DocumentValueProvider : IValueProvider
   {
     private readonly HttpRequest _httpRequest;
@@ -46,6 +46,26 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Document
       {
         instance = await documentClient.FirstOrDefaultAsync<ProductDocument>(
           getOrderRequestDto.OrderId, nameof(OrderDocument), cancellationToken);
+      }
+      else if (requestDto is CreateProductRequestDto createProductRequestDto)
+      {
+        instance = await documentClient.FirstOrDefaultAsync<UnitDocument>(
+          createProductRequestDto.Unit, nameof(UnitDocument), cancellationToken);
+      }
+      else if (requestDto is CreateOrderRequestDto createOrderRequestDto)
+      {
+        var productDocumentDictionary = new Dictionary<Guid, ProductDocument>();
+
+        await foreach (var productDocument in documentClient.AsEnumerableAsync<ProductDocument>(
+          nameof(ProductDocument),
+          "SELECT * FROM c WHERE ARRAY_CONTAINS(@products, c.id)",
+          new Dictionary<string, object> { },
+          cancellationToken))
+        {
+          productDocumentDictionary.Add(productDocument.Id, productDocument);
+        }
+
+        instance = productDocumentDictionary;
       }
 
       return instance;

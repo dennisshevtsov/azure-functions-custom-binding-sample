@@ -8,7 +8,10 @@ namespace AzureFunctionsCustomBindingSample.Testing.Services
   using System.Threading.Tasks;
 
   using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+  using Moq;
+  
+  using AzureFunctionsCustomBindingSample.DocumentPersistence;
+  using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
   using AzureFunctionsCustomBindingSample.Services;
 
@@ -20,15 +23,18 @@ namespace AzureFunctionsCustomBindingSample.Testing.Services
     [TestInitialize]
     public void Initialize()
     {
-      _productService = new ProductService();
+      var documentClientMock = new Mock<IDocumentClient>();
+
+      _productService = new ProductService(documentClientMock.Object);
     }
 
     [TestMethod]
     public async Task Test()
     {
       var command = new CreateProductRequestDto();
+      var unitDocument = new UnitDocument();
 
-      await _productService.CreateProductAsync(command, CancellationToken.None);
+      await _productService.CreateProductAsync(command, unitDocument, CancellationToken.None);
     }
   }
 }

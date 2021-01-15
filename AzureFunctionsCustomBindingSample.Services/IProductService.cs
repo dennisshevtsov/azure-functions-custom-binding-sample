@@ -15,8 +15,10 @@ namespace AzureFunctionsCustomBindingSample.Services
   {
     /// <summary>Creates a new product.</summary>
     /// <param name="command">An object that represents a command to create a product.</param>
+    /// <param name="unitDocument">An object of the <see cref="AzureFunctionsCustomBindingSample.Documents.UnitDocument"/> class that satisfies conditions that the <see cref="AzureFunctionsCustomBindingSample.Dtos.CreateProductRequestDto"/> class represents.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
-    public Task<ProductDocument> CreateProductAsync(CreateProductRequestDto command, CancellationToken cancellationToken);
+    public Task<ProductDocument> CreateProductAsync(
+      CreateProductRequestDto command, UnitDocument unitDocument, CancellationToken cancellationToken);
   }
 }
