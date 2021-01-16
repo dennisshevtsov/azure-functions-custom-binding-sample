@@ -9,6 +9,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Service
 
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs.Host.Bindings;
+  using Microsoft.Extensions.DependencyInjection;
 
   /// <summary>Initializes a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.ServiceAttribute"/> attribute.</summary>
   public sealed class ServiceValueProvider : IValueProvider
@@ -29,8 +30,12 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Service
 
     /// <summary>Gets an instance of a parameter.</summary>
     /// <returns>An instance of a parameter.</returns>
-    public Task<object> GetValueAsync() => Task.FromResult(Activator.CreateInstance(Type));
+    public Task<object> GetValueAsync()
+    {
+      var service = _httpRequest.HttpContext.RequestServices.GetRequiredService(Type);
 
+      return Task.FromResult(service);
+    }
     /// <summary>Gets an invoke string.</summary>
     /// <returns>An invoke string.</returns>
     public string ToInvokeString() => ServiceBinding.ParameterDescriptorName;
