@@ -31,11 +31,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Service
     /// <summary>Gets an instance of a parameter.</summary>
     /// <returns>An instance of a parameter.</returns>
     public Task<object> GetValueAsync()
-    {
-      var service = _httpRequest.HttpContext.RequestServices.GetRequiredService(Type);
+      => Task.FromResult(_httpRequest.HttpContext.RequestServices.GetRequiredService(Type));
 
-      return Task.FromResult(service);
-    }
     /// <summary>Gets an invoke string.</summary>
     /// <returns>An invoke string.</returns>
     public string ToInvokeString() => ServiceBinding.ParameterDescriptorName;
