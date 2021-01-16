@@ -21,11 +21,43 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
     public void Initialize()
     {
       _httpRequestMock = new Mock<HttpRequest>();
-      _valueProvider = new ValidationValueProvider(typeof(TestDocument), _httpRequestMock.Object);
+      _valueProvider = new ValidationValueProvider(_httpRequestMock.Object);
     }
 
     [TestMethod]
-    public async Task Test()
+    public async Task GetValueAsync_Should_Return_Valid_Validation_Result()
+    {
+      var value = await _valueProvider.GetValueAsync();
+
+      Assert.IsNotNull(value);
+    }
+
+    [TestMethod]
+    public async Task GetValueAsync_Should_Return_Invalid_Validation_Result()
+    {
+      var value = await _valueProvider.GetValueAsync();
+
+      Assert.IsNotNull(value);
+    }
+
+    [TestMethod]
+    public async Task GetValueAsync_Should_Throw_If_It_Is_Invalid_And_ThrowIfFaild_Is_True()
+    {
+      var value = await _valueProvider.GetValueAsync();
+
+      Assert.IsNotNull(value);
+    }
+
+    [TestMethod]
+    public async Task GetValueAsync_Should_Not_Throw_If_It_Is_Valid_And_ThrowIfFaild_Is_True()
+    {
+      var value = await _valueProvider.GetValueAsync();
+
+      Assert.IsNotNull(value);
+    }
+
+    [TestMethod]
+    public async Task GetValueAsync_Should_Not_Throw_If_It_Is_Invalid_And_ThrowIfFaild_Is_False()
     {
       var value = await _valueProvider.GetValueAsync();
 

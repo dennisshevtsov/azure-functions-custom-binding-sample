@@ -15,6 +15,6 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
     /// <param name="context">An object that represents detail of a binding provider context.</param>
     /// <returns>An instance of the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.Validation.ValidationBinding"/> class.</returns>
     public Task<IBinding> TryCreateAsync(BindingProviderContext context)
-      => Task.FromResult<IBinding>(new ValidationBinding(context.Parameter.ParameterType));
+      => Task.FromResult<IBinding>(new ValidationBinding());
   }
 }

@@ -5,6 +5,7 @@
 namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
 {
   using System;
+  using System.Reflection;
   using System.Threading.Tasks;
 
   using Microsoft.Azure.WebJobs.Host.Bindings;
@@ -15,12 +16,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
   {
     public const string ParameterDescriptorName = "validation";
 
-    private readonly Type _parameterType;
-
-    /// <summary>Initializes a new instance of the <see cref="ValidationBinding"/> class.</summary>
-    /// <param name="parameterType">Gets a value that represents a type of a binded parameter.</param>
-    public ValidationBinding(Type parameterType)
-      => _parameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
+    private readonly ParameterInfo _parameter;
 
     /// <summary>Gets a value that indicates if a binding from an attribute.</summary>
     public bool FromAttribute => true;
@@ -39,7 +35,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
     {
       if (context.TryGetHttpRequest(out var httpRequest))
       {
-        return Task.FromResult<IValueProvider>(new ValidationValueProvider(_parameterType, httpRequest));
+        return Task.FromResult<IValueProvider>(new ValidationValueProvider(httpRequest));
       }
 
       throw new InvalidOperationException();

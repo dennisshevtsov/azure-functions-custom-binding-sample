@@ -9,6 +9,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
 
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs.Host.Bindings;
+  using Microsoft.Extensions.DependencyInjection;
 
   /// <summary>Initializes a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.ValidationAttribute"/> attribute.</summary>
   public sealed class ValidationValueProvider : IValueProvider
@@ -16,20 +17,31 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
     private readonly HttpRequest _httpRequest;
 
     /// <summary>Initializes a new instance of the <see cref="ValidationValueProvider"/> class.</summary>
-    /// <param name="type">A value that represents a parameter type.</param>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
-    public ValidationValueProvider(Type type, HttpRequest httpRequest)
-    {
-      Type = type ?? throw new ArgumentNullException(nameof(type));
-      _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
-    }
+    public ValidationValueProvider(HttpRequest httpRequest)
+      => _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
 
     /// <summary>Gets a value that represents a type of a parameter.</summary>
-    public Type Type { get; }
+    public Type Type => typeof(ValidationResult);
 
     /// <summary>Gets an instance of a parameter.</summary>
     /// <returns>An instance of a parameter.</returns>
-    public Task<object> GetValueAsync() => Task.FromResult(Activator.CreateInstance(Type));
+    public Task<object> GetValueAsync()
+    {
+      var validatorProvider = _httpRequest.HttpContext
+                                          .RequestServices
+                                          .GetRequiredService<IValidatorProvider>();
+      var validator = validatorProvider.GetValidator(_httpRequest);
+      var errors = validator.Validate();
+      var validationResult = new ValidationResult(errors);
+
+      if (validationResult.IsValid)
+      {
+        throw new Exception();
+      }
+
+      return Task.FromResult<object>(validationResult);
+    }
 
     /// <summary>Gets an invoke string.</summary>
     /// <returns>An invoke string.</returns>
