@@ -8,8 +8,12 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Authorization
 
   using Microsoft.Azure.WebJobs.Host.Bindings;
 
+  /// <summary>Provides a simple API to create an instance of the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.Authorization.AuthorizationBinding"/> class.</summary>
   public sealed class AuthorizationBindingProvider : IBindingProvider
   {
+    /// <summary>Tries to create an instance of the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.Authorization.AuthorizationBinding"/> class.</summary>
+    /// <param name="context">An object that represents detail of a binding provider context.</param>
+    /// <returns>An instance of the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.Authorization.AuthorizationBinding"/> class.</returns>
     public Task<IBinding> TryCreateAsync(BindingProviderContext context)
       => Task.FromResult<IBinding>(new AuthorizationBinding());
   }

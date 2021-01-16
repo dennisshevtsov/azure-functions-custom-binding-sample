@@ -8,6 +8,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding
 
   using Microsoft.Azure.WebJobs.Description;
 
+  /// <summary>Binds a provider that initializes a parameter with a validation result of an HTTP request.</summary>
   [Binding]
   [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
   public sealed class ValidationAttribute : Attribute { }

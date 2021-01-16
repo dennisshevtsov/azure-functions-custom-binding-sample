@@ -4,8 +4,14 @@
 
 namespace AzureFunctionsCustomBindingSample.Api.Binding
 {
+  /// <summary>Represents detail of an validation result.</summary>
   public sealed class ValidationResult
   {
+    /// <summary>Initializes a new instance of the <see cref="ValidationResult"/> class.</summary>
+    /// <param name="isValid">A value that indicates if data is valid.</param>
+    public ValidationResult(bool isValid) => IsValid = isValid;
+
+    /// <summary>Gets a value that indicates if data is valid.</summary>
     public bool IsValid { get; }
   }
 }
