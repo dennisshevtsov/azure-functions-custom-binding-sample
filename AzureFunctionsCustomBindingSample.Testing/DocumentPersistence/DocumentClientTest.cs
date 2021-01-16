@@ -57,11 +57,11 @@ namespace AzureFunctionsCustomBindingSample.Testing.DocumentPersistence
 
       Assert.IsNotNull(created);
 
-      Assert.IsFalse(string.IsNullOrWhiteSpace(created.Rid));
-      Assert.IsFalse(string.IsNullOrWhiteSpace(created.Self));
+      Assert.IsFalse(string.IsNullOrWhiteSpace(created.ResourceId));
+      Assert.IsFalse(string.IsNullOrWhiteSpace(created.SelfLink));
       Assert.IsFalse(string.IsNullOrWhiteSpace(created.Etag));
-      Assert.IsFalse(string.IsNullOrWhiteSpace(created.Attachments));
-      Assert.IsTrue(created.Ts != default);
+      Assert.IsFalse(string.IsNullOrWhiteSpace(created.AttachmentsLink));
+      Assert.IsTrue(created.Timestamp != default);
 
       Assert.AreEqual(creating.StringProperty, created.StringProperty);
       Assert.AreEqual(creating.DateTimeProperty, created.DateTimeProperty);

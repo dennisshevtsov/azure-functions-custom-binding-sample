@@ -12,35 +12,35 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     /// <summary>A value that represents a name of the ID property.</summary>
     public const string IdPropertyName = "id";
 
-    /// <summary>A value that represents a name of the Partition Key property.</summary>
-    public const string PartitionKeyPropertyName = "_type";
+    /// <summary>A value that represents a name of the partition ID property.</summary>
+    public const string PartitionIdPropertyName = "_type";
 
-    /// <summary>A value that represents a name of the RID property.</summary>
-    public const string RidPropertyName = "_rid";
+    /// <summary>A value that represents a name of the resource ID property.</summary>
+    public const string ResourceIdPropertyName = "_rid";
 
-    /// <summary>A value that represents a name of the Self property.</summary>
-    public const string SelfPropertyName = "_self";
+    /// <summary>A value that represents a name of the self link property.</summary>
+    public const string SelfLinkPropertyName = "_self";
 
-    /// <summary>A value that represents a name of the Etag property.</summary>
+    /// <summary>A value that represents a name of the etag property.</summary>
     public const string EtagPropertyName = "_etag";
 
-    /// <summary>A value that represents a name of the Attachments property.</summary>
-    public const string AttachmentsPropertyName = "_attachments";
+    /// <summary>A value that represents a name of the attachments link property.</summary>
+    public const string AttachmentsLinkPropertyName = "_attachments";
 
-    /// <summary>A value that represents a name of the TS property.</summary>
-    public const string TsPropertyName = "_ts";
+    /// <summary>A value that represents a name of the timestamp property.</summary>
+    public const string TimestampPropertyName = "_ts";
 
     /// <summary>An object that represents a dictionary of base document properties.</summary>
     public static readonly IDictionary<string, string> TypeJsonNameDictionary =
       new Dictionary<string, string>
       {
         { nameof(DocumentBase.Id), DocumentPropertyNames.IdPropertyName },
-        { nameof(DocumentBase.Type), DocumentPropertyNames.PartitionKeyPropertyName },
-        { nameof(DocumentBase.Rid), DocumentPropertyNames.RidPropertyName },
-        { nameof(DocumentBase.Self), DocumentPropertyNames.SelfPropertyName },
+        { nameof(DocumentBase.Type), DocumentPropertyNames.PartitionIdPropertyName },
+        { nameof(DocumentBase.ResourceId), DocumentPropertyNames.ResourceIdPropertyName },
+        { nameof(DocumentBase.SelfLink), DocumentPropertyNames.SelfLinkPropertyName },
         { nameof(DocumentBase.Etag), DocumentPropertyNames.EtagPropertyName },
-        { nameof(DocumentBase.Attachments), DocumentPropertyNames.AttachmentsPropertyName },
-        { nameof(DocumentBase.Ts), DocumentPropertyNames.TsPropertyName },
+        { nameof(DocumentBase.AttachmentsLink), DocumentPropertyNames.AttachmentsLinkPropertyName },
+        { nameof(DocumentBase.Timestamp), DocumentPropertyNames.TimestampPropertyName },
       };
   }
 }
