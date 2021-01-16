@@ -13,6 +13,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding
   [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
   public sealed class AuthorizationAttribute : Attribute
   {
+    /// <summary>Gets/sets a value that represents required permission.</summary>
     public Permission Permission { get; set; }
   }
 }

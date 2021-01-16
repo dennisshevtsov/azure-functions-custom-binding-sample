@@ -6,6 +6,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
 {
   using Microsoft.Azure.WebJobs.Host.Config;
 
+  /// <summary>Provides a simple API to register the validation binding.</summary>
   public sealed class ValidationExtensionConfigProvider : IExtensionConfigProvider
   {
     public void Initialize(ExtensionConfigContext context) => context.AddBindingRule<ValidationAttribute>()

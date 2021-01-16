@@ -12,15 +12,21 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Authorization
 
   using AzureFunctionsCustomBindingSample.Documents;
 
+  /// <summary>Initializes a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.AuthorizationAttribute"/> attribute.</summary>
   public sealed class AuthorizationValueProvider : IValueProvider
   {
     private readonly HttpRequest _httpRequest;
 
+    /// <summary>Initializes a new instance of the <see cref="AuthorizationValueProvider"/> class.</summary>
+    /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
     public AuthorizationValueProvider(HttpRequest httpRequest)
       => _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
 
+    /// <summary>Gets a value that represents a type of a parameter.</summary>
     public Type Type => typeof(UserDocument);
 
+    /// <summary>Gets an instance of a parameter.</summary>
+    /// <returns>An instance of a parameter.</returns>
     public Task<object> GetValueAsync() => Task.FromResult<object>(new UserDocument
       {
         Id = new Guid("3430ca38-0a71-46b3-8da2-5e3e866bad38"),
@@ -35,6 +41,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Authorization
         Email = "test@test.test",
       });
 
+    /// <summary>Gets an invoke string.</summary>
+    /// <returns>An invoke string.</returns>
     public string ToInvokeString() => AuthorizationBinding.ParameterDescriptorName;
   }
 }

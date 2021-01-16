@@ -8,12 +8,16 @@ namespace Microsoft.Extensions.DependencyInjection
 
   using Microsoft.Azure.Cosmos;
   using Microsoft.Extensions.Options;
-  using Microsoft.IO;
 
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
 
+  /// <summary>Provides a simple API to register the document client API.</summary>
   public static class DocumentClientServicesExtensions
   {
+    /// <summary>Registers the document client API.</summary>
+    /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
+    /// <param name="configure">An object that provides an operation to configure and register an instance of the <see cref="AzureFunctionsCustomBindingSample.DocumentPersistence.DocumentClientOptions"/> class.</param>
+    /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
     public static IServiceCollection AddDocumentClient(
       this IServiceCollection services,
       Action<DocumentClientOptions> configure)

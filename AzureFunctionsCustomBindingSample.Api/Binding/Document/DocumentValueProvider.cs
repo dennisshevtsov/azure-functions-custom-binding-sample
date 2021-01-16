@@ -16,19 +16,26 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Document
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
-  
+
+  /// <summary>Initializes a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.DocumentAttribute"/> attribute.</summary>
   public sealed class DocumentValueProvider : IValueProvider
   {
     private readonly HttpRequest _httpRequest;
 
+    /// <summary>Initializes a new instance of the <see cref="DocumentValueProvider"/> class.</summary>
+    /// <param name="type">A value that represents a parameter type.</param>
+    /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
     public DocumentValueProvider(Type type, HttpRequest httpRequest)
     {
       Type = type ?? throw new ArgumentNullException(nameof(type));
       _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
     }
 
+    /// <summary>Gets a value that represents a type of a parameter.</summary>
     public Type Type { get; }
 
+    /// <summary>Gets an instance of a parameter.</summary>
+    /// <returns>An instance of a parameter.</returns>
     public async Task<object> GetValueAsync()
     {
       object instance = null;
@@ -71,6 +78,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Document
       return instance;
     }
 
+    /// <summary>Gets an invoke string.</summary>
+    /// <returns>An invoke string.</returns>
     public string ToInvokeString() => DocumentBinding.ParameterDescriptorName;
   }
 }
