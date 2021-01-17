@@ -14,12 +14,17 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
   /// <summary>Initializes a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.ValidationAttribute"/> attribute.</summary>
   public sealed class ValidationValueProvider : IValueProvider
   {
+    private readonly IValidatorProvider _validatorProvider;
     private readonly HttpRequest _httpRequest;
 
     /// <summary>Initializes a new instance of the <see cref="ValidationValueProvider"/> class.</summary>
+    /// <param name="validatorProvider"></param>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
-    public ValidationValueProvider(HttpRequest httpRequest)
-      => _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
+    public ValidationValueProvider(IValidatorProvider validatorProvider, HttpRequest httpRequest)
+    {
+      _validatorProvider = validatorProvider ?? throw new ArgumentNullException(nameof(validatorProvider));
+      _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
+    }
 
     /// <summary>Gets a value that represents a type of a parameter.</summary>
     public Type Type => typeof(ValidationResult);
@@ -28,10 +33,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
     /// <returns>An instance of a parameter.</returns>
     public Task<object> GetValueAsync()
     {
-      var validatorProvider = _httpRequest.HttpContext
-                                          .RequestServices
-                                          .GetRequiredService<IValidatorProvider>();
-      var validator = validatorProvider.GetValidator(_httpRequest);
+      var validator = _validatorProvider.GetValidator(_httpRequest);
       var errors = validator.Validate();
       var validationResult = new ValidationResult(errors);
 

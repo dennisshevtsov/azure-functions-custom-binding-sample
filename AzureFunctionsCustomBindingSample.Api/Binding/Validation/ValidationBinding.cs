@@ -16,7 +16,12 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
   {
     public const string ParameterDescriptorName = "validation";
 
-    private readonly ParameterInfo _parameter;
+    private readonly IValidatorProvider _validatorProvider;
+
+    public ValidationBinding(IValidatorProvider validatorProvider)
+    {
+      _validatorProvider = validatorProvider ?? throw new ArgumentNullException(nameof(validatorProvider));
+    }
 
     /// <summary>Gets a value that indicates if a binding from an attribute.</summary>
     public bool FromAttribute => true;
@@ -35,7 +40,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
     {
       if (context.TryGetHttpRequest(out var httpRequest))
       {
-        return Task.FromResult<IValueProvider>(new ValidationValueProvider(httpRequest));
+        return Task.FromResult<IValueProvider>(new ValidationValueProvider(_validatorProvider, httpRequest));
       }
 
       throw new InvalidOperationException();

@@ -21,7 +21,7 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
     public void Initialize()
     {
       _httpRequestMock = new Mock<HttpRequest>();
-      _valueProvider = new ValidationValueProvider(_httpRequestMock.Object);
+      _valueProvider = new ValidationValueProvider(null, _httpRequestMock.Object);
     }
 
     [TestMethod]
