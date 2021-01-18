@@ -9,7 +9,6 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
 
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs.Host.Bindings;
-  using Microsoft.Extensions.DependencyInjection;
 
   /// <summary>Initializes a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.ValidationAttribute"/> attribute.</summary>
   public sealed class ValidationValueProvider : IValueProvider

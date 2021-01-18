@@ -8,6 +8,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
   using System.Collections.Generic;
 
   using Microsoft.AspNetCore.Http;
+  using Microsoft.Extensions.DependencyInjection;
 
   public sealed class ValidatorProvider : IValidatorProvider
   {
@@ -35,6 +36,22 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
     public ValidatorProvider AddValidator(Func<HttpRequest, IValidator> rule)
     {
       _rules.Push(rule);
+
+      return this;
+    }
+
+    public ValidatorProvider AddValidator<TValidator>(string uri, string method) where TValidator : IValidator
+    {
+      _rules.Push(httRequest =>
+      {
+        if (string.Equals(httRequest.Path.Value, uri) &&
+            string.Equals(httRequest.Method, method))
+        {
+          return httRequest.HttpContext.RequestServices.GetRequiredService<TValidator>();
+        }
+
+        return null;
+      });
 
       return this;
     }

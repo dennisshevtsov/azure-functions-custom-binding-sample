@@ -14,19 +14,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
     {
       var validatorProvider =
         new ValidatorProvider()
-          .AddValidator(request =>
-          {
-            IValidator validator = null;
-
-            if (request.Path != null &&
-                string.Equals(request.Path.Value, "/api/product", System.StringComparison.InvariantCultureIgnoreCase) &&
-                string.Equals(request.Method, "post", System.StringComparison.InvariantCultureIgnoreCase))
-            {
-              validator = new CreateProductValidator(request);
-            }
-
-            return validator;
-          });
+          .AddValidator<CreateProductValidator>("/api/product", "post");
 
       context.AddBindingRule<ValidationAttribute>()
              .Bind(new ValidationBindingProvider(validatorProvider));
