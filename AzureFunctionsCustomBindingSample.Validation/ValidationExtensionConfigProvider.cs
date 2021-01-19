@@ -13,6 +13,8 @@ namespace AzureFunctionsCustomBindingSample.Validation
   {
     private readonly IValidatorProvider _validatorProvider;
 
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Validation.ValidationExtensionConfigProvider"/> class.</summary>
+    /// <param name="validatorProvider">An object that provides a simple API to get an instance of the <see cref="AzureFunctionsCustomBindingSample.Validation.IValidator"/> type that associated with a request.</param>
     public ValidationExtensionConfigProvider(IValidatorProvider validatorProvider)
       => _validatorProvider = validatorProvider ?? throw new ArgumentNullException(nameof(validatorProvider));
 

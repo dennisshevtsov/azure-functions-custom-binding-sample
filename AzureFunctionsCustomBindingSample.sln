@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBinding
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Api", "AzureFunctionsCustomBindingSample.Api\AzureFunctionsCustomBindingSample.Api.csproj", "{4C0C29F3-3779-40AD-81D9-267CF1B39C90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Validation", "AzureFunctionsCustomBindingSample.Validation\AzureFunctionsCustomBindingSample.Validation.csproj", "{D88EA949-AD3F-4523-B6FD-3DE04DEB2D3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Validation", "AzureFunctionsCustomBindingSample.Validation\AzureFunctionsCustomBindingSample.Validation.csproj", "{D88EA949-AD3F-4523-B6FD-3DE04DEB2D3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Validators", "AzureFunctionsCustomBindingSample.Validators\AzureFunctionsCustomBindingSample.Validators.csproj", "{BD796318-67EE-4A85-8F34-0EBA9FAAEC8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{D88EA949-AD3F-4523-B6FD-3DE04DEB2D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D88EA949-AD3F-4523-B6FD-3DE04DEB2D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D88EA949-AD3F-4523-B6FD-3DE04DEB2D3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD796318-67EE-4A85-8F34-0EBA9FAAEC8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD796318-67EE-4A85-8F34-0EBA9FAAEC8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD796318-67EE-4A85-8F34-0EBA9FAAEC8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD796318-67EE-4A85-8F34-0EBA9FAAEC8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

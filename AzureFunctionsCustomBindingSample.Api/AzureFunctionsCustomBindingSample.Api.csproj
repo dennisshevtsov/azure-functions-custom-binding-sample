@@ -12,6 +12,7 @@
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Dtos\AzureFunctionsCustomBindingSample.Dtos.csproj" />
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Services\AzureFunctionsCustomBindingSample.Services.csproj" />
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Validation\AzureFunctionsCustomBindingSample.Validation.csproj" />
+    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Validators\AzureFunctionsCustomBindingSample.Validators.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
