@@ -9,7 +9,7 @@ namespace AzureFunctionsCustomBindingSample.Validation
 
   using Microsoft.Azure.WebJobs.Host.Bindings;
 
-  /// <summary>Provides a simple API to create an instance of the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.Validation.ValidationBinding"/> class.</summary>
+  /// <summary>Provides a simple API to create an instance of the <see cref="AzureFunctionsCustomBindingSample.Validation.Validation.ValidationBinding"/> class.</summary>
   public sealed class ValidationBindingProvider : IBindingProvider
   {
     private readonly IValidatorProvider _validatorProvider;
@@ -19,9 +19,9 @@ namespace AzureFunctionsCustomBindingSample.Validation
       _validatorProvider = validatorProvider ?? throw new ArgumentNullException(nameof(validatorProvider));
     }
 
-    /// <summary>Tries to create an instance of the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.Validation.ValidationBinding"/> class.</summary>
+    /// <summary>Tries to create an instance of the <see cref="AzureFunctionsCustomBindingSample.Validation.Validation.ValidationBinding"/> class.</summary>
     /// <param name="context">An object that represents detail of a binding provider context.</param>
-    /// <returns>An instance of the <see cref="AzureFunctionsCustomBindingSample.Api.Binding.Validation.ValidationBinding"/> class.</returns>
+    /// <returns>An instance of the <see cref="AzureFunctionsCustomBindingSample.Validation.Validation.ValidationBinding"/> class.</returns>
     public Task<IBinding> TryCreateAsync(BindingProviderContext context)
       => Task.FromResult<IBinding>(new ValidationBinding(_validatorProvider));
   }

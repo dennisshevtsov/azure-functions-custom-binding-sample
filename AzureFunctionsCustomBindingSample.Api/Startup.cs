@@ -14,7 +14,8 @@ namespace AzureFunctionsCustomBindingSample.Api
   using AzureFunctionsCustomBindingSample.Api.Binding.Document;
   using AzureFunctionsCustomBindingSample.Api.Binding.Request;
   using AzureFunctionsCustomBindingSample.Api.Binding.Service;
-  using AzureFunctionsCustomBindingSample.Api.Binding.Validation;
+  using AzureFunctionsCustomBindingSample.Api.Validators;
+  using AzureFunctionsCustomBindingSample.Validation;
 
   /// <summary>Provides an entry point to configure the function app.</summary>
   public sealed class Startup : IWebJobsStartup
@@ -27,7 +28,11 @@ namespace AzureFunctionsCustomBindingSample.Api
       builder.AddExtension<DocumentExtensionConfigProvider>();
       builder.AddExtension<RequestExtensionConfigProvider>();
       builder.AddExtension<ServiceExtensionConfigProvider>();
-      builder.AddExtension<ValidationExtensionConfigProvider>();
+
+      builder.AddValidation(provider =>
+      {
+        provider.AddValidator<CreateProductValidator>("api/product", "post");
+      });
 
       builder.Services.AddDocumentClient(options =>
       {

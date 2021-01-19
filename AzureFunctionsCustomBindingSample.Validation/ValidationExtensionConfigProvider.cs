@@ -4,19 +4,22 @@
 
 namespace AzureFunctionsCustomBindingSample.Validation
 {
+  using System;
+
   using Microsoft.Azure.WebJobs.Host.Config;
 
   /// <summary>Provides a simple API to register the validation binding.</summary>
   public sealed class ValidationExtensionConfigProvider : IExtensionConfigProvider
   {
-    public void Initialize(ExtensionConfigContext context)
-    {
-      var validatorProvider =
-        new ValidatorProvider();
-          //.AddValidator<CreateProductValidator>("/api/product", "post");
+    private readonly IValidatorProvider _validatorProvider;
 
-      context.AddBindingRule<ValidationAttribute>()
-             .Bind(new ValidationBindingProvider(validatorProvider));
-    }
+    public ValidationExtensionConfigProvider(IValidatorProvider validatorProvider)
+      => _validatorProvider = validatorProvider ?? throw new ArgumentNullException(nameof(validatorProvider));
+
+    /// <summary>Registers the validaiton binding.</summary>
+    /// <param name="context">An object that represents an extension config context.</param>
+    public void Initialize(ExtensionConfigContext context)
+      => context.AddBindingRule<ValidationAttribute>()
+                .Bind(new ValidationBindingProvider(_validatorProvider));
   }
 }
