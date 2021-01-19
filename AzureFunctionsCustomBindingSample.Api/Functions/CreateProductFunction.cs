@@ -14,6 +14,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
   using AzureFunctionsCustomBindingSample.Services;
+  using AzureFunctionsCustomBindingSample.Validation;
 
   /// <summary>Provides a simple API to handle an HTTP request.</summary>
   public static class CreateProductFunction
@@ -30,6 +31,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
       [HttpTrigger("post", Route = "product")] HttpRequest httpRequest,
       [Request] CreateProductRequestDto request,
       [Document] UnitDocument unitDocument,
+      [Validation(ThrowIfInvalid = true)] ValidationResult validationResult,
       [Service] IProductService service,
       CancellationToken cancellationToken)
       => await service.CreateProductAsync(request, unitDocument, cancellationToken);

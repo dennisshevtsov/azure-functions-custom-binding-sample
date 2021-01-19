@@ -2,9 +2,8 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
+namespace AzureFunctionsCustomBindingSample.Validation
 {
-  using AzureFunctionsCustomBindingSample.Api.Validators;
   using Microsoft.Azure.WebJobs.Host.Config;
 
   /// <summary>Provides a simple API to register the validation binding.</summary>
@@ -13,8 +12,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Validation
     public void Initialize(ExtensionConfigContext context)
     {
       var validatorProvider =
-        new ValidatorProvider()
-          .AddValidator<CreateProductValidator>("/api/product", "post");
+        new ValidatorProvider();
+          //.AddValidator<CreateProductValidator>("/api/product", "post");
 
       context.AddBindingRule<ValidationAttribute>()
              .Bind(new ValidationBindingProvider(validatorProvider));

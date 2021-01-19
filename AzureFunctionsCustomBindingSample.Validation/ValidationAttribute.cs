@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.Api.Binding
+namespace AzureFunctionsCustomBindingSample.Validation
 {
   using System;
 
@@ -14,6 +14,6 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding
   public sealed class ValidationAttribute : Attribute
   {
     /// <summary>Gets/sets a value that indicates if it should throw an exception if a validation is faild.</summary>
-    public bool ThrowIfFaild { get; set; }
+    public bool ThrowIfInvalid { get; set; }
   }
 }

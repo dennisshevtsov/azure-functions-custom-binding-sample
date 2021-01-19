@@ -16,6 +16,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
   using AzureFunctionsCustomBindingSample.Services;
+  using AzureFunctionsCustomBindingSample.Validation;
 
   /// <summary>Provides a simple API to handle an HTTP request.</summary>
   public static class CreateOrderFunction
@@ -34,6 +35,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
       [Request] CreateOrderRequestDto requestDto,
       [Document] IDictionary<Guid, ProductDocument> productDocumentDictionary,
       [Authorization] UserDocument userDocument,
+      [Validation(ThrowIfInvalid = true)] ValidationResult validationResult,
       [Service] IOrderService service,
       CancellationToken cancellationToken)
       => await service.CreateOrderAsync(

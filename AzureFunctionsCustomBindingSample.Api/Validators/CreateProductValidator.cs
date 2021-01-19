@@ -9,9 +9,9 @@ namespace AzureFunctionsCustomBindingSample.Api.Validators
 
   using Microsoft.AspNetCore.Http;
 
-  using AzureFunctionsCustomBindingSample.Api.Binding.Validation;
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
+  using AzureFunctionsCustomBindingSample.Validation;
 
   public sealed class CreateProductValidator : IValidator
   {

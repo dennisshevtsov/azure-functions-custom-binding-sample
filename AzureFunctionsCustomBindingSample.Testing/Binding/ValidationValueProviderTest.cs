@@ -10,7 +10,7 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
 
-  using AzureFunctionsCustomBindingSample.Api.Binding.Validation;
+  using AzureFunctionsCustomBindingSample.Validation;
 
   [TestClass]
   public sealed class ValidationValueProviderTest
@@ -41,7 +41,7 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
     }
 
     [TestMethod]
-    public async Task GetValueAsync_Should_Throw_If_It_Is_Invalid_And_ThrowIfFaild_Is_True()
+    public async Task GetValueAsync_Should_Throw_If_It_Is_Invalid_And_ThrowIfInvalid_Is_True()
     {
       var value = await _valueProvider.GetValueAsync();
 
@@ -49,7 +49,7 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
     }
 
     [TestMethod]
-    public async Task GetValueAsync_Should_Not_Throw_If_It_Is_Valid_And_ThrowIfFaild_Is_True()
+    public async Task GetValueAsync_Should_Not_Throw_If_It_Is_Valid_And_ThrowIfInvalid_Is_True()
     {
       var value = await _valueProvider.GetValueAsync();
 
@@ -57,7 +57,7 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
     }
 
     [TestMethod]
-    public async Task GetValueAsync_Should_Not_Throw_If_It_Is_Invalid_And_ThrowIfFaild_Is_False()
+    public async Task GetValueAsync_Should_Not_Throw_If_It_Is_Invalid_And_ThrowIfInvalid_Is_False()
     {
       var value = await _valueProvider.GetValueAsync();
 
