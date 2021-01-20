@@ -8,8 +8,13 @@ namespace AzureFunctionsCustomBindingSample.Validation
 
   using Microsoft.Azure.WebJobs;
 
+  /// <summary>Provides a simple API to register services.</summary>
   public static class WebJobsBuilderExtensions
   {
+    /// <summary>Registers validation services.</summary>
+    /// <param name="builder">An object that provides a simple API to configure Azure functions.</param>
+    /// <param name="configure">An object that provides a simple API to bind a validator to an endpoint.</param>
+    /// <returns>An object that provides a simple API to configure Azure functions.</returns>
     public static IWebJobsBuilder AddValidation(
       this IWebJobsBuilder builder,
       Action<ValidatorProvider> configure)
