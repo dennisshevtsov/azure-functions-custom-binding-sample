@@ -15,14 +15,20 @@ namespace AzureFunctionsCustomBindingSample.Validation
   {
     private readonly IValidatorProvider _validatorProvider;
     private readonly HttpRequest _httpRequest;
+    private readonly bool _throwIfInvalid;
 
     /// <summary>Initializes a new instance of the <see cref="ValidationValueProvider"/> class.</summary>
     /// <param name="validatorProvider"></param>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
-    public ValidationValueProvider(IValidatorProvider validatorProvider, HttpRequest httpRequest)
+    /// <param name="throwIfInvalid">An object that indicates whether it should throw an exception if a result is invalid.</param>
+    public ValidationValueProvider(
+      IValidatorProvider validatorProvider,
+      HttpRequest httpRequest,
+      bool throwIfInvalid)
     {
       _validatorProvider = validatorProvider ?? throw new ArgumentNullException(nameof(validatorProvider));
       _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
+      _throwIfInvalid = throwIfInvalid;
     }
 
     /// <summary>Gets a value that represents a type of a parameter.</summary>
@@ -36,7 +42,7 @@ namespace AzureFunctionsCustomBindingSample.Validation
       var errors = validator.Validate();
       var validationResult = new ValidationResult(errors);
 
-      if (validationResult.IsValid)
+      if (_throwIfInvalid && validationResult.IsValid)
       {
         throw new Exception();
       }

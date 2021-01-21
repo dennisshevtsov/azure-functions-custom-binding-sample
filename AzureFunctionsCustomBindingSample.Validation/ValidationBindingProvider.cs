@@ -5,6 +5,8 @@
 namespace AzureFunctionsCustomBindingSample.Validation
 {
   using System;
+  using System.Linq;
+  using System.Reflection;
   using System.Threading.Tasks;
 
   using Microsoft.Azure.WebJobs.Host.Bindings;
@@ -23,6 +25,11 @@ namespace AzureFunctionsCustomBindingSample.Validation
     /// <param name="context">An object that represents detail of a binding provider context.</param>
     /// <returns>An instance of the <see cref="AzureFunctionsCustomBindingSample.Validation.Validation.ValidationBinding"/> class.</returns>
     public Task<IBinding> TryCreateAsync(BindingProviderContext context)
-      => Task.FromResult<IBinding>(new ValidationBinding(_validatorProvider));
+    {
+      var attribute = context.Parameter.GetCustomAttribute<ValidationAttribute>();
+      IBinding binding = new ValidationBinding(_validatorProvider, attribute.ThrowIfInvalid);
+
+      return Task.FromResult(binding);
+    }
   }
 }

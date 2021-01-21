@@ -10,16 +10,23 @@ namespace AzureFunctionsCustomBindingSample.Validation
   using Microsoft.Azure.WebJobs.Host.Bindings;
   using Microsoft.Azure.WebJobs.Host.Protocols;
 
-  /// <summary>Binds the <see cref="AzureFunctionsCustomBindingSample.Validation.Validation.ValidationValueProvider"/> with a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Validation.ValidationAttribute"/> attribute.</summary>
+  /// <summary>Binds the <see cref="AzureFunctionsCustomBindingSample.Validation.ValidationValueProvider"/> with a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Validation.ValidationAttribute"/> attribute.</summary>
   public sealed class ValidationBinding : IBinding
   {
     public const string ParameterDescriptorName = "validation";
 
     private readonly IValidatorProvider _validatorProvider;
+    private readonly bool _throwIfInvalid;
 
-    public ValidationBinding(IValidatorProvider validatorProvider)
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Validation.ValidationBinding"/> class.</summary>
+    /// <param name="validatorProvider">An object that provides a simple API to get an instance of the <see cref="AzureFunctionsCustomBindingSample.Validation.IValidator"/> type that associated with a request.</param>
+    /// <param name="throwIfInvalid">An object that indicates whether it should throw an exception if a result is invalid.</param>
+    public ValidationBinding(
+      IValidatorProvider validatorProvider,
+      bool throwIfInvalid)
     {
       _validatorProvider = validatorProvider ?? throw new ArgumentNullException(nameof(validatorProvider));
+      _throwIfInvalid = throwIfInvalid;
     }
 
     /// <summary>Gets a value that indicates if a binding from an attribute.</summary>
@@ -39,7 +46,8 @@ namespace AzureFunctionsCustomBindingSample.Validation
     {
       if (context.TryGetHttpRequest(out var httpRequest))
       {
-        return Task.FromResult<IValueProvider>(new ValidationValueProvider(_validatorProvider, httpRequest));
+        return Task.FromResult<IValueProvider>(
+          new ValidationValueProvider(_validatorProvider, httpRequest, _throwIfInvalid));
       }
 
       throw new InvalidOperationException();

@@ -36,7 +36,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Binding.Request
     {
       object instance = null;
 
-      if (_httpRequest.Body == null || _httpRequest.Body.Length == 0)
+      if (_httpRequest.Body == null || !_httpRequest.Body.CanSeek || _httpRequest.Body.Length == 0)
       {
         instance = Activator.CreateInstance(Type);
       }
