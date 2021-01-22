@@ -18,6 +18,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization.Tests
     private Mock<HttpRequest> _httpRequestMock;
     private AuthorizationValueProvider _valueProvider;
 
+    [TestInitialize]
     public void Initialize()
     {
       _httpRequestMock = new Mock<HttpRequest>();

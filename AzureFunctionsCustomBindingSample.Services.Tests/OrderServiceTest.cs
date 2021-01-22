@@ -25,6 +25,7 @@ namespace AzureFunctionsCustomBindingSample.Services.Tests
     [TestInitialize]
     public void Initialize()
     {
+      _documentClientMock = new Mock<IDocumentClient>();
       _orderService = new OrderService(_documentClientMock.Object);
     }
 

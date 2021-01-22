@@ -15,8 +15,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
   /// <summary>Provides a simple API to get an instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Validation.IValidator"/> type that associated with a request.</summary>
   public sealed class ValidatorProvider : IValidatorProvider, IValidationConfig
   {
-    private readonly IDictionary<string, Type> _rules
-      ;
+    private readonly IDictionary<string, Type> _rules;
 
     /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Validation.ValidatorProvider"/> class.</summary>
     public ValidatorProvider() => _rules = new Dictionary<string, Type>();
@@ -28,15 +27,15 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
     {
       IValidator validator = null;
 
-      var builder = new StringBuilder();
+      var builder = new StringBuilder(httpRequest.Path);
       var routes = httpRequest.HttpContext.GetRouteData().Values;
 
       foreach (var route in routes)
       {
-        builder.Replace(route.Value.ToString(), route.Key);
+        builder.Replace(route.Value.ToString(), $"{{{route.Key}}}");
       }
 
-      var key = ValidatorProvider.GetKey(httpRequest.Method, builder.ToString());
+      var key = ValidatorProvider.GetKey(builder.ToString(), httpRequest.Method);
 
       if (_rules.TryGetValue(key, out var type))
       {
@@ -60,6 +59,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
       return this;
     }
 
-    private static string GetKey(string uri, string method) => $"{method}_{uri}".ToLower();
+    private static string GetKey(string uri, string method) => $"{method}{uri}".ToLower();
   }
 }
