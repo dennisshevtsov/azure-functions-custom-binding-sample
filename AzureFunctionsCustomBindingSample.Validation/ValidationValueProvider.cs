@@ -39,12 +39,18 @@ namespace AzureFunctionsCustomBindingSample.Validation
     public Task<object> GetValueAsync()
     {
       var validator = _validatorProvider.GetValidator(_httpRequest);
+
+      if (validator == null)
+      {
+        throw new InvalidOperationException();
+      }
+
       var errors = validator.Validate();
       var validationResult = new ValidationResult(errors);
 
       if (_throwIfInvalid && validationResult.IsValid)
       {
-        throw new Exception();
+        throw new InvalidRequestException(validationResult.Errors);
       }
 
       return Task.FromResult<object>(validationResult);

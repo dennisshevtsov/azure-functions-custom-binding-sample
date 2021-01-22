@@ -17,7 +17,7 @@ namespace AzureFunctionsCustomBindingSample.Validation
     /// <returns>An object that provides a simple API to configure Azure functions.</returns>
     public static IWebJobsBuilder AddValidation(
       this IWebJobsBuilder builder,
-      Action<ValidatorProvider> configure)
+      Action<IValidationConfig> configure)
     {
       if (builder == null)
       {

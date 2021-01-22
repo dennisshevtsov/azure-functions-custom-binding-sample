@@ -11,7 +11,7 @@ namespace AzureFunctionsCustomBindingSample.Validation
   using Microsoft.Extensions.DependencyInjection;
 
   /// <summary>Provides a simple API to get an instance of the <see cref="AzureFunctionsCustomBindingSample.Validation.IValidator"/> type that associated with a request.</summary>
-  public sealed class ValidatorProvider : IValidatorProvider
+  public sealed class ValidatorProvider : IValidatorProvider, IValidationConfig
   {
     private readonly Stack<Func<HttpRequest, IValidator>> _rules;
 
@@ -43,7 +43,7 @@ namespace AzureFunctionsCustomBindingSample.Validation
     /// <param name="uri">A value that represents a URI of an HTTP request.</param>
     /// <param name="method">A value that represents a type of an HTTP request.</param>
     /// <returns>An instance of the <see cref="AzureFunctionsCustomBindingSample.Validation.ValidatorProvider"/>.</returns>
-    public ValidatorProvider AddValidator<TValidator>(string uri, string method) where TValidator : IValidator
+    public IValidationConfig AddValidator<TValidator>(string uri, string method) where TValidator : IValidator
     {
       _rules.Push(httRequest =>
       {
