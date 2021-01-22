@@ -16,12 +16,16 @@ namespace AzureFunctionsCustomBindingSample.Testing.Binding
   public sealed class ValidationValueProviderTest
   {
     private Mock<HttpRequest> _httpRequestMock;
+    private Mock<IValidatorProvider> _validatorProviderMock;
     private ValidationValueProvider _valueProvider;
 
     public void Initialize()
     {
       _httpRequestMock = new Mock<HttpRequest>();
-      _valueProvider = new ValidationValueProvider(null, _httpRequestMock.Object);
+      _validatorProviderMock = new Mock<IValidatorProvider>();
+
+      _valueProvider = new ValidationValueProvider(
+        _validatorProviderMock.Object, _httpRequestMock.Object, true);
     }
 
     [TestMethod]
