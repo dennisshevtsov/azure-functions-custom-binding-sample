@@ -38,7 +38,7 @@ namespace AzureFunctionsCustomBindingSample.Validation
       return validator;
     }
 
-    /// <summary></summary>
+    /// <summary>Registers a validator.</summary>
     /// <typeparam name="TValidator">A type of a validator.</typeparam>
     /// <param name="uri">A value that represents a URI of an HTTP request.</param>
     /// <param name="method">A value that represents a type of an HTTP request.</param>
