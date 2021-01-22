@@ -4,12 +4,13 @@
 
 namespace AzureFunctionsCustomBindingSample.Api.Functions
 {
+  using Microsoft.Azure.WebJobs;
   using System.Threading;
 
   using Microsoft.AspNetCore.Http;
-  using Microsoft.Azure.WebJobs;
 
-  using AzureFunctionsCustomBindingSample.Api.Binding;
+  using AzureFunctionsCustomBindingSample.Binding.Document;
+  using AzureFunctionsCustomBindingSample.Binding.Request;
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
 

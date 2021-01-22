@@ -10,11 +10,11 @@ namespace AzureFunctionsCustomBindingSample.Api
   using Microsoft.Azure.WebJobs.Hosting;
   using Microsoft.Extensions.DependencyInjection;
 
-  using AzureFunctionsCustomBindingSample.Api.Binding.Authorization;
-  using AzureFunctionsCustomBindingSample.Api.Binding.Document;
-  using AzureFunctionsCustomBindingSample.Api.Binding.Request;
-  using AzureFunctionsCustomBindingSample.Api.Binding.Service;
-  using AzureFunctionsCustomBindingSample.Validation;
+  using AzureFunctionsCustomBindingSample.Binding.Authorization;
+  using AzureFunctionsCustomBindingSample.Binding.Document;
+  using AzureFunctionsCustomBindingSample.Binding.Request;
+  using AzureFunctionsCustomBindingSample.Binding.Service;
+  using AzureFunctionsCustomBindingSample.Binding.Validation;
   using AzureFunctionsCustomBindingSample.Validators;
 
   /// <summary>Provides an entry point to configure the function app.</summary>

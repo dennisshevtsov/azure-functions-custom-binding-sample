@@ -9,9 +9,9 @@ namespace AzureFunctionsCustomBindingSample.Validators
   
   using Microsoft.AspNetCore.Http;
 
+  using AzureFunctionsCustomBindingSample.Binding.Validation;
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
-  using AzureFunctionsCustomBindingSample.Validation;
 
   /// <summary>Provides a simple API to validate an HTTP request.</summary>
   public sealed class CreateProductValidator : IValidator
@@ -27,7 +27,7 @@ namespace AzureFunctionsCustomBindingSample.Validators
     /// <returns>An object that represents a collection of errors.</returns>
     public IEnumerable<string> Validate()
     {
-      var requestDto = _httpRequest.HttpContext.Items["request-dto"] as CreateProductRequestDto;
+      var requestDto = _httpRequest.HttpContext.Items["__request__"] as CreateProductRequestDto;
 
       if (string.IsNullOrWhiteSpace(requestDto.Name))
       {

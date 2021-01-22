@@ -12,11 +12,14 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
-  using AzureFunctionsCustomBindingSample.Api.Binding;
+  using AzureFunctionsCustomBindingSample.Binding.Authorization;
+  using AzureFunctionsCustomBindingSample.Binding.Document;
+  using AzureFunctionsCustomBindingSample.Binding.Request;
+  using AzureFunctionsCustomBindingSample.Binding.Service;
+  using AzureFunctionsCustomBindingSample.Binding.Validation;
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
   using AzureFunctionsCustomBindingSample.Services;
-  using AzureFunctionsCustomBindingSample.Validation;
 
   /// <summary>Provides a simple API to handle an HTTP request.</summary>
   public static class CreateOrderFunction

@@ -5,9 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Binding.Validation\AzureFunctionsCustomBindingSample.Binding.Validation.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.25" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Documents\AzureFunctionsCustomBindingSample.Documents.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Dtos\AzureFunctionsCustomBindingSample.Dtos.csproj" />
   </ItemGroup>
 
 </Project>
