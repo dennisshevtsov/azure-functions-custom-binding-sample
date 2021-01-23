@@ -26,8 +26,10 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
     }
 
     [TestMethod]
-    public void Test()
+    public void GetValidator_Should_Return_Validator_If_Endpoint_Is_Registered()
     {
+      _validatorProvider.AddValidator<TestValidator>("/test/{testId}", "post");
+
       var testId = Guid.NewGuid();
 
       Setup(testId);
@@ -38,10 +40,22 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
       Assert.IsInstanceOfType(validator, typeof(TestValidator));
     }
 
+    [TestMethod]
+    public void GetValidator_Should_Return_Null_If_Endpoint_Is_Not_Registered()
+    {
+      _validatorProvider.AddValidator<TestValidator>("/test/{testId}", "put");
+
+      var testId = Guid.NewGuid();
+
+      Setup(testId);
+
+      var validator = _validatorProvider.GetValidator(_httpRequestMock.Object);
+
+      Assert.IsNull(validator);
+    }
+
     private void Setup(Guid testId)
     {
-      _validatorProvider.AddValidator<TestValidator>("/test/{testId}", "post");
-
       var httpContextMock = new Mock<HttpContext>();
       var featureCollectionMock = new Mock<IFeatureCollection>();
       var routingFeatureMock = new Mock<IRoutingFeature>();
