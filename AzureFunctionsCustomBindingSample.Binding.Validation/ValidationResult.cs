@@ -4,6 +4,7 @@
 
 namespace AzureFunctionsCustomBindingSample.Binding.Validation
 {
+  using System;
   using System.Collections.Generic;
   using System.Linq;
 
@@ -12,10 +13,11 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
   {
     /// <summary>Initializes a new instance of the <see cref="ValidationResult"/> class.</summary>
     /// <param name="isValid">A value that indicates if data is valid.</param>
-    public ValidationResult(IEnumerable<string> errors) => Errors = errors;
+    public ValidationResult(IEnumerable<string> errors)
+      => Errors = errors ?? throw new ArgumentNullException(nameof(errors));
 
     /// <summary>Gets a value that indicates if data is valid.</summary>
-    public bool IsValid => Errors != null && Errors.Any();
+    public bool IsValid => !Errors.Any();
 
     /// <summary>Gets an object that represents a collection of errors.</summary>
     public IEnumerable<string> Errors { get; }
