@@ -8,6 +8,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -22,14 +23,17 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
     [TestInitialize]
     public void Initialize()
     {
+      var configuration =
+        new ConfigurationBuilder().AddJsonFile("local.settings.json")
+                                  .Build();
       var provider =
         new ServiceCollection().AddDocumentClient(
                                   options =>
                                   {
-                                    options.AccountEndpoint = "https://localhost:8081";
-                                    options.AccountKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
-                                    options.DatabaseId = "afcbs";
-                                    options.ContainerId = "orderdb";
+                                    options.AccountEndpoint = configuration[nameof(DocumentClientOptions.AccountEndpoint)];
+                                    options.AccountKey = configuration[nameof(DocumentClientOptions.AccountKey)];
+                                    options.DatabaseId = configuration[nameof(DocumentClientOptions.DatabaseId)];
+                                    options.ContainerId = configuration[nameof(DocumentClientOptions.ContainerId)];
                                   })
                                .BuildServiceProvider();
 
@@ -42,20 +46,38 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
 
     [Ignore]
     [TestMethod]
-    public async Task TestInsert()
+    public async Task Test_FirstOrDefaultAsync()
     {
-      var creating = new TestDocument
-      {
-        StringProperty = "test0",
-        DateTimeProperty = DateTime.UtcNow,
-        GuidProperty = Guid.NewGuid(),
-        EmbeddedProperty = new EmbeddedTestDocument
-        {
-          StringProperty = "test1",
-          DateTimeProperty = DateTime.UtcNow,
-          GuidProperty = Guid.NewGuid(),
-        },
-      };
+      var creating = DocumentClientTest.NewDocument();
+
+      var created = await _documentClient.InsertAsync(creating, CancellationToken.None);
+
+      var gotten = await _documentClient.FirstOrDefaultAsync<TestDocument>
+        (created.Id, created.Type, CancellationToken.None);
+
+      Assert.IsNotNull(gotten);
+
+      Assert.AreEqual(created.ResourceId, gotten.ResourceId);
+      Assert.AreEqual(created.SelfLink, gotten.SelfLink);
+      Assert.AreEqual(created.Etag, gotten.Etag);
+      Assert.AreEqual(created.AttachmentsLink, gotten.AttachmentsLink);
+      Assert.AreEqual(created.Timestamp, gotten.Timestamp);
+
+      Assert.AreEqual(created.StringProperty, gotten.StringProperty);
+      Assert.AreEqual(created.DateTimeProperty, gotten.DateTimeProperty);
+      Assert.AreEqual(created.GuidProperty, gotten.GuidProperty);
+
+      Assert.IsNotNull(gotten.EmbeddedProperty);
+      Assert.AreEqual(created.EmbeddedProperty.StringProperty, gotten.EmbeddedProperty.StringProperty);
+      Assert.AreEqual(created.EmbeddedProperty.DateTimeProperty, gotten.EmbeddedProperty.DateTimeProperty);
+      Assert.AreEqual(created.EmbeddedProperty.GuidProperty, gotten.EmbeddedProperty.GuidProperty);
+    }
+
+    [Ignore]
+    [TestMethod]
+    public async Task Test_InsertAsync()
+    {
+      var creating = DocumentClientTest.NewDocument();
 
       var created = await _documentClient.InsertAsync(creating, CancellationToken.None);
 
@@ -76,5 +98,19 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
       Assert.AreEqual(creating.EmbeddedProperty.DateTimeProperty, created.EmbeddedProperty.DateTimeProperty);
       Assert.AreEqual(creating.EmbeddedProperty.GuidProperty, created.EmbeddedProperty.GuidProperty);
     }
+
+    private static TestDocument NewDocument()
+      => new TestDocument
+      {
+        StringProperty = "test0",
+        DateTimeProperty = DateTime.UtcNow,
+        GuidProperty = Guid.NewGuid(),
+        EmbeddedProperty = new EmbeddedTestDocument
+        {
+          StringProperty = "test1",
+          DateTimeProperty = DateTime.UtcNow,
+          GuidProperty = Guid.NewGuid(),
+        },
+      };
   }
 }
