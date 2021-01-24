@@ -4,7 +4,7 @@
 
 namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
 {
-  using System;
+  using System.Collections.Generic;
   using System.Linq;
   using System.Threading.Tasks;
 
@@ -15,24 +15,12 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
   [TestClass]
   public sealed class ValidationValueProviderTest
   {
-    //private Mock<HttpRequest> _httpRequestMock;
-    //private Mock<IValidatorProvider> _validatorProviderMock;
     private ValidationValueProvider _valueProvider;
-
-    //[TestInitialize]
-    //public void Initialize()
-    //{
-    //  _httpRequestMock = new Mock<HttpRequest>();
-    //  _validatorProviderMock = new Mock<IValidatorProvider>();
-
-    //  _valueProvider = new ValidationValueProvider(
-    //    _validatorProviderMock.Object, _httpRequestMock.Object, true);
-    //}
 
     [TestMethod]
     public async Task GetValueAsync_Should_Return_Valid_Validation_Result()
     {
-      SetupForValidResult();
+      Setup(false, Enumerable.Empty<string>());
 
       var value = await _valueProvider.GetValueAsync();
 
@@ -48,7 +36,11 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
     [TestMethod]
     public async Task GetValueAsync_Should_Return_Invalid_Validation_Result()
     {
-      SetupForInvalidResult();
+      Setup(false, new[]
+                   {
+                     "error0",
+                     "error1",
+                   });
 
       var value = await _valueProvider.GetValueAsync();
 
@@ -85,7 +77,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
       Assert.IsNotNull(value);
     }
 
-    private void SetupForValidResult()
+    private void Setup(bool throwIfInvalid, IEnumerable<string> errors)
     {
       var httpRequestMock = new Mock<HttpRequest>();
       var validatorProviderMock = new Mock<IValidatorProvider>();
@@ -96,28 +88,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
       var validatorMock = new Mock<IValidator>();
 
       validatorMock.Setup(validator => validator.Validate())
-                   .Returns(Enumerable.Empty<string>());
-
-      validatorProviderMock.Setup(provider => provider.GetValidator(It.IsAny<HttpRequest>()))
-                           .Returns(validatorMock.Object);
-    }
-
-    private void SetupForInvalidResult()
-    {
-      var httpRequestMock = new Mock<HttpRequest>();
-      var validatorProviderMock = new Mock<IValidatorProvider>();
-
-      _valueProvider = new ValidationValueProvider(
-          validatorProviderMock.Object, httpRequestMock.Object, false);
-
-      var validatorMock = new Mock<IValidator>();
-
-      validatorMock.Setup(validator => validator.Validate())
-                   .Returns(new[]
-                   {
-                     "error0",
-                     "error1",
-                   });
+                   .Returns(errors);
 
       validatorProviderMock.Setup(provider => provider.GetValidator(It.IsAny<HttpRequest>()))
                            .Returns(validatorMock.Object);
