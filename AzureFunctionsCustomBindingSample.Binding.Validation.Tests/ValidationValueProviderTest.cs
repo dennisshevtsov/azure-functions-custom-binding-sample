@@ -4,6 +4,7 @@
 
 namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
 {
+  using System;
   using System.Collections.Generic;
   using System.Linq;
   using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
   [TestClass]
   public sealed class ValidationValueProviderTest
   {
+    private Mock<HttpRequest> _httpRequestMock;
+    private Mock<IValidatorProvider> _validatorProviderMock;
     private ValidationValueProvider _valueProvider;
 
     [TestMethod]
@@ -36,11 +39,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
     [TestMethod]
     public async Task GetValueAsync_Should_Return_Invalid_Validation_Result()
     {
-      Setup(false, new[]
-                   {
-                     "error0",
-                     "error1",
-                   });
+      Setup(false, GetErrors());
 
       var value = await _valueProvider.GetValueAsync();
 
@@ -57,11 +56,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
     [ExpectedException(typeof(InvalidRequestException))]
     public async Task GetValueAsync_Should_Throw_If_It_Is_Invalid_And_ThrowIfInvalid_Is_True()
     {
-      Setup(true, new[]
-                   {
-                     "error0",
-                     "error1",
-                   });
+      Setup(true, GetErrors());
 
       var value = await _valueProvider.GetValueAsync();
 
@@ -81,32 +76,49 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
     [TestMethod]
     public async Task GetValueAsync_Should_Not_Throw_If_It_Is_Invalid_And_ThrowIfInvalid_Is_False()
     {
-      Setup(false, new[]
-                   {
-                     "error0",
-                     "error1",
-                   });
+      Setup(false, GetErrors());
 
       var value = await _valueProvider.GetValueAsync();
 
       Assert.IsNotNull(value);
     }
 
+    [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException))]
+    public async Task GetValueAsync_Should_Throw_If_There_Is_No_Proper_Validator()
+    {
+      Setup(false);
+
+      var value = await _valueProvider.GetValueAsync();
+
+      Assert.IsNotNull(value);
+    }
+
+    private void Setup(bool throwIfInvalid)
+    {
+      _httpRequestMock = new Mock<HttpRequest>();
+      _validatorProviderMock = new Mock<IValidatorProvider>();
+      _valueProvider = new ValidationValueProvider(
+          _validatorProviderMock.Object, _httpRequestMock.Object, throwIfInvalid);
+    }
+
     private void Setup(bool throwIfInvalid, IEnumerable<string> errors)
     {
-      var httpRequestMock = new Mock<HttpRequest>();
-      var validatorProviderMock = new Mock<IValidatorProvider>();
-
-      _valueProvider = new ValidationValueProvider(
-          validatorProviderMock.Object, httpRequestMock.Object, throwIfInvalid);
+      Setup(throwIfInvalid);
 
       var validatorMock = new Mock<IValidator>();
 
       validatorMock.Setup(validator => validator.Validate())
                    .Returns(errors);
 
-      validatorProviderMock.Setup(provider => provider.GetValidator(It.IsAny<HttpRequest>()))
-                           .Returns(validatorMock.Object);
+      _validatorProviderMock.Setup(provider => provider.GetValidator(It.IsAny<HttpRequest>()))
+                            .Returns(validatorMock.Object);
+    }
+
+    private static IEnumerable<string> GetErrors()
+    {
+      yield return "error0";
+      yield return "error1";
     }
   }
 }
