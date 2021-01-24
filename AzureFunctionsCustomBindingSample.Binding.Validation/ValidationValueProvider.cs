@@ -48,7 +48,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
       var errors = validator.Validate();
       var validationResult = new ValidationResult(errors);
 
-      if (_throwIfInvalid && validationResult.IsValid)
+      if (_throwIfInvalid && !validationResult.IsValid)
       {
         throw new InvalidRequestException(validationResult.Errors);
       }

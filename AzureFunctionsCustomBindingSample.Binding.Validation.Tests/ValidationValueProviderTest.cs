@@ -54,8 +54,15 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
     }
 
     [TestMethod]
+    [ExpectedException(typeof(InvalidRequestException))]
     public async Task GetValueAsync_Should_Throw_If_It_Is_Invalid_And_ThrowIfInvalid_Is_True()
     {
+      Setup(true, new[]
+                   {
+                     "error0",
+                     "error1",
+                   });
+
       var value = await _valueProvider.GetValueAsync();
 
       Assert.IsNotNull(value);
@@ -64,6 +71,8 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
     [TestMethod]
     public async Task GetValueAsync_Should_Not_Throw_If_It_Is_Valid_And_ThrowIfInvalid_Is_True()
     {
+      Setup(true, Enumerable.Empty<string>());
+
       var value = await _valueProvider.GetValueAsync();
 
       Assert.IsNotNull(value);
@@ -72,6 +81,12 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
     [TestMethod]
     public async Task GetValueAsync_Should_Not_Throw_If_It_Is_Invalid_And_ThrowIfInvalid_Is_False()
     {
+      Setup(false, new[]
+                   {
+                     "error0",
+                     "error1",
+                   });
+
       var value = await _valueProvider.GetValueAsync();
 
       Assert.IsNotNull(value);
@@ -83,7 +98,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
       var validatorProviderMock = new Mock<IValidatorProvider>();
 
       _valueProvider = new ValidationValueProvider(
-          validatorProviderMock.Object, httpRequestMock.Object, false);
+          validatorProviderMock.Object, httpRequestMock.Object, throwIfInvalid);
 
       var validatorMock = new Mock<IValidator>();
 
