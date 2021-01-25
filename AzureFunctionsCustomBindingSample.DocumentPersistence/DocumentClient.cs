@@ -75,9 +75,12 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     {
       var queryDefinition = new QueryDefinition(query);
 
-      foreach (var parameter in parameters)
+      if (parameters != null)
       {
-        queryDefinition.WithParameter(parameter.Key, parameter.Value);
+        foreach (var parameter in parameters)
+        {
+          queryDefinition.WithParameter(parameter.Key, parameter.Value);
+        }
       }
 
       var feedIterator = _container.GetItemQueryStreamIterator(
@@ -94,6 +97,10 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
         using (var responseMessage = await feedIterator.ReadNextAsync(cancellationToken))
         {
           responseMessage.EnsureSuccessStatusCode();
+
+          //_rid
+          //Documents
+          //_count
 
           var documents = await _serializer.DeserializeAsync<IEnumerable<TDocument>>(
             responseMessage.Content, cancellationToken);
