@@ -44,9 +44,12 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
       var jsonSerializerOptions = new JsonSerializerOptions
       {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        Converters =
+        {
+          new DocumentJsonConverterFactory(),
+          new DocumentCollectionJsonConverterFactory(),
+        },
       };
-
-      jsonSerializerOptions.Converters.Add(new DocumentJsonConverterFactory());
 
       var serializer = new Serializer(jsonSerializerOptions);
 

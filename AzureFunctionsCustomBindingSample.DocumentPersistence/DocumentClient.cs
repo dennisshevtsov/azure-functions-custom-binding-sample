@@ -96,16 +96,15 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
       {
         using (var responseMessage = await feedIterator.ReadNextAsync(cancellationToken))
         {
+          //var reader = new StreamReader(responseMessage.Content);
+          //var message = await reader.ReadToEndAsync();
+
           responseMessage.EnsureSuccessStatusCode();
 
-          //_rid
-          //Documents
-          //_count
-
-          var documents = await _serializer.DeserializeAsync<IEnumerable<TDocument>>(
+          var documentCollection = await _serializer.DeserializeAsync<DocumentCollection<TDocument>>(
             responseMessage.Content, cancellationToken);
 
-          foreach (var document in documents)
+          foreach (var document in documentCollection.Documents)
           {
             yield return document;
           }
