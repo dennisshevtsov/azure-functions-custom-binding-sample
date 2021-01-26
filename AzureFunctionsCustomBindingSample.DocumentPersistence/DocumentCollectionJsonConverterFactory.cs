@@ -14,7 +14,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     /// <returns>true if the instance can convert the specified object type; otherwise, false.</returns>
     public override bool CanConvert(Type typeToConvert)
       => typeToConvert.IsGenericType &&
-         typeToConvert.GetGenericTypeDefinition() == typeof(IEnumerable<>) &&
+         typeToConvert.GetGenericTypeDefinition() == typeof(DocumentCollection<>) &&
          typeof(DocumentBase).IsAssignableFrom(typeToConvert.GetGenericArguments()[0]);
 
     /// <summary>Creates a converter for a specified type.</summary>

@@ -9,10 +9,10 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
 
   public sealed class DocumentCollection<TDocument> where TDocument : DocumentBase
   {
-    public string _rid { get; set; }
+    public string ResourceId { get; set; }
+
+    public int Count { get; set; }
 
     public IEnumerable<TDocument> Documents { get; set; }
-
-    public int _count { get; set; }
   }
 }
