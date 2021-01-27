@@ -96,9 +96,6 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
       {
         using (var responseMessage = await feedIterator.ReadNextAsync(cancellationToken))
         {
-          //var reader = new StreamReader(responseMessage.Content);
-          //var message = await reader.ReadToEndAsync();
-
           responseMessage.EnsureSuccessStatusCode();
 
           var documentCollection = await _serializer.DeserializeAsync<DocumentCollection<TDocument>>(

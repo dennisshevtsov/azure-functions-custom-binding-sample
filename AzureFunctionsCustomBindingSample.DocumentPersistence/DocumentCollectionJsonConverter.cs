@@ -26,29 +26,32 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
 
       string propertyName = null;
 
-      while (reader.Read())
+      while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
       {
-        if (reader.TokenType == JsonTokenType.PropertyName)
+        propertyName = reader.GetString();
+
+        if (propertyName == "_rid" && reader.Read() && reader.TokenType == JsonTokenType.String)
         {
-          propertyName = reader.GetString();
+          documentCollection.ResourceId = reader.GetString();
         }
-        else
+        else if (propertyName == "Documents" && reader.Read() && reader.TokenType == JsonTokenType.StartArray)
         {
-          if (propertyName == "_rid" && reader.TokenType == JsonTokenType.String)
+          var docs = new List<TDocument>();
+          while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
           {
-            documentCollection.ResourceId = reader.GetString();
+            docs.Add(JsonSerializer.Deserialize<TDocument>(ref reader, options));
           }
-          else if (propertyName == "Documents" && reader.TokenType == JsonTokenType.StartArray)
-          {
-            //documentCollection.Documents =
-            //  DocumentCollectionJsonConverter<TDocument>.ReadDocuments(
-            //    ref reader, typeToConvert, options);
-          }
-          else if (propertyName == "_count" && reader.TokenType == JsonTokenType.Number)
-          {
-            documentCollection.Count = reader.GetInt32();
-          }
+
+          documentCollection.Documents = docs;
+          //documentCollection.Documents =
+          //  DocumentCollectionJsonConverter<TDocument>.ReadDocuments(
+          //    ref reader, typeToConvert, options);
         }
+        else if (propertyName == "_count" && reader.Read() && reader.TokenType == JsonTokenType.Number)
+        {
+          documentCollection.Count = reader.GetInt32();
+        }
+
       }
 
       return documentCollection;
