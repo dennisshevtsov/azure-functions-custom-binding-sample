@@ -13,10 +13,6 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
   /// <typeparam name="TDocument">The type of object or value handled by the converter.</typeparam>
   public sealed class DocumentCollectionJsonConverter<TDocument> : JsonConverter<DocumentCollection<TDocument>> where TDocument : DocumentBase
   {
-    private const string DocumentsPropertyName = "Documents";
-    private const string ResourceIdPropertyName = "_rid";
-    private const string CountPropertyName = "_count";
-
     /// <summary>Reads and converts the JSON to type T.</summary>
     /// <param name="reader">The reader.</param>
     /// <param name="typeToConvert">The type to convert.</param>
@@ -41,20 +37,20 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
           propertyName = reader.GetString();
         }
         else if (reader.TokenType == JsonTokenType.String &&
-                 propertyName == DocumentCollectionJsonConverter<TDocument>.ResourceIdPropertyName)
+                 propertyName == DocumentCollectionPropertyNames.ResourceIdPropertyName)
         {
           documentCollection.ResourceId = reader.GetString();
         }
         else if (reader.TokenType == JsonTokenType.Number &&
-                 propertyName == DocumentCollectionJsonConverter<TDocument>.CountPropertyName)
+                 propertyName == DocumentCollectionPropertyNames.CountPropertyName)
         {
           documentCollection.Count = reader.GetInt32();
         }
-        else if (propertyName == DocumentCollectionJsonConverter<TDocument>.DocumentsPropertyName &&
+        else if (propertyName == DocumentCollectionPropertyNames.DocumentsPropertyName &&
                  reader.TokenType != JsonTokenType.StartArray &&
                  reader.TokenType != JsonTokenType.EndArray)
         {
-          documents.Add(ReadDocument(ref reader, options));
+          documents.Add(reader.Read<TDocument>(options));
         }
         else if (reader.TokenType == JsonTokenType.StartObject)
         {
@@ -77,15 +73,5 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     public override void Write(
       Utf8JsonWriter writer, DocumentCollection<TDocument> value, JsonSerializerOptions options)
       => throw new NotSupportedException();
-
-    private static TDocument ReadDocument(ref Utf8JsonReader reader, JsonSerializerOptions options)
-    {
-      if (options.GetConverter(typeof(TDocument)) is JsonConverter<TDocument> converter)
-      {
-        return converter.Read(ref reader, typeof(TDocument), options);
-      }
-
-      return JsonSerializer.Deserialize<TDocument>(ref reader, options);
-    }
   }
 }
