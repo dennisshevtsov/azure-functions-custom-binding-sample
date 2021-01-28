@@ -21,7 +21,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     private readonly DocumentClientOptions _requestOptions;
     private readonly Container _container;
     private readonly RecyclableMemoryStreamManager _streamManager;
-    private readonly ISerializer _serializer;
+    private readonly IDocumentSerializer _serializer;
 
     /// <summary>Initializes a new instance of the <see cref="DocumentClient"/> class.</summary>
     /// <param name="requestOptions">An object that represents options of a request to Cosmos DB.</param>
@@ -32,7 +32,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
       IOptions<DocumentClientOptions> requestOptions,
       Container container,
       RecyclableMemoryStreamManagerProvider streamManagerProvider,
-      ISerializer serializer)
+      IDocumentSerializer serializer)
     {
       _requestOptions = requestOptions?.Value ?? throw new ArgumentNullException(nameof(requestOptions));
       _container = container ?? throw new ArgumentNullException(nameof(container));

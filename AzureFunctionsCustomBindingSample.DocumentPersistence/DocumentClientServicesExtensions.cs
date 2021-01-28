@@ -46,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
       });
 
       services.AddSingleton<RecyclableMemoryStreamManagerProvider>();
-      services.AddScoped(provider => Serializer.Get());
+      services.AddScoped(provider => DocumentSerializer.Get());
       services.AddScoped<IDocumentClient, DocumentClient>();
       services.Configure(configure);
 

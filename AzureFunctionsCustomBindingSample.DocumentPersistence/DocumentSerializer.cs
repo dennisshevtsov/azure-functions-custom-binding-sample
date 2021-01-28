@@ -11,13 +11,13 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
   using System.Threading.Tasks;
 
   /// <summary>Provides a simple API to serialize/deserialize objects.</summary>
-  public sealed class Serializer : ISerializer
+  public sealed class DocumentSerializer : IDocumentSerializer
   {
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    /// <summary>Initializes a new instance of the <see cref="Serializer"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="DocumentSerializer"/> class.</summary>
     /// <param name="jsonSerializerOptions">An object that provides options to be used with <see cref="System.Text.Json.JsonSerializer"/>.</param>
-    public Serializer(JsonSerializerOptions jsonSerializerOptions)
+    public DocumentSerializer(JsonSerializerOptions jsonSerializerOptions)
       => _jsonSerializerOptions = jsonSerializerOptions ?? throw new ArgumentNullException(nameof(jsonSerializerOptions));
 
     /// <summary>Serializes an object to a stream.</summary>
@@ -37,9 +37,9 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     public ValueTask<TDocument> DeserializeAsync<TDocument>(Stream input, CancellationToken cancellationToken) where TDocument : class
       => JsonSerializer.DeserializeAsync<TDocument>(input, _jsonSerializerOptions, cancellationToken);
 
-    /// <summary>Creates an instance of the <see cref="ISerializer"/> type.</summary>
-    /// <returns>An instance of the <see cref="ISerializer"/> type.</returns>
-    public static ISerializer Get()
+    /// <summary>Creates an instance of the <see cref="IDocumentSerializer"/> type.</summary>
+    /// <returns>An instance of the <see cref="IDocumentSerializer"/> type.</returns>
+    public static IDocumentSerializer Get()
     {
       var jsonSerializerOptions = new JsonSerializerOptions
       {
@@ -51,7 +51,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
         },
       };
 
-      var serializer = new Serializer(jsonSerializerOptions);
+      var serializer = new DocumentSerializer(jsonSerializerOptions);
 
       return serializer;
     }

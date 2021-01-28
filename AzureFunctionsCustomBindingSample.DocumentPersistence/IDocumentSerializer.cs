@@ -9,7 +9,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
   using System.Threading.Tasks;
 
   /// <summary>Provides a simple API to serialize/deserialize objects.</summary>
-  public interface ISerializer
+  public interface IDocumentSerializer
   {
     /// <summary>Serializes an object to a stream.</summary>
     /// <typeparam name="TDocument">A type of a serializing object.</typeparam>
