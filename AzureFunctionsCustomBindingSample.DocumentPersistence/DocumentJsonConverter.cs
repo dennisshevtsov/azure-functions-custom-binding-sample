@@ -23,19 +23,34 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     {
       var document = Activator.CreateInstance<TDocument>();
 
-      while (reader.Read())
+      int braces = 0;
+      string propertyName = null;
+
+      do
       {
-        if (reader.TokenType != JsonTokenType.PropertyName)
+        if (reader.TokenType == JsonTokenType.StartObject && propertyName == null)
         {
-          continue;
+          ++braces;
         }
+        else if (reader.TokenType == JsonTokenType.EndObject)
+        {
+          --braces;
+        }
+        else if (reader.TokenType == JsonTokenType.PropertyName)
+        {
+          propertyName = reader.GetString();
+        }
+        else if (propertyName != null)
+        {
+          var property = GetProperty(propertyName, options);
+          var propertyValue = JsonSerializer.Deserialize(ref reader, property.PropertyType, options);
 
-        var jsonPropertyName = reader.GetString();
-        var property = GetProperty(jsonPropertyName, options);
-        var propertyValue = JsonSerializer.Deserialize(ref reader, property.PropertyType, options);
+          property.SetValue(document, propertyValue);
 
-        property.SetValue(document, propertyValue);
+          propertyName = null;
+        }
       }
+      while (braces != 0 && reader.Read());
 
       return document;
     }

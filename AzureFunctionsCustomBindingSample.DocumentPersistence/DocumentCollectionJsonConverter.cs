@@ -6,7 +6,6 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
 {
   using System;
   using System.Collections.Generic;
-  using System.Text;
   using System.Text.Json;
   using System.Text.Json.Serialization;
 
@@ -22,37 +21,45 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     public override DocumentCollection<TDocument> Read(
       ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-      var documentCollection = new DocumentCollection<TDocument>();
+      var documents = new List<TDocument>();
+      var documentCollection = new DocumentCollection<TDocument>
+      {
+        Documents = documents,
+      };
 
       string propertyName = null;
+      int braces = 0;
 
-      while (reader.Read() && reader.TokenType != JsonTokenType.EndObject)
+      do
       {
-        propertyName = reader.GetString();
-
-        if (propertyName == "_rid" && reader.Read() && reader.TokenType == JsonTokenType.String)
+        if (reader.TokenType == JsonTokenType.PropertyName)
+        {
+          propertyName = reader.GetString();
+        }
+        else if (reader.TokenType == JsonTokenType.String && propertyName == "_rid")
         {
           documentCollection.ResourceId = reader.GetString();
         }
-        else if (propertyName == "Documents" && reader.Read() && reader.TokenType == JsonTokenType.StartArray)
-        {
-          var docs = new List<TDocument>();
-          while (reader.Read() && reader.TokenType != JsonTokenType.EndArray)
-          {
-            docs.Add(JsonSerializer.Deserialize<TDocument>(ref reader, options));
-          }
-
-          documentCollection.Documents = docs;
-          //documentCollection.Documents =
-          //  DocumentCollectionJsonConverter<TDocument>.ReadDocuments(
-          //    ref reader, typeToConvert, options);
-        }
-        else if (propertyName == "_count" && reader.Read() && reader.TokenType == JsonTokenType.Number)
+        else if (reader.TokenType == JsonTokenType.Number && propertyName == "_count")
         {
           documentCollection.Count = reader.GetInt32();
         }
-
+        else if (propertyName == "Documents" &&
+                 reader.TokenType != JsonTokenType.StartArray &&
+                 reader.TokenType != JsonTokenType.EndArray)
+        {
+          documents.Add(ReadDocument(ref reader, options));
+        }
+        else if (reader.TokenType == JsonTokenType.StartObject)
+        {
+          ++braces;
+        }
+        else if (reader.TokenType == JsonTokenType.EndObject)
+        {
+          --braces;
+        }
       }
+      while (reader.Read() && braces != 0);
 
       return documentCollection;
     }
@@ -67,15 +74,14 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
       throw new NotImplementedException();
     }
 
-    private static IEnumerable<TDocument> ReadDocuments(
-      ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    private static TDocument ReadDocument(ref Utf8JsonReader reader, JsonSerializerOptions options)
     {
-      if (options.GetConverter(typeof(IEnumerable<TDocument>)) is JsonConverter<IEnumerable<TDocument>> converter)
+      if (options.GetConverter(typeof(TDocument)) is JsonConverter<TDocument> converter)
       {
-        return converter.Read(ref reader, typeToConvert, options);
+        return converter.Read(ref reader, typeof(TDocument), options);
       }
 
-      return JsonSerializer.Deserialize<IEnumerable<TDocument>>(ref reader, options);
+      return JsonSerializer.Deserialize<TDocument>(ref reader, options);
     }
   }
 }
