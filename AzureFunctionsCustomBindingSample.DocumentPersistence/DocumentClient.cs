@@ -46,7 +46,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     /// <param name="partitionId">A value that represents a partition ID of a document.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
-    public async Task<TDocument> FirstOrDefaultAsync<TDocument>(
+    public async Task<TDocument> FirstAsync<TDocument>(
       Guid id, string partitionId, CancellationToken cancellationToken) where TDocument : DocumentBase
     {
       using (var responseMessage = await _container.ReadItemStreamAsync(id.ToString(), new PartitionKey(partitionId), null, cancellationToken))

@@ -67,7 +67,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
 
       var documentClientMock = new Mock<IDocumentClient>();
 
-      documentClientMock.Setup(client => client.FirstOrDefaultAsync<ProductDocument>(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+      documentClientMock.Setup(client => client.FirstAsync<ProductDocument>(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
                         .ReturnsAsync((Guid id, string partitionId, CancellationToken cancellationToken) => new ProductDocument
                         {
                           Id = productId,

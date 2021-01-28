@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿// Copyright (c) Dennis Shevtsov. All rights reserved.
+// Licensed under the Apache License, Version 2.0.
+// See License.txt in the project root for license information.
 
 namespace AzureFunctionsCustomBindingSample.DocumentPersistence
 {
+  using System;
+  using System.Text.Json;
+  using System.Text.Json.Serialization;
+
   /// <summary>Supports converting several types by using a factory pattern.</summary>
   public sealed class DocumentCollectionJsonConverterFactory : JsonConverterFactory
   {

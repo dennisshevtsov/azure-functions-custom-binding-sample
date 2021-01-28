@@ -45,17 +45,17 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
 
       if (requestDto is GetProductRequestDto getProductRequestDto)
       {
-        instance = await documentClient.FirstOrDefaultAsync<ProductDocument>(
+        instance = await documentClient.FirstAsync<ProductDocument>(
           getProductRequestDto.ProductId, nameof(ProductDocument), cancellationToken);
       }
       else if (requestDto is GetOrderRequestDto getOrderRequestDto)
       {
-        instance = await documentClient.FirstOrDefaultAsync<ProductDocument>(
+        instance = await documentClient.FirstAsync<ProductDocument>(
           getOrderRequestDto.OrderId, nameof(OrderDocument), cancellationToken);
       }
       else if (requestDto is CreateProductRequestDto createProductRequestDto)
       {
-        instance = await documentClient.FirstOrDefaultAsync<UnitDocument>(
+        instance = await documentClient.FirstAsync<UnitDocument>(
           createProductRequestDto.Unit, nameof(UnitDocument), cancellationToken);
       }
       else if (requestDto is CreateOrderRequestDto createOrderRequestDto)

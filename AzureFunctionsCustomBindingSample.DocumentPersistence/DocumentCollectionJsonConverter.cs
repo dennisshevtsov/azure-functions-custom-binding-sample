@@ -13,6 +13,10 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
   /// <typeparam name="TDocument">The type of object or value handled by the converter.</typeparam>
   public sealed class DocumentCollectionJsonConverter<TDocument> : JsonConverter<DocumentCollection<TDocument>> where TDocument : DocumentBase
   {
+    private const string DocumentsPropertyName = "Documents";
+    private const string ResourceIdPropertyName = "_rid";
+    private const string CountPropertyName = "_count";
+
     /// <summary>Reads and converts the JSON to type T.</summary>
     /// <param name="reader">The reader.</param>
     /// <param name="typeToConvert">The type to convert.</param>
@@ -36,15 +40,17 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
         {
           propertyName = reader.GetString();
         }
-        else if (reader.TokenType == JsonTokenType.String && propertyName == "_rid")
+        else if (reader.TokenType == JsonTokenType.String &&
+                 propertyName == DocumentCollectionJsonConverter<TDocument>.ResourceIdPropertyName)
         {
           documentCollection.ResourceId = reader.GetString();
         }
-        else if (reader.TokenType == JsonTokenType.Number && propertyName == "_count")
+        else if (reader.TokenType == JsonTokenType.Number &&
+                 propertyName == DocumentCollectionJsonConverter<TDocument>.CountPropertyName)
         {
           documentCollection.Count = reader.GetInt32();
         }
-        else if (propertyName == "Documents" &&
+        else if (propertyName == DocumentCollectionJsonConverter<TDocument>.DocumentsPropertyName &&
                  reader.TokenType != JsonTokenType.StartArray &&
                  reader.TokenType != JsonTokenType.EndArray)
         {
@@ -70,9 +76,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     /// <param name="options">An object that specifies serialization options to use.</param>
     public override void Write(
       Utf8JsonWriter writer, DocumentCollection<TDocument> value, JsonSerializerOptions options)
-    {
-      throw new NotImplementedException();
-    }
+      => throw new NotSupportedException();
 
     private static TDocument ReadDocument(ref Utf8JsonReader reader, JsonSerializerOptions options)
     {

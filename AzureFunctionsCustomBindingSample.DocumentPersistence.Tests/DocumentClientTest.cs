@@ -56,14 +56,14 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
 
     //[Ignore]
     [TestMethod]
-    public async Task Test()
+    public async Task Test_Insert_First_Update_Delete()
     {
       var creating = DocumentClientTest.NewDocument();
       var created = await _documentClient.InsertAsync(creating, CancellationToken.None);
 
       DocumentClientTest.Test(creating, created);
 
-      var gotten = await _documentClient.FirstOrDefaultAsync<TestDocument>(
+      var gotten = await _documentClient.FirstAsync<TestDocument>(
         created.Id, created.Type, CancellationToken.None);
 
       DocumentClientTest.Test(created, gotten);
@@ -78,7 +78,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
 
       try
       {
-        var deleted = await _documentClient.FirstOrDefaultAsync<TestDocument>(
+        var deleted = await _documentClient.FirstAsync<TestDocument>(
           updated.Id, updated.Type, CancellationToken.None);
 
         Assert.Fail("Not deleted.");
