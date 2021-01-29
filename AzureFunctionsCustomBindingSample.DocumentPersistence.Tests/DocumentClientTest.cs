@@ -15,7 +15,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
 
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
 
-  [Ignore]
+  //[Ignore]
   [TestClass]
   public sealed class DocumentClientTest
   {
@@ -63,10 +63,10 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
 
       DocumentClientTest.Test(creating, created);
 
-      var gotten = await _documentClient.FirstOrDefaultAsync<TestDocument>(
+      var received = await _documentClient.FirstOrDefaultAsync<TestDocument>(
         created.Id, created.Type, CancellationToken.None);
 
-      DocumentClientTest.Test(created, gotten);
+      DocumentClientTest.Test(created, received);
 
       DocumentClientTest.Update(created);
 
@@ -76,17 +76,10 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
 
       await _documentClient.DeleteAsync(updated.Id, updated.Type, CancellationToken.None);
 
-      try
-      {
-        var deleted = await _documentClient.FirstOrDefaultAsync<TestDocument>(
+      var deleted = await _documentClient.FirstOrDefaultAsync<TestDocument>(
           updated.Id, updated.Type, CancellationToken.None);
 
-        Assert.Fail("Not deleted.");
-      }
-      catch (Exception exception)
-      {
-        Assert.IsInstanceOfType(exception, typeof(CosmosException));
-      }
+      Assert.IsNull(deleted);
     }
 
     [TestMethod]
@@ -114,6 +107,24 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
       await _documentClient.DeleteAsync(document2.Id, document2.Type, CancellationToken.None);
       await _documentClient.DeleteAsync(document3.Id, document3.Type, CancellationToken.None);
       await _documentClient.DeleteAsync(document4.Id, document4.Type, CancellationToken.None);
+    }
+
+    [TestMethod]
+    public async Task Test_Double_Update()
+    {
+      var creating = DocumentClientTest.NewDocument();
+      var created = await _documentClient.InsertAsync(creating, CancellationToken.None);
+
+      var document0 = created;
+      var document1 = created;
+
+      DocumentClientTest.Update(document0);
+      DocumentClientTest.Update(document1);
+
+      var updated0 = await _documentClient.UpdateAsync(document0, CancellationToken.None);
+      var updated1 = await _documentClient.UpdateAsync(document1, CancellationToken.None);
+
+      DocumentClientTest.Test(updated0, updated1);
     }
 
     private static TestDocument NewDocument()
