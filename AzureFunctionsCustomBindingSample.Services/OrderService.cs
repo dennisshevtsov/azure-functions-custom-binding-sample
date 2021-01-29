@@ -20,9 +20,7 @@ namespace AzureFunctionsCustomBindingSample.Services
     /// <summary>Initializes a new instance of the <see cref="OrderService"/> class.</summary>
     /// <param name="documentClient">An object that provides a simple API to Cosmos DB.</param>
     public OrderService(IDocumentClient documentClient)
-    {
-      _documentClient = documentClient ?? throw new ArgumentNullException(nameof(documentClient));
-    }
+      => _documentClient = documentClient ?? throw new ArgumentNullException(nameof(documentClient));
 
     /// <summary>Creates a new order.</summary>
     /// <param name="products">An object that represents a collection of pairs: a product and quantity.</param>

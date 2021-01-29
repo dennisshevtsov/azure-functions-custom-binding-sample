@@ -20,9 +20,7 @@ namespace AzureFunctionsCustomBindingSample.Services
     /// <summary>Initializes a new instance of the <see cref="ProductService"/> class.</summary>
     /// <param name="documentClient">An object that provides a simple API to persistence of documents that inherits the <see cref="AzureFunctionsCustomBindingSample.DocumentPersistence.DocumentBase"/> class.</param>
     public ProductService(IDocumentClient documentClient)
-    {
-      _documentClient = documentClient ?? throw new ArgumentNullException(nameof(documentClient));
-    }
+      => _documentClient = documentClient ?? throw new ArgumentNullException(nameof(documentClient));
 
     /// <summary>Creates a new product.</summary>
     /// <param name="command">An object that represents a command to create a product.</param>
