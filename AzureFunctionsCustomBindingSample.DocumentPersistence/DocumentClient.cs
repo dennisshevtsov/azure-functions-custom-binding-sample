@@ -7,6 +7,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
   using System;
   using System.Collections.Generic;
   using System.IO;
+  using System.Net;
   using System.Runtime.CompilerServices;
   using System.Threading;
   using System.Threading.Tasks;
@@ -46,15 +47,20 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     /// <param name="partitionId">A value that represents a partition ID of a document.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
-    public async Task<TDocument> FirstAsync<TDocument>(
+    public async Task<TDocument> FirstOrDefaultAsync<TDocument>(
       Guid id, string partitionId, CancellationToken cancellationToken) where TDocument : DocumentBase
     {
       using (var responseMessage = await _container.ReadItemStreamAsync(id.ToString(), new PartitionKey(partitionId), null, cancellationToken))
       {
-        responseMessage.EnsureSuccessStatusCode();
+        TDocument document = null;
 
-        var document = await _serializer.DeserializeAsync<TDocument>(
-          responseMessage.Content, cancellationToken);
+        if (responseMessage.StatusCode != HttpStatusCode.NotFound)
+        {
+          responseMessage.EnsureSuccessStatusCode();
+
+          document = await _serializer.DeserializeAsync<TDocument>(
+            responseMessage.Content, cancellationToken);
+        }
 
         return document;
       }
@@ -67,7 +73,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     /// <param name="parameters">An object that represents a collection of parameters for a query.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
-    public async IAsyncEnumerable<TDocument> AsEnumerableAsync<TDocument>(
+    public async IAsyncEnumerable<TDocument> AsAsyncEnumerable<TDocument>(
       string partitionId,
       string query,
       IDictionary<string, object> parameters,

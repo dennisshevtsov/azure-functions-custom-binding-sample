@@ -18,7 +18,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     /// <param name="partitionId">A value that represents a partition ID of a document.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
-    public Task<TDocument> FirstAsync<TDocument>(
+    public Task<TDocument> FirstOrDefaultAsync<TDocument>(
       Guid id, string partitionId, CancellationToken cancellationToken) where TDocument : DocumentBase;
 
     /// <summary>Receives documents from their persistence.</summary>
@@ -28,7 +28,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence
     /// <param name="parameters">An object that represents a collection of parameters for a query.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
-    public IAsyncEnumerable<TDocument> AsEnumerableAsync<TDocument>(
+    public IAsyncEnumerable<TDocument> AsAsyncEnumerable<TDocument>(
       string partitionId,
       string query,
       IDictionary<string, object> parameters,

@@ -15,6 +15,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
 
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
 
+  [Ignore]
   [TestClass]
   public sealed class DocumentClientTest
   {
@@ -54,7 +55,6 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
     [TestCleanup]
     public void Cleanup() => _disposable?.Dispose();
 
-    //[Ignore]
     [TestMethod]
     public async Task Test_Insert_First_Update_Delete()
     {
@@ -63,7 +63,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
 
       DocumentClientTest.Test(creating, created);
 
-      var gotten = await _documentClient.FirstAsync<TestDocument>(
+      var gotten = await _documentClient.FirstOrDefaultAsync<TestDocument>(
         created.Id, created.Type, CancellationToken.None);
 
       DocumentClientTest.Test(created, gotten);
@@ -78,7 +78,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
 
       try
       {
-        var deleted = await _documentClient.FirstAsync<TestDocument>(
+        var deleted = await _documentClient.FirstOrDefaultAsync<TestDocument>(
           updated.Id, updated.Type, CancellationToken.None);
 
         Assert.Fail("Not deleted.");
@@ -103,7 +103,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
       var document4 = await _documentClient.InsertAsync(
         DocumentClientTest.NewDocument(), CancellationToken.None);
 
-      await foreach (var document in _documentClient.AsEnumerableAsync<TestDocument>(
+      await foreach (var document in _documentClient.AsAsyncEnumerable<TestDocument>(
         nameof(TestDocument), "SELECT * FROM c", null, CancellationToken.None))
       {
         Assert.IsNotNull(document);

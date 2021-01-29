@@ -45,33 +45,27 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
 
       if (requestDto is GetProductRequestDto getProductRequestDto)
       {
-        instance = await documentClient.FirstAsync<ProductDocument>(
+        instance = await documentClient.FirstOrDefaultAsync<ProductDocument>(
           getProductRequestDto.ProductId, nameof(ProductDocument), cancellationToken);
       }
       else if (requestDto is GetOrderRequestDto getOrderRequestDto)
       {
-        instance = await documentClient.FirstAsync<ProductDocument>(
+        instance = await documentClient.FirstOrDefaultAsync<ProductDocument>(
           getOrderRequestDto.OrderId, nameof(OrderDocument), cancellationToken);
       }
       else if (requestDto is CreateProductRequestDto createProductRequestDto)
       {
-        instance = await documentClient.FirstAsync<UnitDocument>(
+        instance = await documentClient.FirstOrDefaultAsync<UnitDocument>(
           createProductRequestDto.Unit, nameof(UnitDocument), cancellationToken);
       }
       else if (requestDto is CreateOrderRequestDto createOrderRequestDto)
       {
-        var productDocumentDictionary = new Dictionary<Guid, ProductDocument>();
-
-        await foreach (var productDocument in documentClient.AsEnumerableAsync<ProductDocument>(
-          nameof(ProductDocument),
-          "SELECT * FROM c WHERE ARRAY_CONTAINS(@products, c.id)",
-          new Dictionary<string, object> { },
-          cancellationToken))
-        {
-          productDocumentDictionary.Add(productDocument.Id, productDocument);
-        }
-
-        instance = productDocumentDictionary;
+        instance =
+          await documentClient.ToDictionaryAsync<ProductDocument>(
+            nameof(ProductDocument),
+            "SELECT * FROM c WHERE ARRAY_CONTAINS(@products, c.id)",
+            new Dictionary<string, object> { },
+            cancellationToken);
       }
 
       return instance;
