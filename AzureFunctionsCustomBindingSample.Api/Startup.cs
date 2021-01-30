@@ -6,6 +6,8 @@
 
 namespace AzureFunctionsCustomBindingSample.Api
 {
+  using System;
+
   using Microsoft.Azure.WebJobs;
   using Microsoft.Azure.WebJobs.Hosting;
   using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,7 @@ namespace AzureFunctionsCustomBindingSample.Api
   using AzureFunctionsCustomBindingSample.Binding.Request;
   using AzureFunctionsCustomBindingSample.Binding.Service;
   using AzureFunctionsCustomBindingSample.Binding.Validation;
+  using AzureFunctionsCustomBindingSample.DocumentPersistence;
   using AzureFunctionsCustomBindingSample.Validators;
 
   /// <summary>Provides an entry point to configure the function app.</summary>
@@ -37,11 +40,19 @@ namespace AzureFunctionsCustomBindingSample.Api
 
       builder.Services.AddDocumentClient(options =>
       {
-        options.AccountEndpoint = "";
-        options.AccountKey = "";
-        options.DatabaseId = "";
-        options.ContainerId = "";
-        options.ItemsPerRequest = 10;
+        options.AccountEndpoint = Environment.GetEnvironmentVariable(nameof(DocumentClientOptions.AccountEndpoint));
+        options.AccountKey = Environment.GetEnvironmentVariable(nameof(DocumentClientOptions.AccountKey));
+        options.DatabaseId = Environment.GetEnvironmentVariable(nameof(DocumentClientOptions.DatabaseId));
+        options.ContainerId = Environment.GetEnvironmentVariable(nameof(DocumentClientOptions.ContainerId));
+
+        if (int.TryParse(Environment.GetEnvironmentVariable(nameof(DocumentClientOptions.ItemsPerRequest)), out var itemsPerRequest))
+        {
+          options.ItemsPerRequest = itemsPerRequest;
+        }
+        else
+        {
+          options.ItemsPerRequest = 10;
+        }
       });
       builder.Services.AddServices();
     }
