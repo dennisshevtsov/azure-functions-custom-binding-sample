@@ -11,8 +11,8 @@ namespace AzureFunctionsCustomBindingSample.Services.Tests
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
 
-  using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
+  using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Dtos;
   using AzureFunctionsCustomBindingSample.Services;
 
@@ -41,12 +41,14 @@ namespace AzureFunctionsCustomBindingSample.Services.Tests
         command, unitDocument, CancellationToken.None);
 
       ProductServiceTest.Test(command, unitDocument, productDocument);
+      _documentClientMock.Verify(client => client.InsertAsync(It.IsAny<ProductDocument>(), It.IsAny<CancellationToken>()));
     }
 
     private void Setup()
     {
       _documentClientMock.Setup(client => client.InsertAsync(It.IsAny<ProductDocument>(), It.IsAny<CancellationToken>()))
-                         .ReturnsAsync((ProductDocument productDocument, CancellationToken cancellationToken) => productDocument);
+                         .ReturnsAsync((ProductDocument productDocument, CancellationToken cancellationToken) => productDocument)
+                         .Verifiable();
     }
 
     private static string RandomToken() => Guid.NewGuid().ToString().Replace("-", "");

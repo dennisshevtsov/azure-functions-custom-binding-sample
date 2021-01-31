@@ -14,7 +14,7 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
 
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
 
-  //[Ignore]
+  [Ignore]
   [TestClass]
   public sealed class DocumentClientTest
   {

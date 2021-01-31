@@ -5,6 +5,7 @@
 namespace AzureFunctionsCustomBindingSample.Services.Tests
 {
   using System;
+  using System.Linq;
   using System.Threading;
   using System.Collections.Generic;
   using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace AzureFunctionsCustomBindingSample.Services.Tests
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
   using AzureFunctionsCustomBindingSample.Documents;
   using AzureFunctionsCustomBindingSample.Services;
-  
+
   [TestClass]
   public sealed class OrderServiceTest
   {
@@ -32,11 +33,81 @@ namespace AzureFunctionsCustomBindingSample.Services.Tests
     [TestMethod]
     public async Task Test()
     {
-      var products = new Dictionary<Guid, int>();
-      var productDocumentDictionary = new Dictionary<Guid, ProductDocument>();
-      var userDocument = new UserDocument();
+      var productId0 = Guid.NewGuid();
+      var productId1 = Guid.NewGuid();
+      var productId2 = Guid.NewGuid();
 
-      await _orderService.CreateOrderAsync(products, productDocumentDictionary, userDocument, CancellationToken.None);
+      var products = new Dictionary<Guid, int>
+      {
+        { productId0, 2 },
+        { productId1, 1 },
+        { productId2, 5 },
+      };
+      var productDocumentDictionary = new Dictionary<Guid, ProductDocument>
+      {
+        { productId0, OrderServiceTest.GetProduct(productId0, 10) },
+        { productId1, OrderServiceTest.GetProduct(productId1, 15) },
+        { productId2, OrderServiceTest.GetProduct(productId2, 5.5F) },
+      };
+      var userDocument = new UserDocument
+      {
+        Id = Guid.NewGuid(),
+        Name = OrderServiceTest.RandomToken(),
+      };
+
+      var orderDocument = await _orderService.CreateOrderAsync(
+        products, productDocumentDictionary, userDocument, CancellationToken.None);
+
+      OrderServiceTest.Test(products, productDocumentDictionary, userDocument, orderDocument);
+    }
+
+    private static string RandomToken() => Guid.NewGuid().ToString().Replace("-", "");
+
+    private static ProductDocument GetProduct(Guid productId, float pricePerUnit)
+      => new ProductDocument
+      {
+        Id = productId,
+        Sku = OrderServiceTest.RandomToken(),
+        Name = OrderServiceTest.RandomToken(),
+        Description = OrderServiceTest.RandomToken(),
+        PricePerUnit = pricePerUnit,
+        Unit = new ProductUnitDocument
+        {
+          UnitId = Guid.NewGuid(),
+          Name = OrderServiceTest.RandomToken(),
+        },
+        Enabled = true,
+      };
+
+    private static void Test(
+      IDictionary<Guid, int> products,
+      IDictionary<Guid, ProductDocument> productDocumentDictionary,
+      UserDocument userDocument,
+      OrderDocument orderDocument)
+    {
+      Assert.IsNotNull(orderDocument);
+
+      Assert.IsTrue(string.IsNullOrWhiteSpace(orderDocument.OrderNo));
+
+      var totalPrice = productDocumentDictionary.Sum(product => product.Value.PricePerUnit * products[product.Key]);
+      Assert.AreEqual(totalPrice, orderDocument.TotalPrice);
+
+      Assert.IsNotNull(orderDocument.Products);
+      Assert.IsTrue(orderDocument.Products.Any());
+
+      foreach (var product in orderDocument.Products)
+      {
+        Assert.AreEqual(productDocumentDictionary[product.ProductId].Name, product.Name);
+        Assert.AreEqual(products[product.ProductId], product.Units);
+
+        var unit = productDocumentDictionary[product.ProductId].Unit;
+        Assert.IsNotNull(unit);
+        Assert.AreEqual(unit.UnitId, product.Unit.UnitId);
+        Assert.AreEqual(unit.Name, product.Unit.Name);
+
+        Assert.AreEqual(productDocumentDictionary[product.ProductId].PricePerUnit, product.PricePerUnit);
+        Assert.AreEqual(productDocumentDictionary[product.ProductId].PricePerUnit * products[product.ProductId], product.TotalPrice);
+      }
     }
   }
 }
