@@ -8,7 +8,6 @@ namespace AzureFunctionsCustomBindingSample.DocumentPersistence.Tests
   using System.Threading;
   using System.Threading.Tasks;
 
-  using Microsoft.Azure.Cosmos;
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
