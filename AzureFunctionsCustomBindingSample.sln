@@ -25,21 +25,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBinding
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Validation", "AzureFunctionsCustomBindingSample.Binding.Validation\AzureFunctionsCustomBindingSample.Binding.Validation.csproj", "{771E30F2-2CC0-4CC9-879F-C2E5958A24E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Binding", "AzureFunctionsCustomBindingSample.Binding\AzureFunctionsCustomBindingSample.Binding.csproj", "{B92F81DB-B3F5-4CCF-94BF-ECF9187AD620}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding", "AzureFunctionsCustomBindingSample.Binding\AzureFunctionsCustomBindingSample.Binding.csproj", "{B92F81DB-B3F5-4CCF-94BF-ECF9187AD620}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Binding.Authorization.Tests", "AzureFunctionsCustomBindingSample.Binding.Authorization.Tests\AzureFunctionsCustomBindingSample.Binding.Authorization.Tests.csproj", "{456A8A8F-D7B6-471B-AA2F-0306917F44F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Authorization.Tests", "AzureFunctionsCustomBindingSample.Binding.Authorization.Tests\AzureFunctionsCustomBindingSample.Binding.Authorization.Tests.csproj", "{456A8A8F-D7B6-471B-AA2F-0306917F44F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Binding.Document.Tests", "AzureFunctionsCustomBindingSample.Binding.Document.Tests\AzureFunctionsCustomBindingSample.Binding.Document.Tests.csproj", "{AAF02385-C711-46FD-ABA0-E35404329113}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Document.Tests", "AzureFunctionsCustomBindingSample.Binding.Document.Tests\AzureFunctionsCustomBindingSample.Binding.Document.Tests.csproj", "{AAF02385-C711-46FD-ABA0-E35404329113}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Binding.Request.Tests", "AzureFunctionsCustomBindingSample.Binding.Request.Tests\AzureFunctionsCustomBindingSample.Binding.Request.Tests.csproj", "{F4CD16C2-C37A-4561-8A73-1BB82B855F4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Request.Tests", "AzureFunctionsCustomBindingSample.Binding.Request.Tests\AzureFunctionsCustomBindingSample.Binding.Request.Tests.csproj", "{F4CD16C2-C37A-4561-8A73-1BB82B855F4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Binding.Service.Tests", "AzureFunctionsCustomBindingSample.Binding.Service.Tests\AzureFunctionsCustomBindingSample.Binding.Service.Tests.csproj", "{51D48C4F-013A-433F-85AD-8C1D283851A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Service.Tests", "AzureFunctionsCustomBindingSample.Binding.Service.Tests\AzureFunctionsCustomBindingSample.Binding.Service.Tests.csproj", "{51D48C4F-013A-433F-85AD-8C1D283851A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Binding.Validation.Tests", "AzureFunctionsCustomBindingSample.Binding.Validation.Tests\AzureFunctionsCustomBindingSample.Binding.Validation.Tests.csproj", "{9AD5943A-062D-41D2-82B9-D325CBF6561F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Validation.Tests", "AzureFunctionsCustomBindingSample.Binding.Validation.Tests\AzureFunctionsCustomBindingSample.Binding.Validation.Tests.csproj", "{9AD5943A-062D-41D2-82B9-D325CBF6561F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.DocumentPersistence.Tests", "AzureFunctionsCustomBindingSample.DocumentPersistence.Tests\AzureFunctionsCustomBindingSample.DocumentPersistence.Tests.csproj", "{F006F738-EADF-4925-9F54-86ABFAB34F9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.DocumentPersistence.Tests", "AzureFunctionsCustomBindingSample.DocumentPersistence.Tests\AzureFunctionsCustomBindingSample.DocumentPersistence.Tests.csproj", "{F006F738-EADF-4925-9F54-86ABFAB34F9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Services.Tests", "AzureFunctionsCustomBindingSample.Services.Tests\AzureFunctionsCustomBindingSample.Services.Tests.csproj", "{D6A14514-C622-422D-BCAB-E8CDC640340B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Services.Tests", "AzureFunctionsCustomBindingSample.Services.Tests\AzureFunctionsCustomBindingSample.Services.Tests.csproj", "{D6A14514-C622-422D-BCAB-E8CDC640340B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctionsCustomBindingSample.Api.Tests", "AzureFunctionsCustomBindingSample.Api.Tests\AzureFunctionsCustomBindingSample.Api.Tests.csproj", "{2E87EEF0-7A0C-4FEF-9D68-292798E74A1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +125,10 @@ Global
 		{D6A14514-C622-422D-BCAB-E8CDC640340B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6A14514-C622-422D-BCAB-E8CDC640340B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6A14514-C622-422D-BCAB-E8CDC640340B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E87EEF0-7A0C-4FEF-9D68-292798E74A1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E87EEF0-7A0C-4FEF-9D68-292798E74A1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E87EEF0-7A0C-4FEF-9D68-292798E74A1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E87EEF0-7A0C-4FEF-9D68-292798E74A1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

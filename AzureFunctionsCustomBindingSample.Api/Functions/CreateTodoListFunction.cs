@@ -25,7 +25,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
       [Request] CreateTodoListRequestDto requestDto,
       [Authorization] UserDocument userDocument,
       [Validation(ThrowIfInvalid = true)] ValidationResult validationResult,
-      [Service] ITodoListService service,
+      [Service] ITodoService service,
       CancellationToken cancellationToken)
       => await service.CreateTodoListAsync(requestDto, userDocument, cancellationToken);
   }

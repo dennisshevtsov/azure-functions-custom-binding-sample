@@ -6,6 +6,7 @@ namespace AzureFunctionsCustomBindingSample.Documents
 {
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
 
+  /// <summary>Represents detail of a user.</summary>
   public sealed class UserDocument : DocumentBase
   {
     public string Name { get; set; }
