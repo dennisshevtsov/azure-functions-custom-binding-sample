@@ -18,15 +18,15 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Binding.Validation;
   using AzureFunctionsCustomBindingSample.Documents;
 
-  public static class CreateTodoListFunction
+  public static class UpdateTodoListFunction
   {
-    public static async Task<CreateTodoListResponseDto> ExecuteAsync(
+    public static async Task<UpdateTodoListResponseDto> ExecuteAsync(
       [HttpTrigger("post", Route = "todo")] HttpRequest httpRequest,
-      [Request] CreateTodoListRequestDto requestDto,
+      [Request] UpdateTodoListRequestDto requestDto,
       [Authorization] UserDocument userDocument,
       [Validation(ThrowIfInvalid = true)] ValidationResult validationResult,
       [Service] ITodoService service,
       CancellationToken cancellationToken)
-      => await service.CreateTodoListAsync(requestDto, userDocument, cancellationToken);
+      => await service.UpdateTodoListAsync(requestDto, userDocument, cancellationToken);
   }
 }

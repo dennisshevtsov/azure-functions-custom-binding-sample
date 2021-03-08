@@ -7,9 +7,6 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using System.Threading;
   using System.Threading.Tasks;
 
-  using Microsoft.AspNetCore.Http;
-  using Microsoft.Azure.WebJobs;
-
   using AzureFunctionsCustomBindingSample.Api.Dtos;
   using AzureFunctionsCustomBindingSample.Api.Services;
   using AzureFunctionsCustomBindingSample.Binding.Authorization;
@@ -18,15 +15,18 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Binding.Validation;
   using AzureFunctionsCustomBindingSample.Documents;
 
-  public static class CreateTodoListFunction
+  using Microsoft.AspNetCore.Http;
+  using Microsoft.Azure.WebJobs;
+
+  public static class CreateTodoListTaskFunction
   {
-    public static async Task<CreateTodoListResponseDto> ExecuteAsync(
+    public static async Task<CreateTodoListTaskResponseDto> ExecuteAsync(
       [HttpTrigger("post", Route = "todo")] HttpRequest httpRequest,
-      [Request] CreateTodoListRequestDto requestDto,
+      [Request] CreateTodoListTaskRequestDto requestDto,
       [Authorization] UserDocument userDocument,
       [Validation(ThrowIfInvalid = true)] ValidationResult validationResult,
       [Service] ITodoService service,
       CancellationToken cancellationToken)
-      => await service.CreateTodoListAsync(requestDto, userDocument, cancellationToken);
+      => await service.CreateTodoListTaskAsync(requestDto, userDocument, cancellationToken);
   }
 }

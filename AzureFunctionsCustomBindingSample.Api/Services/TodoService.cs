@@ -1,10 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// Copyright (c) Dennis Shevtsov. All rights reserved.
+// Licensed under the Apache License, Version 2.0.
+// See License.txt in the project root for license information.
 
 namespace AzureFunctionsCustomBindingSample.Api.Services
 {
+  using System;
+  using System.Threading;
+  using System.Threading.Tasks;
+
+  using AzureFunctionsCustomBindingSample.Api.Dtos;
+  using AzureFunctionsCustomBindingSample.Documents;
+
+  /// <summary>Provides a simple API to execute operation within the TODO list domain.</summary>
   public sealed class TodoService : ITodoService
   {
+    /// <summary>Creates a TODO list.</summary>
+    /// <param name="requestDto">An object that represents data to create a TODO list.</param>
+    /// <param name="userDocument">An object that represents detail of a user.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an async operation.</returns>
+    public Task<CreateTodoListResponseDto> CreateTodoListAsync(
+      CreateTodoListRequestDto requestDto,
+      UserDocument userDocument,
+      CancellationToken cancellationToken)
+    {
+      throw new NotImplementedException();
+    }
+
+    /// <summary>Updates a TODO list.</summary>
+    /// <param name="requestDto">An object that represents data to update a TODO list.</param>
+    /// <param name="userDocument">An object that represents detail of a user.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an async operation.</returns>
+    public Task<UpdateTodoListResponseDto> UpdateTodoListAsync(
+      UpdateTodoListRequestDto requestDto,
+      UserDocument userDocument,
+      CancellationToken cancellationToken);
+
+    /// <summary>Creates a task of a TODO list.</summary>
+    /// <param name="requestDto">An object that represents data to create a task for a TODO list.</param>
+    /// <param name="userDocument">An object that represents detail of a user.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an async operation.</returns>
+    public Task<CreateTodoListTaskResponseDto> CreateTodoListTaskAsync(
+      CreateTodoListTaskRequestDto requestDto,
+      UserDocument userDocument,
+      CancellationToken cancellationToken)
+    {
+      throw new NotImplementedException();
+    }
+
+    /// <summary>Updates a task of a TODO list.</summary>
+    /// <param name="requestDto">An object that represents data to a task of a TODO list.</param>
+    /// <param name="userDocument">An object that represents detail of a user.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an async operation.</returns>
+    public Task<UpdateTodoListTaskResponseDto> UpdateTodoListTaskAsync(
+      UpdateTodoListTaskRequestDto requestDto,
+      UserDocument userDocument,
+      CancellationToken cancellationToken)
+    {
+      throw new NotImplementedException();
+    }
+
+    /// <summary>Completes a task of a TODO list.</summary>
+    /// <param name="requestDto">An object that represents data to complete a task of a TODO list.</param>
+    /// <param name="userDocument">An object that represents detail of a user.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an async operation.</returns>
+    public Task<CompleteTodoListTaskResponseDto> CompleteTodoListTaskAsync(
+      CompleteTodoListTaskRequestDto requestDto,
+      UserDocument userDocument,
+      CancellationToken cancellationToken)
+    {
+      throw new NotImplementedException();
+    }
   }
 }
