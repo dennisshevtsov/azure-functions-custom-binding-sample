@@ -13,7 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Binding\AzureFunctionsCustomBindingSample.Binding.csproj" />
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Documents\AzureFunctionsCustomBindingSample.Documents.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Dtos\AzureFunctionsCustomBindingSample.Dtos.csproj" />
   </ItemGroup>
 
 </Project>

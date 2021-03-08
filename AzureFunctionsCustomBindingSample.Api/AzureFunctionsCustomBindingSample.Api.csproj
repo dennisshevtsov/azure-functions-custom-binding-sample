@@ -14,9 +14,6 @@
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Binding.Validation\AzureFunctionsCustomBindingSample.Binding.Validation.csproj" />
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.DocumentPersistence\AzureFunctionsCustomBindingSample.DocumentPersistence.csproj" />
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Documents\AzureFunctionsCustomBindingSample.Documents.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Dtos\AzureFunctionsCustomBindingSample.Dtos.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Services\AzureFunctionsCustomBindingSample.Services.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Validators\AzureFunctionsCustomBindingSample.Validators.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
