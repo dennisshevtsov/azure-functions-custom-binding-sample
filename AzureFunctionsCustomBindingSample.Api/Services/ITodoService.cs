@@ -13,8 +13,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
   /// <summary>Provides a simple API to execute operation within the TODO list domain.</summary>
   public interface ITodoService
   {
-    /// <summary></summary>
-    /// <param name="requestDto">An object that r</param>
+    /// <summary>Creates a TODO list.</summary>
+    /// <param name="requestDto">An object that represents data to create a TODO list.</param>
     /// <param name="userDocument">An object that represents detail of a user.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
@@ -23,10 +23,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       UserDocument userDocument,
       CancellationToken cancellationToken);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="requestDto">An object that r</param>
+    /// <summary>Updates a TODO list.</summary>
+    /// <param name="requestDto">An object that represents data to update a TODO list.</param>
     /// <param name="userDocument">An object that represents detail of a user.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
@@ -35,11 +33,9 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       UserDocument userDocument,
       CancellationToken cancellationToken);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="requestDto">An object that r</param>
-    /// <param name="userDocument">An object that r</param>
+    /// <summary>Creates a task of a TODO list.</summary>
+    /// <param name="requestDto">An object that represents data to create a task for a TODO list.</param>
+    /// <param name="userDocument">An object that represents detail of a user.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
     public Task<CreateTodoListTaskResponseDto> CreateTodoListTaskAsync(
@@ -47,10 +43,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       UserDocument userDocument,
       CancellationToken cancellationToken);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="requestDto">An object that r</param>
+    /// <summary>Updates a task of a TODO list.</summary>
+    /// <param name="requestDto">An object that represents data to a task of a TODO list.</param>
     /// <param name="userDocument">An object that represents detail of a user.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
@@ -59,10 +53,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       UserDocument userDocument,
       CancellationToken cancellationToken);
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="requestDto">An object that r</param>
+    /// <summary>Completes a task of a TODO list.</summary>
+    /// <param name="requestDto">An object that represents data to complete a task of a TODO list.</param>
     /// <param name="userDocument">An object that represents detail of a user.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>

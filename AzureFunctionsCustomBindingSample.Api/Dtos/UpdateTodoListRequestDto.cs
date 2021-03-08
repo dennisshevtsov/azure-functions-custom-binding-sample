@@ -4,6 +4,7 @@
 
 namespace AzureFunctionsCustomBindingSample.Api.Dtos
 {
+  /// <summary>Represents data to update a TODO list.</summary>
   public sealed class UpdateTodoListRequestDto
   {
   }

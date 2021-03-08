@@ -4,6 +4,7 @@
 
 namespace AzureFunctionsCustomBindingSample.Api.Dtos
 {
+  /// <summary>Represents conditions to query a task of a TODO list.</summary>
   public sealed class GetTodoListTaskRequestDto
   {
   }
