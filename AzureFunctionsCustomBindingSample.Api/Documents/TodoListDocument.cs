@@ -8,6 +8,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Documents
 
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
 
+  /// <summary>Represents detail of a TODO list.</summary>
   public sealed class TodoListDocument : DocumentBase
   {
     public string Title { get; set; }

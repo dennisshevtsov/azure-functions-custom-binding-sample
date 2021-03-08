@@ -17,16 +17,19 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Binding.Service;
   using AzureFunctionsCustomBindingSample.Binding.Validation;
   using AzureFunctionsCustomBindingSample.Documents;
+  using AzureFunctionsCustomBindingSample.Api.Documents;
+  using AzureFunctionsCustomBindingSample.Binding.Document;
 
   public sealed class UpdateTodoListTaskFunction
   {
     public static async Task<UpdateTodoListTaskResponseDto> ExecuteAsync(
       [HttpTrigger("post", Route = "todo")] HttpRequest httpRequest,
       [Request] UpdateTodoListTaskRequestDto requestDto,
+      [Document] TodoListDocument todoListDocument,
       [Authorization] UserDocument userDocument,
       [Validation(ThrowIfInvalid = true)] ValidationResult validationResult,
       [Service] ITodoService service,
       CancellationToken cancellationToken)
-      => await service.UpdateTodoListTaskAsync(requestDto, userDocument, cancellationToken);
+      => await service.UpdateTodoListTaskAsync(requestDto, todoListDocument, userDocument, cancellationToken);
   }
 }
