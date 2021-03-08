@@ -5,40 +5,32 @@
 namespace AzureFunctionsCustomBindingSample.Api.Functions
 {
   using System.Threading;
-  using System.Threading.Tasks;
 
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs;
 
   using AzureFunctionsCustomBindingSample.Api.Documents;
   using AzureFunctionsCustomBindingSample.Api.Dtos;
-  using AzureFunctionsCustomBindingSample.Api.Services;
-  using AzureFunctionsCustomBindingSample.Binding.Authorization;
   using AzureFunctionsCustomBindingSample.Binding.Document;
   using AzureFunctionsCustomBindingSample.Binding.Request;
-  using AzureFunctionsCustomBindingSample.Binding.Service;
-  using AzureFunctionsCustomBindingSample.Binding.Validation;
+  using AzureFunctionsCustomBindingSample.Binding.Authorization;
   using AzureFunctionsCustomBindingSample.Documents;
 
-  public static class UpdateTodoListFunction
+  public static class GetTodoListFunction
   {
-    /// <summary>Updates a TODO list.</summary>
+    /// <summary>Gets a TODO list.</summary>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
-    /// <param name="requestDto">An object that represents data to update a TODO list.</param>
+    /// <param name="requestDto">An object that represents conditions to query a TODO list.</param>
     /// <param name="todoListDocument">An object that represents detail of a TODO list.</param>
     /// <param name="userDocument">An object that represents an authorized user.</param>
-    /// <param name="validationResult">An object that represents detail of an validation result.</param>
-    /// <param name="service">An object that provides a simpe API to operate within instances of the <see cref="AzureFunctionsCustomBindingSample.Api.Documents.TodoListDocument"/> class.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
-    public static async Task<UpdateTodoListResponseDto> ExecuteAsync(
-      [HttpTrigger("post", Route = "todo")] HttpRequest httpRequest,
-      [Request] UpdateTodoListRequestDto requestDto,
+    [FunctionName(nameof(GetTodoListFunction))]
+    public static TodoListDocument ExecuteAsync(
+      [HttpTrigger("get", Route = "product/{productId}")] HttpRequest httpRequest,
+      [Request] GetTodoListRequestDto requestDto,
       [Document] TodoListDocument todoListDocument,
       [Authorization] UserDocument userDocument,
-      [Validation(ThrowIfInvalid = true)] ValidationResult validationResult,
-      [Service] ITodoService service,
-      CancellationToken cancellationToken)
-      => await service.UpdateTodoListAsync(requestDto, todoListDocument, userDocument, cancellationToken);
+      CancellationToken cancellationToken) => todoListDocument;
   }
 }

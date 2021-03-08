@@ -22,6 +22,15 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
 
   public static class CreateTodoListTaskFunction
   {
+    /// <summary>Creates a task for a TODO list.</summary>
+    /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
+    /// <param name="requestDto">An object that represents data to create a task for a TODO list.</param>
+    /// <param name="todoListDocument">An object that represents detail of a TODO list.</param>
+    /// <param name="userDocument">An object that represents an authorized user.</param>
+    /// <param name="validationResult">An object that represents detail of an validation result.</param>
+    /// <param name="service">An object that provides a simpe API to operate within instances of the <see cref="AzureFunctionsCustomBindingSample.Api.Documents.TodoListDocument"/> class.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an async operation.</returns>
     public static async Task<CreateTodoListTaskResponseDto> ExecuteAsync(
       [HttpTrigger("post", Route = "todo")] HttpRequest httpRequest,
       [Request] CreateTodoListTaskRequestDto requestDto,

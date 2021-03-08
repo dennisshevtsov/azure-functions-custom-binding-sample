@@ -12,7 +12,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
   using AzureFunctionsCustomBindingSample.Api.Dtos;
   using AzureFunctionsCustomBindingSample.Documents;
 
-  /// <summary>Provides a simple API to execute operation within the TODO list domain.</summary>
+  /// <summary>Provides a simpe API to operate within instances of the <see cref="AzureFunctionsCustomBindingSample.Api.Documents.TodoListDocument"/> class.</summary>
   public sealed class TodoService : ITodoService
   {
     /// <summary>Creates a TODO list.</summary>
