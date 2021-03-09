@@ -18,6 +18,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Binding.Validation;
   using AzureFunctionsCustomBindingSample.Documents;
 
+  /// <summary>Provides a method to handle an HTTP request.</summary>
   public static class CreateTodoListFunction
   {
     /// <summary>Creates a TODO list.</summary>

@@ -20,6 +20,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Binding.Validation;
   using AzureFunctionsCustomBindingSample.Documents;
 
+  /// <summary>Provides a method to handle an HTTP request.</summary>
   public sealed class UpdateTodoListTaskFunction
   {
     /// <summary>Updates a task of a TODO list.</summary>

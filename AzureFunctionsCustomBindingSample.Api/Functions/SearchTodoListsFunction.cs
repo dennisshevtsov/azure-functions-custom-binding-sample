@@ -14,6 +14,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Binding.Authorization;
   using AzureFunctionsCustomBindingSample.Documents;
 
+  /// <summary>Provides a method to handle an HTTP request.</summary>
   public static class SearchTodoListsFunction
   {
     /// <summary>Gets a collection of instances of the <see cref="AzureFunctionsCustomBindingSample.Api.Documents.TodoListDocument"/> class that satisfies conditions that the <see cref="AzureFunctionsCustomBindingSample.Api.Dtos.SearchTodoListsRequestDto"/> class represents.</summary>
