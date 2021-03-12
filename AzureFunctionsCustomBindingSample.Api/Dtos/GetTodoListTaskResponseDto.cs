@@ -4,8 +4,21 @@
 
 namespace AzureFunctionsCustomBindingSample.Api.Dtos
 {
+  using System;
+
   /// <summary>Represents detail of a task of a TODO list.</summary>
   public sealed class GetTodoListTaskResponseDto
   {
+    /// <summary>Gets/sets a value that represents an ID of a TODO list task.</summary>
+    public Guid TodoListTaskId { get; set; }
+
+    /// <summary>Gets/sets a value that represents a title of a TODO list task.</summary>
+    public string Title { get; set; }
+
+    /// <summary>Gets/sets a value that represents a description of a TODO list task.</summary>
+    public string Description { get; set; }
+
+    /// <summary>Gets/sets a value that represents a deadline of a TODO list task.</summary>
+    public DateTime Deadline { get; set; }
   }
 }
