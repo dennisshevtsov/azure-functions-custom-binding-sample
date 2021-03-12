@@ -30,7 +30,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
     /// <param name="userDocument">An object that represents detail of a user.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
-    public Task<UpdateTodoListResponseDto> UpdateTodoListAsync(
+    public Task UpdateTodoListAsync(
       UpdateTodoListRequestDto requestDto,
       TodoListDocument todoListDocument,
       UserDocument userDocument,
