@@ -12,13 +12,12 @@ namespace AzureFunctionsCustomBindingSample.Api
   using Microsoft.Azure.WebJobs.Hosting;
   using Microsoft.Extensions.DependencyInjection;
 
+  using AzureFunctionsCustomBindingSample.Api.Services;
   using AzureFunctionsCustomBindingSample.Binding.Authorization;
   using AzureFunctionsCustomBindingSample.Binding.Document;
   using AzureFunctionsCustomBindingSample.Binding.Request;
   using AzureFunctionsCustomBindingSample.Binding.Service;
-  using AzureFunctionsCustomBindingSample.Binding.Validation;
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
-  using AzureFunctionsCustomBindingSample.Validators;
 
   /// <summary>Provides an entry point to configure the function app.</summary>
   public sealed class Startup : IWebJobsStartup
@@ -31,12 +30,6 @@ namespace AzureFunctionsCustomBindingSample.Api
       builder.AddExtension<DocumentExtensionConfigProvider>();
       builder.AddExtension<RequestExtensionConfigProvider>();
       builder.AddExtension<ServiceExtensionConfigProvider>();
-
-      builder.AddValidation(provider =>
-      {
-        provider.AddValidator<CreateProductValidator>("api/product", "post");
-        provider.AddValidator<CreateOrderValidator>("api/order", "post");
-      });
 
       builder.Services.AddDocumentClient(options =>
       {
@@ -54,7 +47,7 @@ namespace AzureFunctionsCustomBindingSample.Api
           options.ItemsPerRequest = 10;
         }
       });
-      builder.Services.AddServices();
+      builder.Services.AddScoped<ITodoService, TodoService>();
     }
   }
 }
