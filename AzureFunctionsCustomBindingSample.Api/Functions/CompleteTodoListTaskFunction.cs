@@ -33,7 +33,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
     [FunctionName(nameof(CompleteTodoListTaskFunction))]
-    public static async Task<CompleteTodoListTaskResponseDto> ExecuteAsync(
+    public static async Task ExecuteAsync(
       [HttpTrigger("post", Route = "todo")] HttpRequest httpRequest,
       [Request] CompleteTodoListTaskRequestDto requestDto,
       [Document] TodoListDocument todoListDocument,
