@@ -4,6 +4,7 @@
 
 namespace AzureFunctionsCustomBindingSample.Api.Tests
 {
+  using System;
   using System.Threading;
   using System.Threading.Tasks;
 
@@ -32,10 +33,27 @@ namespace AzureFunctionsCustomBindingSample.Api.Tests
     [TestMethod]
     public async Task CreateTodoListAsync()
     {
-      var requestDto = new CreateTodoListRequestDto();
+      var requestDto = new CreateTodoListRequestDto
+      {
+        Title = TodoServiceTest.GetRandomToken(),
+        Description = TodoServiceTest.GetRandomToken(),
+      };
       var userDocument = new UserDocument();
 
-      await _todoService.CreateTodoListAsync(requestDto, userDocument, CancellationToken.None);
+      _documentClientMock.Setup(client => client.InsertAsync(
+                           It.IsAny<TodoListDocument>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(new TodoListDocument
+                         {
+                           Id = Guid.NewGuid(),
+                         });
+
+      var responseDto = await _todoService.CreateTodoListAsync(
+        requestDto, userDocument, CancellationToken.None);
+
+      Assert.IsNotNull(responseDto);
+      Assert.IsFalse(responseDto.TodoListId == default, "TodoListId == default");
+
+      _documentClientMock.Verify();
     }
 
     [TestMethod]
@@ -77,5 +95,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Tests
 
       await _todoService.CompleteTodoListTaskAsync(requestDto, todoListDocument, userDocument, CancellationToken.None);
     }
+
+    private static string GetRandomToken() =>
+      Guid.NewGuid().ToString().Replace("-", "").Substring(0, 5);
   }
 }
