@@ -59,11 +59,22 @@ namespace AzureFunctionsCustomBindingSample.Api.Tests
     [TestMethod]
     public async Task UpdateTodoListAsync()
     {
-      var requestDto = new UpdateTodoListRequestDto();
+      var requestDto = new UpdateTodoListRequestDto
+      {
+        TodoListId = Guid.NewGuid(),
+        Title = TodoServiceTest.GetRandomToken(),
+        Description = TodoServiceTest.GetRandomToken(),
+      };
       var todoListDocument = new TodoListDocument();
       var userDocument = new UserDocument();
 
+      _documentClientMock.Setup(client => client.UpdateAsync(
+                           It.IsAny<TodoListDocument>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(new TodoListDocument());
+
       await _todoService.UpdateTodoListAsync(requestDto, todoListDocument, userDocument, CancellationToken.None);
+
+      _documentClientMock.Verify();
     }
 
     [TestMethod]
