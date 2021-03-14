@@ -9,12 +9,13 @@ namespace AzureFunctionsCustomBindingSample.Api.Tests
 
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
-  
+
+  using AzureFunctionsCustomBindingSample.Api.Documents;
   using AzureFunctionsCustomBindingSample.Api.Dtos;
   using AzureFunctionsCustomBindingSample.Api.Services;
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
   using AzureFunctionsCustomBindingSample.Documents;
-  
+
   [TestClass]
   public sealed class TodoServiceTest
   {
@@ -35,6 +36,46 @@ namespace AzureFunctionsCustomBindingSample.Api.Tests
       var userDocument = new UserDocument();
 
       await _todoService.CreateTodoListAsync(requestDto, userDocument, CancellationToken.None);
+    }
+
+    [TestMethod]
+    public async Task UpdateTodoListAsync()
+    {
+      var requestDto = new UpdateTodoListRequestDto();
+      var todoListDocument = new TodoListDocument();
+      var userDocument = new UserDocument();
+
+      await _todoService.UpdateTodoListAsync(requestDto, todoListDocument, userDocument, CancellationToken.None);
+    }
+
+    [TestMethod]
+    public async Task CreateTodoListTaskAsync()
+    {
+      var requestDto = new CreateTodoListTaskRequestDto();
+      var todoListDocument = new TodoListDocument();
+      var userDocument = new UserDocument();
+
+      await _todoService.CreateTodoListTaskAsync(requestDto, todoListDocument, userDocument, CancellationToken.None);
+    }
+
+    [TestMethod]
+    public async Task UpdateTodoListTaskAsync()
+    {
+      var requestDto = new UpdateTodoListTaskRequestDto();
+      var todoListDocument = new TodoListDocument();
+      var userDocument = new UserDocument();
+
+      await _todoService.UpdateTodoListTaskAsync(requestDto, todoListDocument, userDocument, CancellationToken.None);
+    }
+
+    [TestMethod]
+    public async Task CompleteTodoListTaskAsync()
+    {
+      var requestDto = new CompleteTodoListTaskRequestDto();
+      var todoListDocument = new TodoListDocument();
+      var userDocument = new UserDocument();
+
+      await _todoService.CompleteTodoListTaskAsync(requestDto, todoListDocument, userDocument, CancellationToken.None);
     }
   }
 }
