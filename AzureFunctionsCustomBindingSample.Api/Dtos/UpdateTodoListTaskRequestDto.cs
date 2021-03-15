@@ -20,5 +20,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Dtos
 
     /// <summary>Gets/sets a value that represents a description of a TODO list task.</summary>
     public string Description { get; set; }
+
+    /// <summary>Gets/sets a value that represents a deadline of a TODO list task.</summary>
+    public DateTime Deadline { get; set; }
   }
 }
