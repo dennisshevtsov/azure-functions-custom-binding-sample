@@ -39,7 +39,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
                           Description = requestDto.Description,
                           Type = nameof(TodoListDocument),
                         }, cancellationToken)
-                        .ContinueWith((task) => new CreateTodoListResponseDto
+                        .ContinueWith(task => new CreateTodoListResponseDto
                         {
                           TodoListId = task.Result.Id,
                         });
@@ -55,9 +55,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       TodoListDocument todoListDocument,
       UserDocument userDocument,
       CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
+      => _documentClient.UpdateAsync(TodoService.UpdateTodoList(requestDto, todoListDocument), cancellationToken);
 
     /// <summary>Creates a task of a TODO list.</summary>
     /// <param name="requestDto">An object that represents data to create a task for a TODO list.</param>
@@ -102,6 +100,15 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       CancellationToken cancellationToken)
     {
       throw new NotImplementedException();
+    }
+
+    private static TodoListDocument UpdateTodoList(
+      UpdateTodoListRequestDto requestDto, TodoListDocument todoListDocument)
+    {
+      todoListDocument.Title = requestDto.Title;
+      todoListDocument.Description = requestDto.Description;
+
+      return todoListDocument;
     }
   }
 }
