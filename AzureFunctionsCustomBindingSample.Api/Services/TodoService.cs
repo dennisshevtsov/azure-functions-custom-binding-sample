@@ -32,9 +32,17 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       CreateTodoListRequestDto requestDto,
       UserDocument userDocument,
       CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
+      => _documentClient.InsertAsync(new TodoListDocument
+                        {
+                          Id = Guid.NewGuid(),
+                          Title = requestDto.Title,
+                          Description = requestDto.Description,
+                          Type = nameof(TodoListDocument),
+                        }, cancellationToken)
+                        .ContinueWith((task) => new CreateTodoListResponseDto
+                        {
+                          TodoListId = task.Result.Id,
+                        });
 
     /// <summary>Updates a TODO list.</summary>
     /// <param name="requestDto">An object that represents data to update a TODO list.</param>
