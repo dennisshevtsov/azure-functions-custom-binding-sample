@@ -35,12 +35,12 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       UserDocument userDocument,
       CancellationToken cancellationToken)
       => _documentClient.InsertAsync(new TodoListDocument
-      {
-        Id = Guid.NewGuid(),
-        Title = requestDto.Title,
-        Description = requestDto.Description,
-        Type = nameof(TodoListDocument),
-      }, cancellationToken)
+                        {
+                          Id = Guid.NewGuid(),
+                          Title = requestDto.Title,
+                          Description = requestDto.Description,
+                          Type = nameof(TodoListDocument),
+                        }, cancellationToken)
                         .ContinueWith(task => new CreateTodoListResponseDto
                         {
                           TodoListId = task.Result.Id,
@@ -72,33 +72,13 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       UserDocument userDocument,
       CancellationToken cancellationToken)
     {
-      var todoListTaskDocument = AddTodoListTask(requestDto, todoListDocument);
+      var todoListTaskDocument = TodoService.AddTodoListTask(requestDto, todoListDocument);
 
       return _documentClient.UpdateAsync(todoListDocument, cancellationToken)
                             .ContinueWith(_ => new CreateTodoListTaskResponseDto
                             {
                               TodoListTaskId = todoListTaskDocument.TaskId,
                             });
-    }
-
-    private TodoListTaskDocument AddTodoListTask(
-      CreateTodoListTaskRequestDto requestDto, TodoListDocument todoListDocument)
-    {
-      var todoListTaskDocument = new TodoListTaskDocument
-      {
-        TaskId = Guid.NewGuid(),
-        Title = requestDto.Title,
-        Description = requestDto.Description,
-        Deadline = requestDto.Deadline,
-      };
-
-      todoListDocument.Tasks = new List<TodoListTaskDocument>(
-        todoListDocument.Tasks ?? Enumerable.Empty<TodoListTaskDocument>())
-      {
-        todoListTaskDocument
-      };
-
-      return todoListTaskDocument;
     }
 
     /// <summary>Updates a task of a TODO list.</summary>
@@ -138,6 +118,26 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       todoListDocument.Description = requestDto.Description;
 
       return todoListDocument;
+    }
+
+    private static TodoListTaskDocument AddTodoListTask(
+      CreateTodoListTaskRequestDto requestDto, TodoListDocument todoListDocument)
+    {
+      var todoListTaskDocument = new TodoListTaskDocument
+      {
+        TaskId = Guid.NewGuid(),
+        Title = requestDto.Title,
+        Description = requestDto.Description,
+        Deadline = requestDto.Deadline,
+      };
+
+      todoListDocument.Tasks = new List<TodoListTaskDocument>(
+        todoListDocument.Tasks ?? Enumerable.Empty<TodoListTaskDocument>())
+      {
+        todoListTaskDocument
+      };
+
+      return todoListTaskDocument;
     }
   }
 }
