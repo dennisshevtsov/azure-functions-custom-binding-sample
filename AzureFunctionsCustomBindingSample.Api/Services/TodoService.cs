@@ -5,6 +5,8 @@
 namespace AzureFunctionsCustomBindingSample.Api.Services
 {
   using System;
+  using System.Collections.Generic;
+  using System.Linq;
   using System.Threading;
   using System.Threading.Tasks;
 
@@ -33,12 +35,12 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       UserDocument userDocument,
       CancellationToken cancellationToken)
       => _documentClient.InsertAsync(new TodoListDocument
-                        {
-                          Id = Guid.NewGuid(),
-                          Title = requestDto.Title,
-                          Description = requestDto.Description,
-                          Type = nameof(TodoListDocument),
-                        }, cancellationToken)
+      {
+        Id = Guid.NewGuid(),
+        Title = requestDto.Title,
+        Description = requestDto.Description,
+        Type = nameof(TodoListDocument),
+      }, cancellationToken)
                         .ContinueWith(task => new CreateTodoListResponseDto
                         {
                           TodoListId = task.Result.Id,
@@ -55,7 +57,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       TodoListDocument todoListDocument,
       UserDocument userDocument,
       CancellationToken cancellationToken)
-      => _documentClient.UpdateAsync(TodoService.UpdateTodoList(requestDto, todoListDocument), cancellationToken);
+      => _documentClient.UpdateAsync(TodoService.UpdateTodoList(requestDto, todoListDocument),
+                                     cancellationToken);
 
     /// <summary>Creates a task of a TODO list.</summary>
     /// <param name="requestDto">An object that represents data to create a task for a TODO list.</param>
@@ -69,7 +72,33 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       UserDocument userDocument,
       CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      var todoListTaskDocument = AddTodoListTask(requestDto, todoListDocument);
+
+      return _documentClient.UpdateAsync(todoListDocument, cancellationToken)
+                            .ContinueWith(_ => new CreateTodoListTaskResponseDto
+                            {
+                              TodoListTaskId = todoListTaskDocument.TaskId,
+                            });
+    }
+
+    private TodoListTaskDocument AddTodoListTask(
+      CreateTodoListTaskRequestDto requestDto, TodoListDocument todoListDocument)
+    {
+      var todoListTaskDocument = new TodoListTaskDocument
+      {
+        TaskId = Guid.NewGuid(),
+        Title = requestDto.Title,
+        Description = requestDto.Description,
+        Deadline = requestDto.Deadline,
+      };
+
+      todoListDocument.Tasks = new List<TodoListTaskDocument>(
+        todoListDocument.Tasks ?? Enumerable.Empty<TodoListTaskDocument>())
+      {
+        todoListTaskDocument
+      };
+
+      return todoListTaskDocument;
     }
 
     /// <summary>Updates a task of a TODO list.</summary>
