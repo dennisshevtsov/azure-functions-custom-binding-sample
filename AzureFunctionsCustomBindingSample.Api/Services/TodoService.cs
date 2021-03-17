@@ -92,8 +92,9 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       TodoListDocument todoListDocument,
       UserDocument userDocument,
       CancellationToken cancellationToken)
-      => _documentClient.UpdateAsync(
-        TodoService.UpdateTodoListTask(requestDto, todoListDocument), cancellationToken);
+      => TodoService.TryUpdateTodoListTask(requestDto, todoListDocument) ?
+         _documentClient.UpdateAsync(todoListDocument, cancellationToken) :
+         Task.CompletedTask;
 
     /// <summary>Completes a task of a TODO list.</summary>
     /// <param name="requestDto">An object that represents data to complete a task of a TODO list.</param>
@@ -106,8 +107,9 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       TodoListDocument todoListDocument,
       UserDocument userDocument,
       CancellationToken cancellationToken)
-      => _documentClient.UpdateAsync(
-        TodoService.CompleteTodoListTask(requestDto, todoListDocument), cancellationToken);
+      => TodoService.TryCompleteTodoListTask(requestDto, todoListDocument) ?
+         _documentClient.UpdateAsync(todoListDocument, cancellationToken) :
+         Task.CompletedTask;
 
     private static TodoListDocument UpdateTodoList(
       UpdateTodoListRequestDto requestDto, TodoListDocument todoListDocument)
@@ -138,7 +140,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       return todoListTaskDocument;
     }
 
-    private static TodoListDocument UpdateTodoListTask(
+    private static bool TryUpdateTodoListTask(
       UpdateTodoListTaskRequestDto requestDto, TodoListDocument todoListDocument)
     {
       var todoListTaskDocument = todoListDocument.Tasks?.FirstOrDefault(
@@ -149,12 +151,14 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
         todoListTaskDocument.Title = requestDto.Title;
         todoListTaskDocument.Description = requestDto.Description;
         todoListTaskDocument.Deadline = requestDto.Deadline;
+
+        return true;
       }
 
-      return todoListDocument;
+      return false;
     }
 
-    private static TodoListDocument CompleteTodoListTask(
+    private static bool TryCompleteTodoListTask(
       CompleteTodoListTaskRequestDto requestDto, TodoListDocument todoListDocument)
     {
       var todoListTaskDocument = todoListDocument.Tasks?.FirstOrDefault(
@@ -163,9 +167,11 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       if (todoListTaskDocument != null)
       {
         todoListTaskDocument.Completed = true;
+
+        return true;
       }
 
-      return todoListDocument;
+      return false;
     }
   }
 }
