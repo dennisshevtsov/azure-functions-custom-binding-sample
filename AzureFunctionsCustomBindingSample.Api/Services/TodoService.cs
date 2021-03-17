@@ -92,9 +92,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       TodoListDocument todoListDocument,
       UserDocument userDocument,
       CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
+      => _documentClient.UpdateAsync(
+        TodoService.UpdateTodoListTask(requestDto, todoListDocument), cancellationToken);
 
     /// <summary>Completes a task of a TODO list.</summary>
     /// <param name="requestDto">An object that represents data to complete a task of a TODO list.</param>
@@ -107,9 +106,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       TodoListDocument todoListDocument,
       UserDocument userDocument,
       CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
+      => _documentClient.UpdateAsync(
+        TodoService.CompleteTodoListTask(requestDto, todoListDocument), cancellationToken);
 
     private static TodoListDocument UpdateTodoList(
       UpdateTodoListRequestDto requestDto, TodoListDocument todoListDocument)
@@ -138,6 +136,36 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       };
 
       return todoListTaskDocument;
+    }
+
+    private static TodoListDocument UpdateTodoListTask(
+      UpdateTodoListTaskRequestDto requestDto, TodoListDocument todoListDocument)
+    {
+      var todoListTaskDocument = todoListDocument.Tasks?.FirstOrDefault(
+        document => document.TaskId == requestDto.TodoListTaskId);
+
+      if (todoListTaskDocument != null)
+      {
+        todoListTaskDocument.Title = requestDto.Title;
+        todoListTaskDocument.Description = requestDto.Description;
+        todoListTaskDocument.Deadline = requestDto.Deadline;
+      }
+
+      return todoListDocument;
+    }
+
+    private static TodoListDocument CompleteTodoListTask(
+      CompleteTodoListTaskRequestDto requestDto, TodoListDocument todoListDocument)
+    {
+      var todoListTaskDocument = todoListDocument.Tasks?.FirstOrDefault(
+        document => document.TaskId == requestDto.TodoListTaskId);
+
+      if (todoListTaskDocument != null)
+      {
+        todoListTaskDocument.Completed = true;
+      }
+
+      return todoListDocument;
     }
   }
 }
