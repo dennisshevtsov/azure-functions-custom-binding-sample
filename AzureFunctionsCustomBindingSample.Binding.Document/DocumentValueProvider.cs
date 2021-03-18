@@ -29,7 +29,26 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
 
     /// <summary>Gets an instance of a parameter.</summary>
     /// <returns>An instance of a parameter.</returns>
-    public Task<object> GetValueAsync() => Task.FromResult(Activator.CreateInstance(Type));
+    public Task<object> GetValueAsync()
+    {
+      var queryHandlerType = typeof(IQueryHandler<>).MakeGenericType(Type);
+      var queryHandler = _httpRequest.HttpContext.RequestServices.GetService(queryHandlerType);
+
+      if (queryHandler != null)
+      {
+        var query = _httpRequest.HttpContext.Items["__request__"];
+
+        var handleMethod = queryHandlerType.GetMethod(nameof(IQueryHandler<object>.HandleAsync));
+
+        if (handleMethod != null)
+        {
+          return (Task<object>) handleMethod.Invoke(
+            queryHandler, new object[] { query, _httpRequest.HttpContext.RequestAborted, });
+        }
+      }
+
+      return Task.FromResult(default(object));
+    }
 
     /// <summary>Gets an invoke string.</summary>
     /// <returns>An invoke string.</returns>

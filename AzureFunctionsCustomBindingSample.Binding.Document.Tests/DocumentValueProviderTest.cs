@@ -14,8 +14,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
   using Moq;
 
   using AzureFunctionsCustomBindingSample.DocumentPersistence;
-  using AzureFunctionsCustomBindingSample.Documents;
-  using AzureFunctionsCustomBindingSample.Dtos;
 
   [TestClass]
   public sealed class DocumentValueProviderTest
