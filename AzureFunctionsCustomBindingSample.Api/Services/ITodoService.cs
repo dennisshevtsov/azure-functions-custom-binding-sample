@@ -9,7 +9,6 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
 
   using AzureFunctionsCustomBindingSample.Api.Documents;
   using AzureFunctionsCustomBindingSample.Api.Dtos;
-  using AzureFunctionsCustomBindingSample.Documents;
 
   /// <summary>Provides a simpe API to operate within instances of the <see cref="AzureFunctionsCustomBindingSample.Api.Documents.TodoListDocument"/> class.</summary>
   public interface ITodoService

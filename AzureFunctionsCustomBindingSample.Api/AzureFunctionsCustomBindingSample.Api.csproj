@@ -7,13 +7,8 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Binding.Authorization\AzureFunctionsCustomBindingSample.Binding.Authorization.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Binding.Document\AzureFunctionsCustomBindingSample.Binding.Document.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Binding.Request\AzureFunctionsCustomBindingSample.Binding.Request.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Binding.Service\AzureFunctionsCustomBindingSample.Binding.Service.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Binding.Validation\AzureFunctionsCustomBindingSample.Binding.Validation.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.DocumentPersistence\AzureFunctionsCustomBindingSample.DocumentPersistence.csproj" />
-    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Documents\AzureFunctionsCustomBindingSample.Documents.csproj" />
+    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Binding\AzureFunctionsCustomBindingSample.Binding.csproj" />
+    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.CosmosDb\AzureFunctionsCustomBindingSample.CosmosDb.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

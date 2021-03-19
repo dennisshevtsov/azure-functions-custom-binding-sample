@@ -3,37 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.DocumentPersistence", "AzureFunctionsCustomBindingSample.DocumentPersistence\AzureFunctionsCustomBindingSample.DocumentPersistence.csproj", "{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Documents", "AzureFunctionsCustomBindingSample.Documents\AzureFunctionsCustomBindingSample.Documents.csproj", "{93395A76-B760-4AB6-AEB4-CB5B343A055C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Api", "AzureFunctionsCustomBindingSample.Api\AzureFunctionsCustomBindingSample.Api.csproj", "{4C0C29F3-3779-40AD-81D9-267CF1B39C90}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Authorization", "AzureFunctionsCustomBindingSample.Binding.Authorization\AzureFunctionsCustomBindingSample.Binding.Authorization.csproj", "{B745EE3C-9F6F-4A81-A990-8673FFA35B33}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Document", "AzureFunctionsCustomBindingSample.Binding.Document\AzureFunctionsCustomBindingSample.Binding.Document.csproj", "{D58E669A-55A2-4E5F-A58B-931AED1AC47E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Request", "AzureFunctionsCustomBindingSample.Binding.Request\AzureFunctionsCustomBindingSample.Binding.Request.csproj", "{10799C6A-D839-401E-93C5-C1B5BF667AF5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Service", "AzureFunctionsCustomBindingSample.Binding.Service\AzureFunctionsCustomBindingSample.Binding.Service.csproj", "{A7953633-4102-4A65-BDF4-5BB02D1202CA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Validation", "AzureFunctionsCustomBindingSample.Binding.Validation\AzureFunctionsCustomBindingSample.Binding.Validation.csproj", "{771E30F2-2CC0-4CC9-879F-C2E5958A24E6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding", "AzureFunctionsCustomBindingSample.Binding\AzureFunctionsCustomBindingSample.Binding.csproj", "{B92F81DB-B3F5-4CCF-94BF-ECF9187AD620}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Authorization.Tests", "AzureFunctionsCustomBindingSample.Binding.Authorization.Tests\AzureFunctionsCustomBindingSample.Binding.Authorization.Tests.csproj", "{456A8A8F-D7B6-471B-AA2F-0306917F44F6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Document.Tests", "AzureFunctionsCustomBindingSample.Binding.Document.Tests\AzureFunctionsCustomBindingSample.Binding.Document.Tests.csproj", "{AAF02385-C711-46FD-ABA0-E35404329113}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Request.Tests", "AzureFunctionsCustomBindingSample.Binding.Request.Tests\AzureFunctionsCustomBindingSample.Binding.Request.Tests.csproj", "{F4CD16C2-C37A-4561-8A73-1BB82B855F4E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Service.Tests", "AzureFunctionsCustomBindingSample.Binding.Service.Tests\AzureFunctionsCustomBindingSample.Binding.Service.Tests.csproj", "{51D48C4F-013A-433F-85AD-8C1D283851A6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Validation.Tests", "AzureFunctionsCustomBindingSample.Binding.Validation.Tests\AzureFunctionsCustomBindingSample.Binding.Validation.Tests.csproj", "{9AD5943A-062D-41D2-82B9-D325CBF6561F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.DocumentPersistence.Tests", "AzureFunctionsCustomBindingSample.DocumentPersistence.Tests\AzureFunctionsCustomBindingSample.DocumentPersistence.Tests.csproj", "{F006F738-EADF-4925-9F54-86ABFAB34F9B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Api.Tests", "AzureFunctionsCustomBindingSample.Api.Tests\AzureFunctionsCustomBindingSample.Api.Tests.csproj", "{2E87EEF0-7A0C-4FEF-9D68-292798E74A1C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.Binding.Tests", "AzureFunctionsCustomBindingSample.Binding.Tests\AzureFunctionsCustomBindingSample.Binding.Tests.csproj", "{73EB576B-C7D5-4D31-AA54-732DA130F0AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.CosmosDb", "AzureFunctionsCustomBindingSample.CosmosDb\AzureFunctionsCustomBindingSample.CosmosDb.csproj", "{153A98C2-5178-44DA-9D75-0424B58DF761}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctionsCustomBindingSample.CosmosDb.Tests", "AzureFunctionsCustomBindingSample.CosmosDb.Tests\AzureFunctionsCustomBindingSample.CosmosDb.Tests.csproj", "{A89575FA-801A-42F4-A65A-D4FD0DC53778}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,70 +21,30 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B38DF9FE-6B95-4268-98AA-7CF23CD7AAC3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93395A76-B760-4AB6-AEB4-CB5B343A055C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93395A76-B760-4AB6-AEB4-CB5B343A055C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93395A76-B760-4AB6-AEB4-CB5B343A055C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93395A76-B760-4AB6-AEB4-CB5B343A055C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C0C29F3-3779-40AD-81D9-267CF1B39C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C0C29F3-3779-40AD-81D9-267CF1B39C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C0C29F3-3779-40AD-81D9-267CF1B39C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C0C29F3-3779-40AD-81D9-267CF1B39C90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B745EE3C-9F6F-4A81-A990-8673FFA35B33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B745EE3C-9F6F-4A81-A990-8673FFA35B33}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B745EE3C-9F6F-4A81-A990-8673FFA35B33}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B745EE3C-9F6F-4A81-A990-8673FFA35B33}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D58E669A-55A2-4E5F-A58B-931AED1AC47E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D58E669A-55A2-4E5F-A58B-931AED1AC47E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D58E669A-55A2-4E5F-A58B-931AED1AC47E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D58E669A-55A2-4E5F-A58B-931AED1AC47E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10799C6A-D839-401E-93C5-C1B5BF667AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10799C6A-D839-401E-93C5-C1B5BF667AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10799C6A-D839-401E-93C5-C1B5BF667AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10799C6A-D839-401E-93C5-C1B5BF667AF5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A7953633-4102-4A65-BDF4-5BB02D1202CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A7953633-4102-4A65-BDF4-5BB02D1202CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A7953633-4102-4A65-BDF4-5BB02D1202CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A7953633-4102-4A65-BDF4-5BB02D1202CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{771E30F2-2CC0-4CC9-879F-C2E5958A24E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{771E30F2-2CC0-4CC9-879F-C2E5958A24E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{771E30F2-2CC0-4CC9-879F-C2E5958A24E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{771E30F2-2CC0-4CC9-879F-C2E5958A24E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B92F81DB-B3F5-4CCF-94BF-ECF9187AD620}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B92F81DB-B3F5-4CCF-94BF-ECF9187AD620}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B92F81DB-B3F5-4CCF-94BF-ECF9187AD620}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B92F81DB-B3F5-4CCF-94BF-ECF9187AD620}.Release|Any CPU.Build.0 = Release|Any CPU
-		{456A8A8F-D7B6-471B-AA2F-0306917F44F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{456A8A8F-D7B6-471B-AA2F-0306917F44F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{456A8A8F-D7B6-471B-AA2F-0306917F44F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{456A8A8F-D7B6-471B-AA2F-0306917F44F6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AAF02385-C711-46FD-ABA0-E35404329113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AAF02385-C711-46FD-ABA0-E35404329113}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AAF02385-C711-46FD-ABA0-E35404329113}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AAF02385-C711-46FD-ABA0-E35404329113}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4CD16C2-C37A-4561-8A73-1BB82B855F4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4CD16C2-C37A-4561-8A73-1BB82B855F4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4CD16C2-C37A-4561-8A73-1BB82B855F4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4CD16C2-C37A-4561-8A73-1BB82B855F4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{51D48C4F-013A-433F-85AD-8C1D283851A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51D48C4F-013A-433F-85AD-8C1D283851A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51D48C4F-013A-433F-85AD-8C1D283851A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51D48C4F-013A-433F-85AD-8C1D283851A6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9AD5943A-062D-41D2-82B9-D325CBF6561F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AD5943A-062D-41D2-82B9-D325CBF6561F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AD5943A-062D-41D2-82B9-D325CBF6561F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AD5943A-062D-41D2-82B9-D325CBF6561F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F006F738-EADF-4925-9F54-86ABFAB34F9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F006F738-EADF-4925-9F54-86ABFAB34F9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F006F738-EADF-4925-9F54-86ABFAB34F9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F006F738-EADF-4925-9F54-86ABFAB34F9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2E87EEF0-7A0C-4FEF-9D68-292798E74A1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E87EEF0-7A0C-4FEF-9D68-292798E74A1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E87EEF0-7A0C-4FEF-9D68-292798E74A1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E87EEF0-7A0C-4FEF-9D68-292798E74A1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73EB576B-C7D5-4D31-AA54-732DA130F0AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73EB576B-C7D5-4D31-AA54-732DA130F0AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73EB576B-C7D5-4D31-AA54-732DA130F0AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73EB576B-C7D5-4D31-AA54-732DA130F0AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{153A98C2-5178-44DA-9D75-0424B58DF761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{153A98C2-5178-44DA-9D75-0424B58DF761}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{153A98C2-5178-44DA-9D75-0424B58DF761}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{153A98C2-5178-44DA-9D75-0424B58DF761}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A89575FA-801A-42F4-A65A-D4FD0DC53778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A89575FA-801A-42F4-A65A-D4FD0DC53778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A89575FA-801A-42F4-A65A-D4FD0DC53778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A89575FA-801A-42F4-A65A-D4FD0DC53778}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

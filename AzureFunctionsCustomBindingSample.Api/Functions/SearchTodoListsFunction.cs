@@ -12,7 +12,6 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Binding.Document;
   using AzureFunctionsCustomBindingSample.Binding.Request;
   using AzureFunctionsCustomBindingSample.Binding.Authorization;
-  using AzureFunctionsCustomBindingSample.Documents;
 
   /// <summary>Provides a method to handle an HTTP request.</summary>
   public static class SearchTodoListsFunction

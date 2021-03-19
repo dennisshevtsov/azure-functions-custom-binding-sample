@@ -17,7 +17,7 @@ namespace AzureFunctionsCustomBindingSample.Api
   using AzureFunctionsCustomBindingSample.Binding.Document;
   using AzureFunctionsCustomBindingSample.Binding.Request;
   using AzureFunctionsCustomBindingSample.Binding.Service;
-  using AzureFunctionsCustomBindingSample.DocumentPersistence;
+  using AzureFunctionsCustomBindingSample.CosmosDb;
 
   /// <summary>Provides an entry point to configure the function app.</summary>
   public sealed class Startup : IWebJobsStartup

@@ -4,17 +4,17 @@
 
 namespace AzureFunctionsCustomBindingSample.Api.Documents
 {
-  using System.Collections.Generic;
-
   using AzureFunctionsCustomBindingSample.CosmosDb;
 
-  /// <summary>Represents detail of a TODO list.</summary>
-  public sealed class TodoListDocument : DocumentBase
+  /// <summary>Represents detail of a user.</summary>
+  public sealed class UserDocument : DocumentBase
   {
-    public string Title { get; set; }
+    public string Name { get; set; }
 
-    public string Description { get; set; }
+    public string Email { get; set; }
 
-    public IEnumerable<TodoListTaskDocument> Tasks { get; set; }
+    public string Phone { get; set; }
+
+    public UserAddressDocument Address { get; set; }
   }
 }

@@ -12,8 +12,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
 
   using AzureFunctionsCustomBindingSample.Api.Documents;
   using AzureFunctionsCustomBindingSample.Api.Dtos;
-  using AzureFunctionsCustomBindingSample.DocumentPersistence;
-  using AzureFunctionsCustomBindingSample.Documents;
+  using AzureFunctionsCustomBindingSample.CosmosDb;
 
   /// <summary>Provides a simpe API to operate within instances of the <see cref="AzureFunctionsCustomBindingSample.Api.Documents.TodoListDocument"/> class.</summary>
   public sealed class TodoService : ITodoService
@@ -35,12 +34,12 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       UserDocument userDocument,
       CancellationToken cancellationToken)
       => _documentClient.InsertAsync(new TodoListDocument
-                        {
-                          Id = Guid.NewGuid(),
-                          Title = requestDto.Title,
-                          Description = requestDto.Description,
-                          Type = nameof(TodoListDocument),
-                        }, cancellationToken)
+      {
+        Id = Guid.NewGuid(),
+        Title = requestDto.Title,
+        Description = requestDto.Description,
+        Type = nameof(TodoListDocument),
+      }, cancellationToken)
                         .ContinueWith(task => new CreateTodoListResponseDto
                         {
                           TodoListId = task.Result.Id,
