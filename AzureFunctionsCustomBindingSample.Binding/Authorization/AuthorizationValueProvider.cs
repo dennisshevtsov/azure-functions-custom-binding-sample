@@ -14,30 +14,27 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization
   public sealed class AuthorizationValueProvider : IValueProvider
   {
     private readonly HttpRequest _httpRequest;
+    private readonly IAuthorizedUserProvider _authorizedUserProvider;
 
     /// <summary>Initializes a new instance of the <see cref="AuthorizationValueProvider"/> class.</summary>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
-    public AuthorizationValueProvider(HttpRequest httpRequest)
-      => _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
+    /// <param name="authorizedUserProvider">An object that provides a simple API to get an authorized user.</param>
+    /// <param name="type"></param>
+    public AuthorizationValueProvider(HttpRequest httpRequest, IAuthorizedUserProvider authorizedUserProvider, Type type)
+    {
+      _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
+      _authorizedUserProvider = authorizedUserProvider ?? throw new ArgumentNullException(nameof(authorizedUserProvider));
+
+      Type = type ?? throw new ArgumentNullException(nameof(type));
+    }
 
     /// <summary>Gets a value that represents a type of a parameter.</summary>
-    public Type Type => typeof(UserDocument);
+    public Type Type { get; }
 
     /// <summary>Gets an instance of a parameter.</summary>
     /// <returns>An instance of a parameter.</returns>
-    public Task<object> GetValueAsync() => Task.FromResult<object>(new UserDocument
-    {
-      Id = new Guid("3430ca38-0a71-46b3-8da2-5e3e866bad38"),
-      Name = "Test Test",
-      Address = new UserAddressDocument
-      {
-        AddressLine = "test st. 123-12",
-        City = "Test",
-        Zip = "12345",
-      },
-      Phone = "123-12-12",
-      Email = "test@test.test",
-    });
+    public Task<object> GetValueAsync()
+      => _authorizedUserProvider.GetAuthorizedUserAsync(_httpRequest, _httpRequest.HttpContext.RequestAborted);
 
     /// <summary>Gets an invoke string.</summary>
     /// <returns>An invoke string.</returns>

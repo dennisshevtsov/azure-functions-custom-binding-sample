@@ -15,6 +15,18 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization
   {
     public const string ParameterDescriptorName = "authorization";
 
+    private readonly IAuthorizedUserProvider _authorizedUserProvider;
+    private readonly Type _parameterType;
+
+    /// <summary>Initializes a new instance of the <see cref="AuthorizationBinding"/> class.</summary>
+    /// <param name="authorizedUserProvider">An object that provides a simple API to get an authorized user.</param>
+    /// <param name="parameterType">A value that represents a type of a binded parameter.</param>
+    public AuthorizationBinding(IAuthorizedUserProvider authorizedUserProvider, Type parameterType)
+    {
+      _authorizedUserProvider = authorizedUserProvider ?? throw new ArgumentNullException(nameof(authorizedUserProvider));
+      _parameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
+    }
+
     /// <summary>Gets a value that indicates if a binding from an attribute.</summary>
     public bool FromAttribute => true;
 
@@ -32,7 +44,8 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization
     {
       if (context.TryGetHttpRequest(out var httpRequest))
       {
-        return Task.FromResult<IValueProvider>(new AuthorizationValueProvider(httpRequest));
+        return Task.FromResult<IValueProvider>(
+          new AuthorizationValueProvider(httpRequest, _authorizedUserProvider, _parameterType));
       }
 
       throw new InvalidOperationException();

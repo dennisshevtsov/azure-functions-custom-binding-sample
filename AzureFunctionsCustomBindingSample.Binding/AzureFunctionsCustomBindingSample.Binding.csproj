@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Authorization\" />
     <Folder Include="Document\" />
     <Folder Include="Service\" />
     <Folder Include="Validation\" />
