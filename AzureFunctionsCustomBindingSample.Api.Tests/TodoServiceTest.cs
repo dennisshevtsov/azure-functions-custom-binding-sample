@@ -14,8 +14,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Tests
   using AzureFunctionsCustomBindingSample.Api.Documents;
   using AzureFunctionsCustomBindingSample.Api.Dtos;
   using AzureFunctionsCustomBindingSample.Api.Services;
-  using AzureFunctionsCustomBindingSample.DocumentPersistence;
-  using AzureFunctionsCustomBindingSample.Documents;
+  using AzureFunctionsCustomBindingSample.CosmosDb;
 
   [TestClass]
   public sealed class TodoServiceTest

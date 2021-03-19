@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AzureFunctionsCustomBindingSample.Binding\AzureFunctionsCustomBindingSample.Binding.csproj" />
+    <ProjectReference Include="..\AzureFunctionsCustomBindingSample.CosmosDb\AzureFunctionsCustomBindingSample.CosmosDb.csproj" />
   </ItemGroup>
 
 </Project>

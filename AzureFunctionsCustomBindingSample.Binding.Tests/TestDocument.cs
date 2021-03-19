@@ -6,7 +6,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
 {
   using System;
 
-  using AzureFunctionsCustomBindingSample.DocumentPersistence;
+  using AzureFunctionsCustomBindingSample.CosmosDb;
 
   public sealed class TestDocument : DocumentBase
   {

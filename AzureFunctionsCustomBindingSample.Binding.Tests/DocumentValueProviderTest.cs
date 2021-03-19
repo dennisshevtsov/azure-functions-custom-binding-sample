@@ -13,7 +13,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
 
-  using AzureFunctionsCustomBindingSample.DocumentPersistence;
+  using AzureFunctionsCustomBindingSample.CosmosDb;
 
   [TestClass]
   public sealed class DocumentValueProviderTest
