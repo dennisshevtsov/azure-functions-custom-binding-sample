@@ -5,9 +5,9 @@
 namespace AzureFunctionsCustomBindingSample.Binding.Authorization
 {
   using System;
-
+  using AzureFunctionsCustomBindingSample.Binding;
   using Microsoft.Azure.WebJobs.Host.Config;
-  
+
   /// <summary>Provides a simple API to register the authorization binding.</summary>
   public sealed class AuthorizationExtensionConfigProvider : IExtensionConfigProvider
   {

@@ -8,7 +8,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
   using System.Linq;
   using System.Reflection;
   using System.Threading.Tasks;
-
+  using AzureFunctionsCustomBindingSample.Binding;
   using Microsoft.Azure.WebJobs.Host.Bindings;
 
   /// <summary>Provides a simple API to create an instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Validation.Validation.ValidationBinding"/> class.</summary>

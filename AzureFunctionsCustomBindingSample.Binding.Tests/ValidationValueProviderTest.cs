@@ -8,7 +8,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
   using System.Collections.Generic;
   using System.Linq;
   using System.Threading.Tasks;
-
+  using AzureFunctionsCustomBindingSample.Binding;
   using Microsoft.AspNetCore.Http;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;

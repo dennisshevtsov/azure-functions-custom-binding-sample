@@ -6,11 +6,11 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
 {
   using System;
   using System.Threading.Tasks;
-
+  using AzureFunctionsCustomBindingSample.Binding;
   using Microsoft.Azure.WebJobs.Host.Bindings;
   using Microsoft.Azure.WebJobs.Host.Protocols;
 
-  /// <summary>Binds the <see cref="AzureFunctionsCustomBindingSample.Binding.Validation.ValidationValueProvider"/> with a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Binding.Validation.ValidationAttribute"/> attribute.</summary>
+  /// <summary>Binds the <see cref="AzureFunctionsCustomBindingSample.Binding.Validation.ValidationValueProvider"/> with a parameter that is marked with the <see cref="Binding.ValidationAttribute"/> attribute.</summary>
   public sealed class ValidationBinding : IBinding
   {
     public const string ParameterDescriptorName = "validation";

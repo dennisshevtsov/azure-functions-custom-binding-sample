@@ -11,9 +11,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
 
   using AzureFunctionsCustomBindingSample.Api.Documents;
   using AzureFunctionsCustomBindingSample.Api.Dtos;
-  using AzureFunctionsCustomBindingSample.Binding.Document;
-  using AzureFunctionsCustomBindingSample.Binding.Request;
-  using AzureFunctionsCustomBindingSample.Binding.Authorization;
+  using AzureFunctionsCustomBindingSample.Binding;
 
   /// <summary>Provides a method to handle an HTTP request.</summary>
   public static class GetTodoListFunction

@@ -4,6 +4,7 @@
 
 namespace AzureFunctionsCustomBindingSample.Binding.Service
 {
+  using AzureFunctionsCustomBindingSample.Binding;
   using Microsoft.Azure.WebJobs.Host.Config;
 
   /// <summary>Provides a simple API to register the service binding.</summary>
