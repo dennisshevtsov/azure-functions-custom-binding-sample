@@ -4,13 +4,10 @@
 
 namespace AzureFunctionsCustomBindingSample.Binding.Tests
 {
-  using System.Collections.Generic;
-  using System.Linq;
+  using System;
 
-  using AzureFunctionsCustomBindingSample.Binding.Validation;
-
-  public sealed class TestValidator : IValidator
+  public sealed class GetTestDocumentRequestDto
   {
-    public IEnumerable<string> Validate() => Enumerable.Empty<string>();
+    public Guid TestDocumentId { get; set; }
   }
 }

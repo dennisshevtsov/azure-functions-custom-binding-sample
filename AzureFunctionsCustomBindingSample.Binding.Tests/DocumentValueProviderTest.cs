@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
+namespace AzureFunctionsCustomBindingSample.Binding.Tests
 {
   using System;
   using System.Collections.Generic;
@@ -14,6 +14,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
   using Moq;
 
   using AzureFunctionsCustomBindingSample.CosmosDb;
+  using AzureFunctionsCustomBindingSample.Binding.Document;
 
   [TestClass]
   public sealed class DocumentValueProviderTest
@@ -39,7 +40,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
 
       Assert.IsNotNull(value);
 
-      var productDocument = value as ProductDocument;
+      var productDocument = value as TestDocument;
 
       Assert.IsNotNull(productDocument);
       Assert.AreEqual(productId, productDocument.Id);
@@ -51,9 +52,9 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
 
       var items = new Dictionary<object, object>();
 
-      var requestDto = new GetProductRequestDto
+      var requestDto = new GetTestDocumentRequestDto
       {
-        ProductId = Guid.NewGuid(),
+        TestDocumentId = Guid.NewGuid(),
       };
       items.Add("__request__", requestDto);
 
@@ -65,8 +66,8 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
 
       var documentClientMock = new Mock<IDocumentClient>();
 
-      documentClientMock.Setup(client => client.FirstOrDefaultAsync<ProductDocument>(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                        .ReturnsAsync((Guid id, string partitionId, CancellationToken cancellationToken) => new ProductDocument
+      documentClientMock.Setup(client => client.FirstOrDefaultAsync<TestDocument>(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                        .ReturnsAsync((Guid id, string partitionId, CancellationToken cancellationToken) => new TestDocument
                         {
                           Id = productId,
                           Type = partitionId,

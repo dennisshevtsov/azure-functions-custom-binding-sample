@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.Binding.Authorization.Tests
+namespace AzureFunctionsCustomBindingSample.Binding.Tests
 {
   using System.Threading.Tasks;
 
@@ -16,13 +16,17 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization.Tests
   public sealed class AuthorizationValueProviderTest
   {
     private Mock<HttpRequest> _httpRequestMock;
+    private Mock<IAuthorizedUserProvider> _authorizedUserProviderMock;
     private AuthorizationValueProvider _valueProvider;
 
     [TestInitialize]
     public void Initialize()
     {
       _httpRequestMock = new Mock<HttpRequest>();
-      _valueProvider = new AuthorizationValueProvider(_httpRequestMock.Object);
+      _valueProvider = new AuthorizationValueProvider(
+        _httpRequestMock.Object,
+        _authorizedUserProviderMock.Object,
+        typeof(object));
     }
 
     [TestMethod]
