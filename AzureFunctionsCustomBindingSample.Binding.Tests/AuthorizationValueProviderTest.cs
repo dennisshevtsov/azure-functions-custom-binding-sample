@@ -11,18 +11,24 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
   using Moq;
 
   using AzureFunctionsCustomBindingSample.Binding.Authorization;
+  using System.Threading;
 
   [TestClass]
   public sealed class AuthorizationValueProviderTest
   {
     private Mock<HttpRequest> _httpRequestMock;
     private Mock<IAuthorizedUserProvider> _authorizedUserProviderMock;
+
     private AuthorizationValueProvider _valueProvider;
 
     [TestInitialize]
     public void Initialize()
     {
       _httpRequestMock = new Mock<HttpRequest>();
+      _httpRequestMock.SetupGet(request => request.HttpContext)
+                      .Returns(new Mock<HttpContext>().Object);
+      _authorizedUserProviderMock = new Mock<IAuthorizedUserProvider>();
+
       _valueProvider = new AuthorizationValueProvider(
         _httpRequestMock.Object,
         _authorizedUserProviderMock.Object,
@@ -32,6 +38,9 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
     [TestMethod]
     public async Task Test()
     {
+      _authorizedUserProviderMock.Setup(provider => provider.GetAuthorizedUserAsync(It.IsAny<HttpRequest>(), It.IsAny<CancellationToken>()))
+                                 .ReturnsAsync(new object());
+
       var value = await _valueProvider.GetValueAsync();
 
       Assert.IsNotNull(value);
