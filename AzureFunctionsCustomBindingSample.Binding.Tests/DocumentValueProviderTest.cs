@@ -19,13 +19,35 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
   [TestClass]
   public sealed class DocumentValueProviderTest
   {
+    private Mock<IQueryHandler<GetTestDocumentRequestDto>> _queryHandlerMock;
+    private Mock<IServiceProvider> _serviceProviderMock;
+    private Mock<HttpContext> _httpContextMock;
     private Mock<HttpRequest> _httpRequestMock;
     private DocumentValueProvider _valueProvider;
 
     [TestInitialize]
     public void Initialize()
     {
+      _queryHandlerMock = new Mock<IQueryHandler<GetTestDocumentRequestDto>>();
+      _queryHandlerMock.Setup(handler => handler.HandleAsync(It.IsAny<GetTestDocumentRequestDto>(), It.IsAny<CancellationToken>()))
+                       .ReturnsAsync((GetTestDocumentRequestDto requestDto, CancellationToken CancellationToken) =>
+                       new TestDocument
+                       {
+                         Id = requestDto.TestDocumentId,
+                       });
+
+      _serviceProviderMock = new Mock<IServiceProvider>();
+      _serviceProviderMock.Setup(provider => provider.GetService(It.IsAny<Type>()))
+                          .Returns(_queryHandlerMock.Object);
+
+      _httpContextMock = new Mock<HttpContext>();
+      _httpContextMock.SetupGet(context => context.RequestServices)
+                      .Returns(_serviceProviderMock.Object);
+
       _httpRequestMock = new Mock<HttpRequest>();
+      _httpRequestMock.SetupGet(request => request.HttpContext)
+                      .Returns(_httpContextMock.Object);
+
       _valueProvider = new DocumentValueProvider(typeof(TestDocument), _httpRequestMock.Object);
     }
 
@@ -40,54 +62,24 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
 
       Assert.IsNotNull(value);
 
-      var productDocument = value as TestDocument;
+      var testDocument = value as TestDocument;
 
-      Assert.IsNotNull(productDocument);
-      Assert.AreEqual(testId, productDocument.Id);
+      Assert.IsNotNull(testDocument);
+      Assert.AreEqual(testId, testDocument.Id);
     }
 
-    private void Setup(Guid productId)
+    private void Setup(Guid testId)
     {
-      var httpContextMock = new Mock<HttpContext>();
-
       var items = new Dictionary<object, object>();
 
       var requestDto = new GetTestDocumentRequestDto
       {
-        TestDocumentId = Guid.NewGuid(),
+        TestDocumentId = testId,
       };
       items.Add("__request__", requestDto);
 
-      httpContextMock.SetupGet(context => context.Items)
-                     .Returns(items);
-
-      _httpRequestMock.SetupGet(request => request.HttpContext)
-                      .Returns(httpContextMock.Object);
-
-      var documentClientMock = new Mock<IDocumentClient>();
-
-      documentClientMock.Setup(client => client.FirstOrDefaultAsync<TestDocument>(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                        .ReturnsAsync((Guid id, string partitionId, CancellationToken cancellationToken) => new TestDocument
-                        {
-                          Id = productId,
-                          Type = partitionId,
-                        });
-
-      var serviceProviderMock = new Mock<IServiceProvider>();
-
-      serviceProviderMock.Setup(provider => provider.GetService(It.IsAny<Type>()))
-                         .Returns((Type type) =>
-                         {
-                           if (type == typeof(IDocumentClient))
-                           {
-                             return documentClientMock.Object;
-                           }
-
-                           return null;
-                         });
-
-      httpContextMock.Setup(context => context.RequestServices)
-                     .Returns(serviceProviderMock.Object);
+      _httpContextMock.SetupGet(context => context.Items)
+                      .Returns(items);
     }
   }
 }
