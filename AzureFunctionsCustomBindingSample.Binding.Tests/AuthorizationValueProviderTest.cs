@@ -4,6 +4,7 @@
 
 namespace AzureFunctionsCustomBindingSample.Binding.Tests
 {
+  using System.Threading;
   using System.Threading.Tasks;
 
   using Microsoft.AspNetCore.Http;
@@ -11,7 +12,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
   using Moq;
 
   using AzureFunctionsCustomBindingSample.Binding.Authorization;
-  using System.Threading;
 
   [TestClass]
   public sealed class AuthorizationValueProviderTest

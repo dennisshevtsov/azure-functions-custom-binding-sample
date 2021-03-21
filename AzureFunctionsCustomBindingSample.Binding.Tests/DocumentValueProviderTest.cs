@@ -32,9 +32,9 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
     [TestMethod]
     public async Task GetValueAsync_Should_Return_Document_By_Its_ID()
     {
-      var productId = Guid.NewGuid();
+      var testId = Guid.NewGuid();
 
-      Setup(productId);
+      Setup(testId);
 
       var value = await _valueProvider.GetValueAsync();
 
@@ -43,7 +43,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
       var productDocument = value as TestDocument;
 
       Assert.IsNotNull(productDocument);
-      Assert.AreEqual(productId, productDocument.Id);
+      Assert.AreEqual(testId, productDocument.Id);
     }
 
     private void Setup(Guid productId)
