@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.Binding.Tests
+namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
 {
   using System;
   using System.Collections.Generic;
@@ -12,9 +12,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
   using Microsoft.AspNetCore.Http;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
-
-  using AzureFunctionsCustomBindingSample.CosmosDb;
-  using AzureFunctionsCustomBindingSample.Binding.Document;
 
   [TestClass]
   public sealed class DocumentValueProviderTest

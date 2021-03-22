@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.Binding.Tests
+namespace AzureFunctionsCustomBindingSample.Binding.Request.Tests
 {
   using System;
   using System.Collections.Generic;
@@ -16,8 +16,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
   using Microsoft.AspNetCore.Routing;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
-
-  using AzureFunctionsCustomBindingSample.Binding.Request;
 
   [TestClass]
   public sealed class RequestValueProviderTest

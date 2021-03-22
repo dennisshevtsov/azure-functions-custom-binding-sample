@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.Binding.Tests
+namespace AzureFunctionsCustomBindingSample.Binding.Authorization.Tests
 {
   using System.Threading;
   using System.Threading.Tasks;
@@ -10,8 +10,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
   using Microsoft.AspNetCore.Http;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
-
-  using AzureFunctionsCustomBindingSample.Binding.Authorization;
 
   [TestClass]
   public sealed class AuthorizationValueProviderTest

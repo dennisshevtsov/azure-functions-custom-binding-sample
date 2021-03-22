@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0.
 // See License.txt in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.Binding.Tests
+namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
 {
   using System;
 
@@ -11,8 +11,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Tests
   using Microsoft.AspNetCore.Routing;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
-
-  using AzureFunctionsCustomBindingSample.Binding.Validation;
 
   [TestClass]
   public sealed class ValidatorProviderTest
