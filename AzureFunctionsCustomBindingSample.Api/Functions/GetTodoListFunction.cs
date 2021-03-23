@@ -25,7 +25,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
     /// <returns>An object that represents an async operation.</returns>
     [FunctionName(nameof(GetTodoListFunction))]
     public static TodoListDocument ExecuteAsync(
-      [HttpTrigger("get", Route = "product/{productId}")] HttpRequest httpRequest,
+      [HttpTrigger("get", Route = "todo/{todoListId}")] HttpRequest httpRequest,
       [Request] GetTodoListRequestDto requestDto,
       [Document] TodoListDocument todoListDocument,
       [Authorization] UserDocument userDocument,

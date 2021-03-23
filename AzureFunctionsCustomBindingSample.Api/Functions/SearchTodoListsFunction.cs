@@ -23,7 +23,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
     /// <returns>An object that exposes the enumerator, which supports a simple iteration over a collection of a specified type. The type is the <see cref="AzureFunctionsCustomBindingSample.Api.Documents.TodoListDocument"/> class.</returns>
     [FunctionName(nameof(SearchTodoListsFunction))]
     public static IEnumerable<TodoListDocument> ExecuteAsync(
-      [HttpTrigger("get", Route = "product")] HttpRequest httpRequest,
+      [HttpTrigger("get", Route = "todo")] HttpRequest httpRequest,
       [Request] SearchTodoListsRequestDto requestDto,
       [Document] IEnumerable<TodoListDocument> documents,
       [Authorization] UserDocument userDocument,

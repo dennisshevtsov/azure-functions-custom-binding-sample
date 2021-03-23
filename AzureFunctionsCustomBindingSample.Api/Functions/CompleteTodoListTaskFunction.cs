@@ -29,7 +29,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
     /// <returns>An object that represents an async operation.</returns>
     [FunctionName(nameof(CompleteTodoListTaskFunction))]
     public static async Task ExecuteAsync(
-      [HttpTrigger("post", Route = "todo")] HttpRequest httpRequest,
+      [HttpTrigger("post", Route = "todo/{todoListId}/task/{todoListTaskId}")] HttpRequest httpRequest,
       [Request] CompleteTodoListTaskRequestDto requestDto,
       [Document] TodoListDocument todoListDocument,
       [Authorization] UserDocument userDocument,

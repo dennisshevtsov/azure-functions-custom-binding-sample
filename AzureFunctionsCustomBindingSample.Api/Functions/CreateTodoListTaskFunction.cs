@@ -27,8 +27,9 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
     /// <param name="service">An object that provides a simpe API to operate within instances of the <see cref="AzureFunctionsCustomBindingSample.Api.Documents.TodoListDocument"/> class.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
+    [FunctionName(nameof(CreateTodoListTaskFunction))]
     public static async Task<CreateTodoListTaskResponseDto> ExecuteAsync(
-      [HttpTrigger("post", Route = "todo")] HttpRequest httpRequest,
+      [HttpTrigger("post", Route = "todo/{todoListId}/task")] HttpRequest httpRequest,
       [Request] CreateTodoListTaskRequestDto requestDto,
       [Document] TodoListDocument todoListDocument,
       [Authorization] UserDocument userDocument,
