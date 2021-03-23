@@ -20,7 +20,8 @@ namespace AzureFunctionsCustomBindingSample.Api
   using AzureFunctionsCustomBindingSample.Binding.Request;
   using AzureFunctionsCustomBindingSample.Binding.Service;
   using AzureFunctionsCustomBindingSample.CosmosDb;
-  
+  using AzureFunctionsCustomBindingSample.Api.Validators;
+
   /// <summary>Provides an entry point to configure the function app.</summary>
   public sealed class Startup : IWebJobsStartup
   {
@@ -46,6 +47,11 @@ namespace AzureFunctionsCustomBindingSample.Api
         Email = "test@test.test",
       }));
 
+      builder.AddValidation(config =>
+      {
+        config.AddValidator<CreateTodoListValidator>("todo", "post");
+      });
+
       builder.Services.AddDocumentClient(options =>
       {
         options.AccountEndpoint = Environment.GetEnvironmentVariable(nameof(DocumentClientOptions.AccountEndpoint));
@@ -62,6 +68,7 @@ namespace AzureFunctionsCustomBindingSample.Api
           options.ItemsPerRequest = 10;
         }
       });
+
       builder.Services.AddScoped<ITodoService, TodoService>();
     }
   }
