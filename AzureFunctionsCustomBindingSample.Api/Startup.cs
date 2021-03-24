@@ -49,7 +49,7 @@ namespace AzureFunctionsCustomBindingSample.Api
 
       builder.AddValidation(config =>
       {
-        config.AddValidator<CreateTodoListValidator>("todo", "post");
+        config.AddValidator<CreateTodoListValidator>("/api/todo", "post");
       });
 
       builder.Services.AddDocumentClient(options =>

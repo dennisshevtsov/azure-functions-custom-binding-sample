@@ -34,12 +34,12 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
       UserDocument userDocument,
       CancellationToken cancellationToken)
       => _documentClient.InsertAsync(new TodoListDocument
-      {
-        Id = Guid.NewGuid(),
-        Title = requestDto.Title,
-        Description = requestDto.Description,
-        Type = nameof(TodoListDocument),
-      }, cancellationToken)
+                        {
+                          Id = Guid.NewGuid(),
+                          Title = requestDto.Title,
+                          Description = requestDto.Description,
+                          Type = nameof(TodoListDocument),
+                        }, cancellationToken)
                         .ContinueWith(task => new CreateTodoListResponseDto
                         {
                           TodoListId = task.Result.Id,

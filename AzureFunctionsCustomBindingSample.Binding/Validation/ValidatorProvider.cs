@@ -39,7 +39,10 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
 
       if (_rules.TryGetValue(key, out var type))
       {
-        validator = httpRequest.HttpContext.RequestServices.GetRequiredService(type) as IValidator;
+        validator = ActivatorUtilities.CreateInstance(
+          httpRequest.HttpContext.RequestServices,
+          type,
+          httpRequest.HttpContext.Items["__request__"]) as IValidator;
       }
 
       return validator;
