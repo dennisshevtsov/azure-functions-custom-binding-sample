@@ -76,6 +76,7 @@ namespace AzureFunctionsCustomBindingSample.Api
 
       builder.Services.AddScoped<IQueryHandler<GetTodoListRequestDto>, GetTodoListQueryHandler>();
       builder.Services.AddScoped<IQueryHandler<CreateTodoListTaskRequestDto>, CreateTodoListTaskQueryHandler>();
+      builder.Services.AddScoped<IQueryHandler<GetTodoListTaskRequestDto>, GetTodoListTaskQueryHandler>();
     }
   }
 }
