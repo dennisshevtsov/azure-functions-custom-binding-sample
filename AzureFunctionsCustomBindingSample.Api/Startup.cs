@@ -21,6 +21,8 @@ namespace AzureFunctionsCustomBindingSample.Api
   using AzureFunctionsCustomBindingSample.Binding.Service;
   using AzureFunctionsCustomBindingSample.CosmosDb;
   using AzureFunctionsCustomBindingSample.Api.Validators;
+  using AzureFunctionsCustomBindingSample.Api.Dtos;
+  using AzureFunctionsCustomBindingSample.Api.QueryHandlers;
 
   /// <summary>Provides an entry point to configure the function app.</summary>
   public sealed class Startup : IWebJobsStartup
@@ -70,6 +72,8 @@ namespace AzureFunctionsCustomBindingSample.Api
       });
 
       builder.Services.AddScoped<ITodoService, TodoService>();
+
+      builder.Services.AddScoped<IQueryHandler<GetTodoListRequestDto>, GetTodoListQueryHandler>();
     }
   }
 }
