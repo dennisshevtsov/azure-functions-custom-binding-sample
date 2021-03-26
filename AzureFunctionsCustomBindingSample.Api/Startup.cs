@@ -8,21 +8,21 @@ namespace AzureFunctionsCustomBindingSample.Api
 {
   using System;
   using System.Threading.Tasks;
-  
+
   using Microsoft.Azure.WebJobs;
   using Microsoft.Azure.WebJobs.Hosting;
   using Microsoft.Extensions.DependencyInjection;
-  
+
   using AzureFunctionsCustomBindingSample.Api.Documents;
+  using AzureFunctionsCustomBindingSample.Api.Dtos;
+  using AzureFunctionsCustomBindingSample.Api.QueryHandlers;
   using AzureFunctionsCustomBindingSample.Api.Services;
+  using AzureFunctionsCustomBindingSample.Api.Validators;
   using AzureFunctionsCustomBindingSample.Binding;
   using AzureFunctionsCustomBindingSample.Binding.Document;
   using AzureFunctionsCustomBindingSample.Binding.Request;
   using AzureFunctionsCustomBindingSample.Binding.Service;
   using AzureFunctionsCustomBindingSample.CosmosDb;
-  using AzureFunctionsCustomBindingSample.Api.Validators;
-  using AzureFunctionsCustomBindingSample.Api.Dtos;
-  using AzureFunctionsCustomBindingSample.Api.QueryHandlers;
 
   /// <summary>Provides an entry point to configure the function app.</summary>
   public sealed class Startup : IWebJobsStartup
@@ -53,6 +53,7 @@ namespace AzureFunctionsCustomBindingSample.Api
       {
         config.AddValidator<CreateTodoListValidator>("/api/todo", "post");
         config.AddValidator<CreateTodoListTaskValidator>("/api/todo/{todoListId}/task", "post");
+        config.AddValidator<UpdateTodoListValidator>("/api/todo/{todoListId}", "put");
       });
 
       builder.Services.AddDocumentClient(options =>
@@ -77,6 +78,7 @@ namespace AzureFunctionsCustomBindingSample.Api
       builder.Services.AddScoped<IQueryHandler<GetTodoListRequestDto>, GetTodoListQueryHandler>();
       builder.Services.AddScoped<IQueryHandler<CreateTodoListTaskRequestDto>, CreateTodoListTaskQueryHandler>();
       builder.Services.AddScoped<IQueryHandler<GetTodoListTaskRequestDto>, GetTodoListTaskQueryHandler>();
+      builder.Services.AddScoped<IQueryHandler<UpdateTodoListRequestDto>, UpdateTodoListQueryHandler>();
     }
   }
 }
