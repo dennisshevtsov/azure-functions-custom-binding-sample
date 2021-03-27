@@ -478,6 +478,64 @@
           </JSONPathAssertion>
           <hashTree/>
         </hashTree>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Update TODO List Task Variables" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="updateTodoListTaskTitle0" elementType="Argument">
+              <stringProp name="Argument.name">updateTodoListTaskTitle0</stringProp>
+              <stringProp name="Argument.value">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="updateTodoListTaskDescription0" elementType="Argument">
+              <stringProp name="Argument.name">updateTodoListTaskDescription0</stringProp>
+              <stringProp name="Argument.value">${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="updateTodoListTaskDeadline0" elementType="Argument">
+              <stringProp name="Argument.name">updateTodoListTaskDeadline0</stringProp>
+              <stringProp name="Argument.value">2022-01-01T00:00:00</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Update TODO List Task #0" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+	&quot;title&quot;: &quot;${updateTodoListTaskTitle0}&quot;,&#xd;
+	&quot;description&quot;: &quot;${updateTodoListTaskDescription0}&quot;,&#xd;
+	&quot;deadline&quot;: &quot;${updateTodoListTaskDeadline0}&quot;&#xd;
+}&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain"></stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol"></stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">api/todo/${todoListId}/task/${todoListTaskId0}</stringProp>
+          <stringProp name="HTTPSampler.method">PUT</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract todoListTaskId0" enabled="true">
+            <stringProp name="JSONPostProcessor.referenceNames">todoListTaskId0</stringProp>
+            <stringProp name="JSONPostProcessor.jsonPathExprs">$.todoListTaskId</stringProp>
+            <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+          </JSONPostProcessor>
+          <hashTree/>
+        </hashTree>
         <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>

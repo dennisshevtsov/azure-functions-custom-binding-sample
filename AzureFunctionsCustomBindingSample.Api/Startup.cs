@@ -54,6 +54,7 @@ namespace AzureFunctionsCustomBindingSample.Api
         config.AddValidator<CreateTodoListValidator>("/api/todo", "post");
         config.AddValidator<CreateTodoListTaskValidator>("/api/todo/{todoListId}/task", "post");
         config.AddValidator<UpdateTodoListValidator>("/api/todo/{todoListId}", "put");
+        config.AddValidator<UpdateTodoListTaskValidator>("/api/todo/{todoListId}/task/{todoListTaskId}", "put");
       });
 
       builder.Services.AddDocumentClient(options =>
@@ -79,6 +80,7 @@ namespace AzureFunctionsCustomBindingSample.Api
       builder.Services.AddScoped<IQueryHandler<CreateTodoListTaskRequestDto>, CreateTodoListTaskQueryHandler>();
       builder.Services.AddScoped<IQueryHandler<GetTodoListTaskRequestDto>, GetTodoListTaskQueryHandler>();
       builder.Services.AddScoped<IQueryHandler<UpdateTodoListRequestDto>, UpdateTodoListQueryHandler>();
+      builder.Services.AddScoped<IQueryHandler<UpdateTodoListTaskRequestDto>, UpdateTodoListTaskQueryHandler>();
     }
   }
 }
