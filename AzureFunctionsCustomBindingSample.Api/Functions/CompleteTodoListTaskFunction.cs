@@ -23,7 +23,6 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
     /// <param name="requestDto">An object that represents data to complete a task of a TODO list.</param>
     /// <param name="todoListDocument">An object that represents detail of a TODO list.</param>
     /// <param name="userDocument">An object that represents an authorized user.</param>
-    /// <param name="validationResult">An object that represents detail of an validation result.</param>
     /// <param name="service">An object that provides a simpe API to operate within instances of the <see cref="AzureFunctionsCustomBindingSample.Api.Documents.TodoListDocument"/> class.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
@@ -33,7 +32,6 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
       [Request] CompleteTodoListTaskRequestDto requestDto,
       [Document] TodoListDocument todoListDocument,
       [Authorization] UserDocument userDocument,
-      [Validation(ThrowIfInvalid = true)] ValidationResult validationResult,
       [Service] ITodoService service,
       CancellationToken cancellationToken)
       => await service.CompleteTodoListTaskAsync(requestDto, todoListDocument, userDocument, cancellationToken);
