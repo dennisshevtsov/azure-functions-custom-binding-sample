@@ -14,8 +14,7 @@ namespace AzureFunctionsCustomBindingSample.Api.QueryHandlers
   using AzureFunctionsCustomBindingSample.CosmosDb;
 
   /// <summary>Provides a method to resolve a document with a query.</summary>
-  /// <typeparam name="TQuery">A type of a query.</typeparam>
-  public sealed class GetTodoListQueryHandler : IQueryHandler<GetTodoListRequestDto>
+  public sealed class GetTodoListQueryHandler : IQueryHandler<GetTodoListRequestDto, TodoListDocument>
   {
     private readonly IDocumentClient _documentClient;
 
@@ -28,8 +27,7 @@ namespace AzureFunctionsCustomBindingSample.Api.QueryHandlers
     /// <param name="query">An object that represents a query.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
-    public Task<object> HandleAsync(GetTodoListRequestDto query, CancellationToken cancellationToken)
-      => _documentClient.FirstOrDefaultAsync<TodoListDocument>(query.TodoListId, nameof(TodoListDocument), cancellationToken)
-                        .ContinueWith(task => (object)task.Result);
+    public Task<TodoListDocument> HandleAsync(GetTodoListRequestDto query, CancellationToken cancellationToken)
+      => _documentClient.FirstOrDefaultAsync<TodoListDocument>(query.TodoListId, nameof(TodoListDocument), cancellationToken);
   }
 }

@@ -35,17 +35,24 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
 
       if (query != null)
       {
-        var queryHandlerType = typeof(IQueryHandler<>).MakeGenericType(query.GetType());
+        var queryHandlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), Type);
         var queryHandler = _httpRequest.HttpContext.RequestServices.GetService(queryHandlerType);
 
         if (queryHandler != null)
         {
-          var handleMethod = queryHandlerType.GetMethod(nameof(IQueryHandler<object>.HandleAsync));
+          var handleMethod = queryHandlerType.GetMethod(nameof(IQueryHandler<object, object>.HandleAsync));
 
           if (handleMethod != null)
           {
-            return (Task<object>)handleMethod.Invoke(
-              queryHandler, new object[] { query, _httpRequest.HttpContext.RequestAborted, });
+            var cancellationToken = _httpRequest.HttpContext.RequestAborted;
+            var task = (Task)handleMethod.Invoke(queryHandler, new object[] { query, cancellationToken, });
+            var taskWithResult = task.ContinueWith(
+              (task, result) => typeof(Task<>).MakeGenericType(Type)
+                                              .GetProperty(nameof(Task<object>.Result))
+                                              .GetValue(task),
+              cancellationToken);
+
+            return taskWithResult;
           }
         }
       }

@@ -76,12 +76,12 @@ namespace AzureFunctionsCustomBindingSample.Api
 
       builder.Services.AddScoped<ITodoService, TodoService>();
 
-      builder.Services.AddScoped<IQueryHandler<GetTodoListRequestDto>, GetTodoListQueryHandler>();
-      builder.Services.AddScoped<IQueryHandler<CreateTodoListTaskRequestDto>, CreateTodoListTaskQueryHandler>();
-      builder.Services.AddScoped<IQueryHandler<GetTodoListTaskRequestDto>, GetTodoListTaskQueryHandler>();
-      builder.Services.AddScoped<IQueryHandler<UpdateTodoListRequestDto>, UpdateTodoListQueryHandler>();
-      builder.Services.AddScoped<IQueryHandler<UpdateTodoListTaskRequestDto>, UpdateTodoListTaskQueryHandler>();
-      builder.Services.AddScoped<IQueryHandler<CompleteTodoListTaskRequestDto>, CompleteTodoListTaskQueryHandler>();
+      builder.Services.AddScoped<IQueryHandler<GetTodoListRequestDto, TodoListDocument>, GetTodoListQueryHandler>();
+      builder.Services.AddScoped<IQueryHandler<CreateTodoListTaskRequestDto, TodoListDocument>, CreateTodoListTaskQueryHandler>();
+      builder.Services.AddScoped<IQueryHandler<GetTodoListTaskRequestDto, TodoListDocument>, GetTodoListTaskQueryHandler>();
+      builder.Services.AddScoped<IQueryHandler<UpdateTodoListRequestDto, TodoListDocument>, UpdateTodoListQueryHandler>();
+      builder.Services.AddScoped<IQueryHandler<UpdateTodoListTaskRequestDto, TodoListDocument>, UpdateTodoListTaskQueryHandler>();
+      builder.Services.AddScoped<IQueryHandler<CompleteTodoListTaskRequestDto, TodoListDocument>, CompleteTodoListTaskQueryHandler>();
     }
   }
 }
