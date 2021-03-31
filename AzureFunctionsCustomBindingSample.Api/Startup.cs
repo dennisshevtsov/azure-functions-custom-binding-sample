@@ -17,11 +17,11 @@ namespace AzureFunctionsCustomBindingSample.Api
   using AzureFunctionsCustomBindingSample.Api.Dtos;
   using AzureFunctionsCustomBindingSample.Api.QueryHandlers;
   using AzureFunctionsCustomBindingSample.Api.Services;
-  using AzureFunctionsCustomBindingSample.Api.Validators;
   using AzureFunctionsCustomBindingSample.Binding;
   using AzureFunctionsCustomBindingSample.Binding.Document;
   using AzureFunctionsCustomBindingSample.Binding.Request;
   using AzureFunctionsCustomBindingSample.Binding.Service;
+  using AzureFunctionsCustomBindingSample.Binding.Validation;
   using AzureFunctionsCustomBindingSample.CosmosDb;
 
   /// <summary>Provides an entry point to configure the function app.</summary>
@@ -34,6 +34,7 @@ namespace AzureFunctionsCustomBindingSample.Api
       builder.AddExtension<DocumentExtensionConfigProvider>();
       builder.AddExtension<RequestExtensionConfigProvider>();
       builder.AddExtension<ServiceExtensionConfigProvider>();
+      builder.AddExtension<ValidationExtensionConfigProvider>();
 
       builder.AddAuthorization((httpRequest, cancellationToken) => Task.FromResult<object>(new UserDocument
       {
@@ -48,14 +49,6 @@ namespace AzureFunctionsCustomBindingSample.Api
         Phone = "123-12-12",
         Email = "test@test.test",
       }));
-
-      builder.AddValidation(config =>
-      {
-        config.AddValidator<CreateTodoListValidator>("/api/todo", "post");
-        config.AddValidator<CreateTodoListTaskValidator>("/api/todo/{todoListId}/task", "post");
-        config.AddValidator<UpdateTodoListValidator>("/api/todo/{todoListId}", "put");
-        config.AddValidator<UpdateTodoListTaskValidator>("/api/todo/{todoListId}/task/{todoListTaskId}", "put");
-      });
 
       builder.Services.AddDocumentClient(options =>
       {

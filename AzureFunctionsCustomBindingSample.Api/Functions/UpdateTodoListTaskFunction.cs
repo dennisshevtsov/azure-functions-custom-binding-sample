@@ -13,6 +13,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Api.Documents;
   using AzureFunctionsCustomBindingSample.Api.Dtos;
   using AzureFunctionsCustomBindingSample.Api.Services;
+  using AzureFunctionsCustomBindingSample.Api.Validators;
   using AzureFunctionsCustomBindingSample.Binding;
 
   /// <summary>Provides a method to handle an HTTP request.</summary>
@@ -33,7 +34,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
       [Request] UpdateTodoListTaskRequestDto requestDto,
       [Document] TodoListDocument todoListDocument,
       [Authorization] UserDocument userDocument,
-      [Validation(ThrowIfInvalid = true)] ValidationResult validationResult,
+      [Validation(ValidatorType = typeof(UpdateTodoListTaskValidator),
+                  ThrowIfInvalid = true)] ValidationResult validationResult,
       [Service] ITodoService service,
       CancellationToken cancellationToken)
       => await service.UpdateTodoListTaskAsync(requestDto, todoListDocument, userDocument, cancellationToken);

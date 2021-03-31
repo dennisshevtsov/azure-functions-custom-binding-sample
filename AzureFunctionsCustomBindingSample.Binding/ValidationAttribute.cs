@@ -13,6 +13,9 @@ namespace AzureFunctionsCustomBindingSample.Binding
   [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
   public sealed class ValidationAttribute : Attribute
   {
+    /// <summary>Gets/sets an object that represents a type of a validator.</summary>
+    public Type ValidatorType { get; set; }
+
     /// <summary>Gets/sets a value that indicates if it should throw an exception if a validation is faild.</summary>
     public bool ThrowIfInvalid { get; set; }
   }

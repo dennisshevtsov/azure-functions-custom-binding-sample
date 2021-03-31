@@ -13,6 +13,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
   using AzureFunctionsCustomBindingSample.Api.Documents;
   using AzureFunctionsCustomBindingSample.Api.Dtos;
   using AzureFunctionsCustomBindingSample.Api.Services;
+  using AzureFunctionsCustomBindingSample.Api.Validators;
   using AzureFunctionsCustomBindingSample.Binding;
 
   /// <summary>Provides a method to handle an HTTP request.</summary>
@@ -32,7 +33,8 @@ namespace AzureFunctionsCustomBindingSample.Api.Functions
       [HttpTrigger("post", Route = "todo")] HttpRequest httpRequest,
       [Request] CreateTodoListRequestDto requestDto,
       [Authorization] UserDocument userDocument,
-      [Validation(ThrowIfInvalid = true)] ValidationResult validationResult,
+      [Validation(ValidatorType = typeof(CreateTodoListValidator),
+                  ThrowIfInvalid = true)] ValidationResult validationResult,
       [Service] ITodoService service,
       CancellationToken cancellationToken)
       => await service.CreateTodoListAsync(requestDto, userDocument, cancellationToken);

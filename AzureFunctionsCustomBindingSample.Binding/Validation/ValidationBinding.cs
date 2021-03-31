@@ -6,7 +6,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
 {
   using System;
   using System.Threading.Tasks;
-  using AzureFunctionsCustomBindingSample.Binding;
+
   using Microsoft.Azure.WebJobs.Host.Bindings;
   using Microsoft.Azure.WebJobs.Host.Protocols;
 
@@ -15,18 +15,16 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
   {
     public const string ParameterDescriptorName = "validation";
 
-    private readonly IValidatorProvider _validatorProvider;
     private readonly bool _throwIfInvalid;
+    private readonly Type _validatorType;
 
     /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Validation.ValidationBinding"/> class.</summary>
-    /// <param name="validatorProvider">An object that provides a simple API to get an instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Validation.IValidator"/> type that associated with a request.</param>
     /// <param name="throwIfInvalid">An object that indicates whether it should throw an exception if a result is invalid.</param>
-    public ValidationBinding(
-      IValidatorProvider validatorProvider,
-      bool throwIfInvalid)
+    /// <param name="validatorType">An object that represents a type of a validator.</param>
+    public ValidationBinding(bool throwIfInvalid, Type validatorType)
     {
-      _validatorProvider = validatorProvider ?? throw new ArgumentNullException(nameof(validatorProvider));
       _throwIfInvalid = throwIfInvalid;
+      _validatorType = validatorType ?? throw new ArgumentNullException(nameof(validatorType));
     }
 
     /// <summary>Gets a value that indicates if a binding from an attribute.</summary>
@@ -47,7 +45,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
       if (context.TryGetHttpRequest(out var httpRequest))
       {
         return Task.FromResult<IValueProvider>(
-          new ValidationValueProvider(_validatorProvider, httpRequest, _throwIfInvalid));
+          new ValidationValueProvider(httpRequest, _throwIfInvalid, _validatorType));
       }
 
       throw new InvalidOperationException();
