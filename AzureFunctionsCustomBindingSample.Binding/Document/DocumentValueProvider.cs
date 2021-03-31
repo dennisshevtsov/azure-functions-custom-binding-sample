@@ -47,9 +47,9 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
             var cancellationToken = _httpRequest.HttpContext.RequestAborted;
             var task = (Task)handleMethod.Invoke(queryHandler, new object[] { query, cancellationToken, });
             var taskWithResult = task.ContinueWith(
-              (task, result) => typeof(Task<>).MakeGenericType(Type)
-                                              .GetProperty(nameof(Task<object>.Result))
-                                              .GetValue(task),
+              (task) => typeof(Task<>).MakeGenericType(Type)
+                                      .GetProperty(nameof(Task<object>.Result))
+                                      .GetValue(task),
               cancellationToken);
 
             return taskWithResult;
