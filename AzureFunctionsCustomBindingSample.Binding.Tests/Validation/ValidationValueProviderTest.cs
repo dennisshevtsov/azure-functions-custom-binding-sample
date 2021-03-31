@@ -17,7 +17,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
   public sealed class ValidationValueProviderTest
   {
     private Mock<HttpRequest> _httpRequestMock;
-    private Mock<IValidatorProvider> _validatorProviderMock;
     private ValidationValueProvider _valueProvider;
 
     [TestMethod]
@@ -97,9 +96,8 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
     private void Setup(bool throwIfInvalid)
     {
       _httpRequestMock = new Mock<HttpRequest>();
-      _validatorProviderMock = new Mock<IValidatorProvider>();
       _valueProvider = new ValidationValueProvider(
-          _validatorProviderMock.Object, _httpRequestMock.Object, throwIfInvalid);
+          _httpRequestMock.Object, throwIfInvalid, typeof(TestValidator));
     }
 
     private void Setup(bool throwIfInvalid, IEnumerable<string> errors)
@@ -110,9 +108,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
 
       validatorMock.Setup(validator => validator.Validate())
                    .Returns(errors);
-
-      _validatorProviderMock.Setup(provider => provider.GetValidator(It.IsAny<HttpRequest>()))
-                            .Returns(validatorMock.Object);
     }
 
     private static IEnumerable<string> GetErrors()

@@ -7,7 +7,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Dtos
   using System;
 
   /// <summary>Represents data to a task of a TODO list.</summary>
-  public sealed class UpdateTodoListTaskRequestDto
+  public sealed class UpdateTodoListTaskRequestDto : ITodoListIdentity, ITodoListTaskIdentity
   {
     /// <summary>Gets/sets a value that represents an ID of a TODO list.</summary>
     public Guid TodoListId { get; set; }
