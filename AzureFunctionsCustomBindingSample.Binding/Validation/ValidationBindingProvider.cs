@@ -4,6 +4,7 @@
 
 namespace AzureFunctionsCustomBindingSample.Binding.Validation
 {
+  using System;
   using System.Reflection;
   using System.Threading.Tasks;
 
@@ -18,6 +19,13 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
     public Task<IBinding> TryCreateAsync(BindingProviderContext context)
     {
       var attribute = context.Parameter.GetCustomAttribute<ValidationAttribute>();
+
+      if (attribute.ValidatorType == default ||
+          !typeof(IValidator).IsAssignableFrom(attribute.ValidatorType))
+      {
+        throw new InvalidOperationException($"Parameter {nameof(ValidationAttribute.ValidatorType)} should be assigned with a type that inherits interface {nameof(IValidator)}.");
+      }
+
       IBinding binding = new ValidationBinding(attribute.ThrowIfInvalid, attribute.ValidatorType);
 
       return Task.FromResult(binding);
