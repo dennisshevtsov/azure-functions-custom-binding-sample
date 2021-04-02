@@ -10,13 +10,13 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
   using System.Threading.Tasks;
 
   using Microsoft.AspNetCore.Http;
+  using Microsoft.Extensions.DependencyInjection;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
 
   [TestClass]
   public sealed class ValidationValueProviderTest
   {
-    private Mock<HttpRequest> _httpRequestMock;
     private Mock<IValidator> _validatorMock;
     private ValidationValueProvider _valueProvider;
 
@@ -96,35 +96,19 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
 
     private void Setup(bool throwIfInvalid)
     {
-      _validatorMock = new Mock<IValidator>();
-
-      var serviceProviderMock = new Mock<IServiceProvider>();
-      serviceProviderMock.Setup(provider => provider.GetService(It.IsAny<Type>()))
-                         .Returns((Type type) =>
-                         {
-                           if (type == _validatorMock.Object.GetType())
-                           {
-                             return _validatorMock.Object;
-                           }
-
-                           return null;
-                         });
-
       var httpContextMock = new Mock<HttpContext>();
-      httpContextMock.SetupGet(context => context.RequestServices)
-                     .Returns(serviceProviderMock.Object);
       httpContextMock.SetupGet(context => context.Items)
                      .Returns(new Dictionary<object, object>
                      {
                        { "__request__", new object() },
                      });
 
-      _httpRequestMock = new Mock<HttpRequest>();
-      _httpRequestMock.SetupGet(request => request.HttpContext)
-                      .Returns(httpContextMock.Object);
-      
+      _validatorMock = new Mock<IValidator>();
+      ObjectFactory validatorFactory = (IServiceProvider provider, object[] arguments) =>
+        _validatorMock.Object;
+
       _valueProvider = new ValidationValueProvider(
-          _httpRequestMock.Object, throwIfInvalid, _validatorMock.Object.GetType());
+          httpContextMock.Object, validatorFactory, throwIfInvalid);
     }
 
     private void Setup(bool throwIfInvalid, IEnumerable<string> errors)
