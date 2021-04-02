@@ -13,7 +13,6 @@
   <ItemGroup>
     <Folder Include="Document\" />
     <Folder Include="Service\" />
-    <Folder Include="Validation\" />
     <Folder Include="Request\" />
   </ItemGroup>
 

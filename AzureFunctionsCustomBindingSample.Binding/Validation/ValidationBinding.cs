@@ -9,6 +9,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
 
   using Microsoft.Azure.WebJobs.Host.Bindings;
   using Microsoft.Azure.WebJobs.Host.Protocols;
+  using Microsoft.Extensions.DependencyInjection;
 
   /// <summary>Binds the <see cref="AzureFunctionsCustomBindingSample.Binding.Validation.ValidationValueProvider"/> with a parameter that is marked with the <see cref="Binding.ValidationAttribute"/> attribute.</summary>
   public sealed class ValidationBinding : IBinding
@@ -44,8 +45,17 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
     {
       if (context.TryGetHttpRequest(out var httpRequest))
       {
-        return Task.FromResult<IValueProvider>(
-          new ValidationValueProvider(httpRequest, _throwIfInvalid, _validatorType));
+        var validatorFactory = ActivatorUtilities.CreateFactory(
+          _validatorType,
+          new[]
+          {
+            _validatorType.GetConstructors()[0].GetParameters()[0].ParameterType,
+          });
+
+        var validatorValueProvider = new ValidationValueProvider(
+          httpRequest.HttpContext, validatorFactory, _throwIfInvalid);
+
+        return Task.FromResult<IValueProvider>(validatorValueProvider);
       }
 
       throw new InvalidOperationException();

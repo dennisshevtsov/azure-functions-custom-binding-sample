@@ -14,22 +14,22 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
   /// <summary>Initializes a parameter that is marked with the <see cref="Binding.ValidationAttribute"/> attribute.</summary>
   public sealed class ValidationValueProvider : IValueProvider
   {
-    private readonly HttpRequest _httpRequest;
+    private readonly HttpContext _httpContext;
+    private readonly ObjectFactory _validatorFactory;
     private readonly bool _throwIfInvalid;
-    private readonly Type _validatorType;
 
     /// <summary>Initializes a new instance of the <see cref="ValidationValueProvider"/> class.</summary>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
     /// <param name="throwIfInvalid">An object that indicates whether it should throw an exception if a result is invalid.</param>
     /// <param name="validatorType">An object that represents a type of a validator.</param>
     public ValidationValueProvider(
-      HttpRequest httpRequest,
-      bool throwIfInvalid,
-      Type validatorType)
+      HttpContext httpContext,
+      ObjectFactory validatorFactory,
+      bool throwIfInvalid)
     {
-      _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
+      _httpContext = httpContext ?? throw new ArgumentNullException(nameof(httpContext));
+      _validatorFactory = validatorFactory ?? throw new ArgumentNullException(nameof(validatorFactory));
       _throwIfInvalid = throwIfInvalid;
-      _validatorType = validatorType ?? throw new ArgumentNullException(nameof(validatorType));
     }
 
     /// <summary>Gets a value that represents a type of a parameter.</summary>
@@ -39,16 +39,12 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
     /// <returns>An instance of a parameter.</returns>
     public Task<object> GetValueAsync()
     {
-      var validator = ActivatorUtilities.CreateInstance(
-          _httpRequest.HttpContext.RequestServices,
-          _validatorType,
-          _httpRequest.HttpContext.Items["__request__"]) as IValidator;
-
-      if (validator == null)
-      {
-        throw new InvalidOperationException();
-      }
-
+      var validator = _validatorFactory.Invoke(
+        _httpContext.RequestServices,
+        new[]
+        {
+          _httpContext.Items["__request__"],
+        }) as IValidator;
       var errors = validator.Validate();
       var validationResult = new ValidationResult(errors);
 
