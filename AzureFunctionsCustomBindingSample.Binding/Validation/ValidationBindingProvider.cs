@@ -7,9 +7,8 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
   using System;
   using System.Reflection;
   using System.Threading.Tasks;
-  using Microsoft.AspNetCore.Http;
+
   using Microsoft.Azure.WebJobs.Host.Bindings;
-  using Microsoft.Extensions.DependencyInjection;
 
   /// <summary>Provides a simple API to create an instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Validation.Validation.ValidationBinding"/> class.</summary>
   public sealed class ValidationBindingProvider : IBindingProvider

@@ -19,9 +19,9 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
     private readonly bool _throwIfInvalid;
 
     /// <summary>Initializes a new instance of the <see cref="ValidationValueProvider"/> class.</summary>
-    /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
+    /// <param name="httpContext">An object that encapsulates all HTTP-specific information about an individual HTTP request.</param>
+    /// <param name="validatorFactory">An object that provides a simple API to create a proper validator.</param>
     /// <param name="throwIfInvalid">An object that indicates whether it should throw an exception if a result is invalid.</param>
-    /// <param name="validatorType">An object that represents a type of a validator.</param>
     public ValidationValueProvider(
       HttpContext httpContext,
       ObjectFactory validatorFactory,
