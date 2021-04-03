@@ -83,17 +83,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation.Tests
       Assert.IsNotNull(value);
     }
 
-    [TestMethod]
-    [ExpectedException(typeof(InvalidOperationException))]
-    public async Task GetValueAsync_Should_Throw_If_There_Is_No_Proper_Validator()
-    {
-      Setup(false);
-
-      var value = await _valueProvider.GetValueAsync();
-
-      Assert.IsNotNull(value);
-    }
-
     private void Setup(bool throwIfInvalid)
     {
       var httpContextMock = new Mock<HttpContext>();
