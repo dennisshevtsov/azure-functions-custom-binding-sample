@@ -43,5 +43,25 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization.Tests
 
       Assert.IsNotNull(value);
     }
+
+    [TestMethod]
+    [ExpectedException(typeof(UnauthorizedException))]
+    public async Task GetValueAsync_Should_Throw_Exception_If_User_Is_Not_Found()
+    {
+      var value = await _valueProvider.GetValueAsync();
+
+      Assert.IsNotNull(value);
+    }
+
+    [TestMethod]
+    public async Task GetValueAsync_Should_Return_Authorized_User()
+    {
+      _authorizedUserProviderMock.Setup(provider => provider.GetAuthorizedUserAsync(It.IsAny<HttpRequest>(), It.IsAny<CancellationToken>()))
+                                 .ReturnsAsync(new object());
+
+      var value = await _valueProvider.GetValueAsync();
+
+      Assert.IsNotNull(value);
+    }
   }
 }

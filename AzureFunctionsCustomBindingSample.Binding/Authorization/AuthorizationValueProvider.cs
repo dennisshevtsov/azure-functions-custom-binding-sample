@@ -33,8 +33,18 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization
 
     /// <summary>Gets an instance of a parameter.</summary>
     /// <returns>An instance of a parameter.</returns>
-    public Task<object> GetValueAsync()
-      => _authorizedUserProvider.GetAuthorizedUserAsync(_httpRequest, _httpRequest.HttpContext.RequestAborted);
+    public async Task<object> GetValueAsync()
+    {
+      var user = await _authorizedUserProvider.GetAuthorizedUserAsync(
+        _httpRequest, _httpRequest.HttpContext.RequestAborted);
+
+      if (user == null)
+      {
+        throw new UnauthorizedException();
+      }
+
+      return user;
+    }
 
     /// <summary>Gets an invoke string.</summary>
     /// <returns>An invoke string.</returns>
