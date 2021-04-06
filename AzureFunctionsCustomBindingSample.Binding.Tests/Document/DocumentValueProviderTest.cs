@@ -16,7 +16,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
   [TestClass]
   public sealed class DocumentValueProviderTest
   {
-    private Mock<IQueryHandler<GetTestDocumentRequestDto, TestDocument>> _queryHandlerMock;
+    private Mock<IDocumentProvider> _documentProviderMock;
     private Mock<IServiceProvider> _serviceProviderMock;
     private Mock<HttpContext> _httpContextMock;
     private Mock<HttpRequest> _httpRequestMock;
@@ -25,17 +25,14 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
     [TestInitialize]
     public void Initialize()
     {
-      _queryHandlerMock = new Mock<IQueryHandler<GetTestDocumentRequestDto, TestDocument>>();
-      _queryHandlerMock.Setup(handler => handler.HandleAsync(It.IsAny<GetTestDocumentRequestDto>(), It.IsAny<CancellationToken>()))
-                       .ReturnsAsync((GetTestDocumentRequestDto requestDto, CancellationToken CancellationToken) =>
-                       new TestDocument
-                       {
-                         Id = requestDto.TestDocumentId,
-                       });
+      _documentProviderMock = new Mock<IDocumentProvider>();
+      _documentProviderMock.Setup(handler => handler.GetDocumentAsync(It.IsAny<HttpRequest>(), It.IsAny<Type>(), It.IsAny<CancellationToken>()))
+                           .ReturnsAsync((HttpRequest httpRequest, Type type, CancellationToken CancellationToken) =>
+                             new TestDocument());
 
       _serviceProviderMock = new Mock<IServiceProvider>();
       _serviceProviderMock.Setup(provider => provider.GetService(It.IsAny<Type>()))
-                          .Returns(_queryHandlerMock.Object);
+                          .Returns(_documentProviderMock.Object);
 
       _httpContextMock = new Mock<HttpContext>();
       _httpContextMock.SetupGet(context => context.RequestServices)
