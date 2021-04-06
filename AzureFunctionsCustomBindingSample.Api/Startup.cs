@@ -14,8 +14,6 @@ namespace AzureFunctionsCustomBindingSample.Api
   using Microsoft.Extensions.DependencyInjection;
 
   using AzureFunctionsCustomBindingSample.Api.Documents;
-  using AzureFunctionsCustomBindingSample.Api.Dtos;
-  using AzureFunctionsCustomBindingSample.Api.QueryHandlers;
   using AzureFunctionsCustomBindingSample.Api.Services;
   using AzureFunctionsCustomBindingSample.Binding;
   using AzureFunctionsCustomBindingSample.Binding.Document;
@@ -68,13 +66,7 @@ namespace AzureFunctionsCustomBindingSample.Api
       });
 
       builder.Services.AddScoped<ITodoService, TodoService>();
-
-      builder.Services.AddScoped<IQueryHandler<GetTodoListRequestDto, TodoListDocument>, GetTodoListQueryHandler>();
-      builder.Services.AddScoped<IQueryHandler<CreateTodoListTaskRequestDto, TodoListDocument>, CreateTodoListTaskQueryHandler>();
-      builder.Services.AddScoped<IQueryHandler<GetTodoListTaskRequestDto, TodoListDocument>, GetTodoListTaskQueryHandler>();
-      builder.Services.AddScoped<IQueryHandler<UpdateTodoListRequestDto, TodoListDocument>, UpdateTodoListQueryHandler>();
-      builder.Services.AddScoped<IQueryHandler<UpdateTodoListTaskRequestDto, TodoListDocument>, UpdateTodoListTaskQueryHandler>();
-      builder.Services.AddScoped<IQueryHandler<CompleteTodoListTaskRequestDto, TodoListDocument>, CompleteTodoListTaskQueryHandler>();
+      builder.Services.AddScoped<IDocumentProvider, DocumentProvider>();
     }
   }
 }

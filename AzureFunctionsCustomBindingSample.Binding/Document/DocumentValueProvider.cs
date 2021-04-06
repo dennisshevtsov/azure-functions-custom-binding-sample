@@ -5,10 +5,13 @@
 namespace AzureFunctionsCustomBindingSample.Binding.Document
 {
   using System;
+  using System.Collections.Generic;
+  using System.Linq;
   using System.Threading.Tasks;
 
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs.Host.Bindings;
+  using Microsoft.Extensions.DependencyInjection;
 
   /// <summary>Initializes a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Binding.DocumentAttribute"/> attribute.</summary>
   public sealed class DocumentValueProvider : IValueProvider
@@ -31,33 +34,19 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
     /// <returns>An instance of a parameter.</returns>
     public Task<object> GetValueAsync()
     {
-      var query = _httpRequest.HttpContext.Items["__request__"];
+      var documentProvider = _httpRequest.HttpContext.RequestServices.GetRequiredService<IDocumentProvider>();
+      var collectionType = Type.GetInterfaces()
+                               .FirstOrDefault(type => type.IsGenericType &&
+                                                       type.GetGenericTypeDefinition() == typeof(IEnumerable<>));
 
-      if (query != null)
+      if (collectionType != null)
       {
-        var queryHandlerType = typeof(IQueryHandler<,>).MakeGenericType(query.GetType(), Type);
-        var queryHandler = _httpRequest.HttpContext.RequestServices.GetService(queryHandlerType);
+        var elementType = collectionType.GetGenericArguments()[0];
 
-        if (queryHandler != null)
-        {
-          var handleMethod = queryHandlerType.GetMethod(nameof(IQueryHandler<object, object>.HandleAsync));
-
-          if (handleMethod != null)
-          {
-            var cancellationToken = _httpRequest.HttpContext.RequestAborted;
-            var task = (Task)handleMethod.Invoke(queryHandler, new object[] { query, cancellationToken, });
-            var taskWithResult = task.ContinueWith(
-              (task) => typeof(Task<>).MakeGenericType(Type)
-                                      .GetProperty(nameof(Task<object>.Result))
-                                      .GetValue(task),
-              cancellationToken);
-
-            return taskWithResult;
-          }
-        }
+        return documentProvider.GetDocumentsAsync(_httpRequest, elementType, _httpRequest.HttpContext.RequestAborted);
       }
 
-      return Task.FromResult(default(object));
+      return documentProvider.GetDocumentAsync(_httpRequest, Type, _httpRequest.HttpContext.RequestAborted);
     }
 
     /// <summary>Gets an invoke string.</summary>
