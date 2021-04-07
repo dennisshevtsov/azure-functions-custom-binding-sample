@@ -36,8 +36,21 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
 
       if (requestDto is ITodoListIdentity identity)
       {
-        return _documentClient.FirstOrDefaultAsync<TodoListDocument>(identity.TodoListId, nameof(TodoListDocument), cancellationToken)
-                              .ContinueWith(task => (object)task.Result);
+        var task = (Task)typeof(IDocumentClient).GetMethod(nameof(IDocumentClient.FirstOrDefaultAsync))
+                                                .MakeGenericMethod(documentType)
+                                                .Invoke(_documentClient,
+                                                        new object[]
+                                                        {
+                                                          identity.TodoListId,
+                                                          documentType.Name,
+                                                          cancellationToken,
+                                                        });
+        var taskWithResult = task.ContinueWith(task => typeof(Task<>).MakeGenericType(documentType)
+                                                                     .GetProperty(nameof(Task<object>.Result))
+                                                                     .GetValue(task),
+                                               cancellationToken);
+
+        return taskWithResult;
       }
 
       return Task.FromResult(default(object));
