@@ -8,7 +8,6 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
   using System.Threading;
   using System.Threading.Tasks;
 
-  using AzureFunctionsCustomBindingSample.Api.Documents;
   using AzureFunctionsCustomBindingSample.Api.Dtos;
   using AzureFunctionsCustomBindingSample.Binding.Document;
   using AzureFunctionsCustomBindingSample.CosmosDb;
