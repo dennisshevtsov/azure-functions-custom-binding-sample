@@ -71,12 +71,14 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
     /// <param name="partitionId">A value that represents a partition ID of a document.</param>
     /// <param name="query">A value that represents a condition to query documents.</param>
     /// <param name="parameters">An object that represents a collection of parameters for a query.</param>
+    /// <param name="continuationToken">An object that represents a continuation token in the Azure Cosmos DB service.</param>
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
     public async IAsyncEnumerable<TDocument> AsAsyncEnumerable<TDocument>(
       string partitionId,
       string query,
       IDictionary<string, object> parameters,
+      string continuationToken,
       [EnumeratorCancellation] CancellationToken cancellationToken) where TDocument : DocumentBase
     {
       var queryDefinition = new QueryDefinition(query);
@@ -91,7 +93,7 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
 
       var feedIterator = _container.GetItemQueryStreamIterator(
         queryDefinition,
-        null,
+        continuationToken,
         new QueryRequestOptions
         {
           PartitionKey = new PartitionKey(partitionId),
