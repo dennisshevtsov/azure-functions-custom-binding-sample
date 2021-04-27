@@ -15,7 +15,10 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
     /// <summary>Gets/sets a value that represents a query.</summary>
     public string Query { get; }
 
-    /// <summary>Gets/sets a value that represents a collection of parameters for a query.</summary>
+    /// <summary>Gets/sets an object that represents a collection of parameters for a query.</summary>
     public IReadOnlyDictionary<string, object> Parameters { get; }
+
+    /// <summary>Gets/sets a value that represents a continuation token.</summary>
+    public string ContinuationToken { get; }
   }
 }
