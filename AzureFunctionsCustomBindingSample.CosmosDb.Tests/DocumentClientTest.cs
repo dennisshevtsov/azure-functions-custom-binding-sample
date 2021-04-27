@@ -96,7 +96,7 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb.Tests
         DocumentClientTest.NewDocument(), CancellationToken.None);
 
       await foreach (var document in _documentClient.AsAsyncEnumerable<TestDocument>(
-        nameof(TestDocument), "SELECT * FROM c", null, CancellationToken.None))
+        nameof(TestDocument), "SELECT * FROM c", null, null, CancellationToken.None))
       {
         Assert.IsNotNull(document);
       }

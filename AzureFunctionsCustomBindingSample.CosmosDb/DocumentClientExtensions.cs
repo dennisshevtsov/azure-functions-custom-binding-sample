@@ -35,7 +35,7 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
       var documents = new List<TDocument>();
 
       await foreach (var document in documentClient.AsAsyncEnumerable<TDocument>(
-        partitionId, query, parameters, cancellationToken))
+        partitionId, query, parameters, null, cancellationToken))
       {
         documents.Add(document);
       }
@@ -66,7 +66,7 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
       var documentDictionary = new Dictionary<Guid, TDocument>();
 
       await foreach (var document in documentClient.AsAsyncEnumerable<TDocument>(
-        partitionId, query, parameters, cancellationToken))
+        partitionId, query, parameters, null, cancellationToken))
       {
         documentDictionary.Add(document.Id, document);
       }
