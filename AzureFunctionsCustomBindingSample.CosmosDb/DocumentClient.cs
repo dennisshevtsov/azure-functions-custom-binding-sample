@@ -77,7 +77,7 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
     public async IAsyncEnumerable<TDocument> AsAsyncEnumerable<TDocument>(
       string partitionId,
       string query,
-      IDictionary<string, object> parameters,
+      IReadOnlyDictionary<string, object> parameters,
       string continuationToken,
       [EnumeratorCancellation] CancellationToken cancellationToken) where TDocument : DocumentBase
     {

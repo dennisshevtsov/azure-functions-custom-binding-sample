@@ -32,7 +32,7 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
     public IAsyncEnumerable<TDocument> AsAsyncEnumerable<TDocument>(
       string partitionId,
       string query,
-      IDictionary<string, object> parameters,
+      IReadOnlyDictionary<string, object> parameters,
       string continuationToken,
       CancellationToken cancellationToken) where TDocument : DocumentBase;
 
