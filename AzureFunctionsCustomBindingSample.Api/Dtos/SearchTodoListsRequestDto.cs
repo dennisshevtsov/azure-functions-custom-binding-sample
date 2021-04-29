@@ -7,7 +7,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Dtos
   using System.Collections.Generic;
 
   using AzureFunctionsCustomBindingSample.Api.Documents;
-  using AzureFunctionsCustomBindingSample.Binding.Document;
+  using AzureFunctionsCustomBindingSample.CosmosDb;
 
   /// <summary>Represents conditions to query TODO lists.</summary>
   public sealed class SearchTodoListsRequestDto : IDocumentCollectionQuery

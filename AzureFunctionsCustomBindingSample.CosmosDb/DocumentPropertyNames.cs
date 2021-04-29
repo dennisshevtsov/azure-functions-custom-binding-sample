@@ -35,7 +35,7 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
       new Dictionary<string, string>
       {
         { nameof(DocumentBase.Id), DocumentPropertyNames.IdPropertyName },
-        { nameof(DocumentBase.Type), DocumentPropertyNames.PartitionIdPropertyName },
+        { nameof(DocumentBase.PartitionId), DocumentPropertyNames.PartitionIdPropertyName },
         { nameof(DocumentBase.ResourceId), DocumentPropertyNames.ResourceIdPropertyName },
         { nameof(DocumentBase.SelfLink), DocumentPropertyNames.SelfLinkPropertyName },
         { nameof(DocumentBase.Etag), DocumentPropertyNames.EtagPropertyName },

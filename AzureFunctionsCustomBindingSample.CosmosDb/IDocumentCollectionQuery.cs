@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace AzureFunctionsCustomBindingSample.Binding.Document
+namespace AzureFunctionsCustomBindingSample.CosmosDb
 {
   using System.Collections.Generic;
 

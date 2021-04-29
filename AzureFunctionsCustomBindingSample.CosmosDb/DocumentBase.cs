@@ -13,7 +13,7 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
     public Guid Id { get; set; }
 
     /// <summary>Gets/sets a value that represents a partition ID of a document in the Azure Cosmos DB service.</summary>
-    public string Type { get; set; }
+    public string PartitionId { get; set; }
 
     /// <summary>Gets/sets a value that represents a resource ID associated with a document in the Azure Cosmos DB service.</summary>
     public string ResourceId { get; set; }

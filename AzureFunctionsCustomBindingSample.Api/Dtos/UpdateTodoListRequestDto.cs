@@ -7,11 +7,17 @@ namespace AzureFunctionsCustomBindingSample.Api.Dtos
   using System;
 
   using AzureFunctionsCustomBindingSample.Api.Documents;
-  using AzureFunctionsCustomBindingSample.Binding.Document;
+  using AzureFunctionsCustomBindingSample.CosmosDb;
 
   /// <summary>Represents data to update a TODO list.</summary>
   public sealed class UpdateTodoListRequestDto : ITodoListIdentity, IDocumentQuery
   {
+    /// <summary>Gets/sets a value that represents a title of a TODO list.</summary>
+    public string Title { get; set; }
+
+    /// <summary>Gets/sets a value that represents a description of a TODO list.</summary>
+    public string Description { get; set; }
+
     #region Members of ITodoListIdentity
 
     /// <summary>Gets/sets a value that represents an ID of a TODO list.</summary>
@@ -19,16 +25,10 @@ namespace AzureFunctionsCustomBindingSample.Api.Dtos
 
     #endregion
 
-    /// <summary>Gets/sets a value that represents a title of a TODO list.</summary>
-    public string Title { get; set; }
-
-    /// <summary>Gets/sets a value that represents a description of a TODO list.</summary>
-    public string Description { get; set; }
-
     #region Members of IDocumentQuery
 
     /// <summary>Gets/sets a value that represents an ID of a document.</summary>
-    string IDocumentQuery.DocumentId => TodoListId.ToString();
+    Guid IDocumentQuery.Id => TodoListId;
 
     /// <summary>Gets/sets a value that represents a partition ID of a document.</summary>
     string IDocumentQuery.PartitionId => nameof(TodoListDocument);

@@ -75,5 +75,45 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
 
       return documentDictionary;
     }
+
+    public static Task<TDocument> FirstOrDefaultAsync<TDocument>(
+      this IDocumentClient documentClient,
+      IDocumentQuery query,
+      CancellationToken cancellationToken)
+      where TDocument : DocumentBase
+    {
+      if (documentClient == null)
+      {
+        throw new ArgumentNullException(nameof(documentClient));
+      }
+
+      if (query == null)
+      {
+        throw new ArgumentNullException(nameof(query));
+      }
+
+      return documentClient.FirstOrDefaultAsync<TDocument>(
+        query.Id, query.PartitionId, cancellationToken);
+    }
+
+    public static IAsyncEnumerable<TDocument> AsAsyncEnumerable<TDocument>(
+      this IDocumentClient documentClient,
+      IDocumentCollectionQuery query,
+      CancellationToken cancellationToken)
+      where TDocument : DocumentBase
+    {
+      if (documentClient == null)
+      {
+        throw new ArgumentNullException(nameof(documentClient));
+      }
+
+      if (query == null)
+      {
+        throw new ArgumentNullException(nameof(query));
+      }
+
+      return documentClient.AsAsyncEnumerable<TDocument>(
+        query.PartitionId, query.Query, query.Parameters, query.ContinuationToken, cancellationToken);
+    }
   }
 }

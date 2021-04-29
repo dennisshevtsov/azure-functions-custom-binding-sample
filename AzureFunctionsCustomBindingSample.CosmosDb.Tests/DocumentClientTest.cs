@@ -63,7 +63,7 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb.Tests
       DocumentClientTest.Test(creating, created);
 
       var received = await _documentClient.FirstOrDefaultAsync<TestDocument>(
-        created.Id, created.Type, CancellationToken.None);
+        created.Id, created.PartitionId, CancellationToken.None);
 
       DocumentClientTest.Test(created, received);
 
@@ -73,10 +73,10 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb.Tests
 
       DocumentClientTest.Test(created, updated);
 
-      await _documentClient.DeleteAsync(updated.Id, updated.Type, CancellationToken.None);
+      await _documentClient.DeleteAsync(updated.Id, updated.PartitionId, CancellationToken.None);
 
       var deleted = await _documentClient.FirstOrDefaultAsync<TestDocument>(
-          updated.Id, updated.Type, CancellationToken.None);
+          updated.Id, updated.PartitionId, CancellationToken.None);
 
       Assert.IsNull(deleted);
     }
@@ -101,11 +101,11 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb.Tests
         Assert.IsNotNull(document);
       }
 
-      await _documentClient.DeleteAsync(document0.Id, document0.Type, CancellationToken.None);
-      await _documentClient.DeleteAsync(document1.Id, document1.Type, CancellationToken.None);
-      await _documentClient.DeleteAsync(document2.Id, document2.Type, CancellationToken.None);
-      await _documentClient.DeleteAsync(document3.Id, document3.Type, CancellationToken.None);
-      await _documentClient.DeleteAsync(document4.Id, document4.Type, CancellationToken.None);
+      await _documentClient.DeleteAsync(document0.Id, document0.PartitionId, CancellationToken.None);
+      await _documentClient.DeleteAsync(document1.Id, document1.PartitionId, CancellationToken.None);
+      await _documentClient.DeleteAsync(document2.Id, document2.PartitionId, CancellationToken.None);
+      await _documentClient.DeleteAsync(document3.Id, document3.PartitionId, CancellationToken.None);
+      await _documentClient.DeleteAsync(document4.Id, document4.PartitionId, CancellationToken.None);
     }
 
     [TestMethod]

@@ -6,6 +6,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Dtos
 {
   using System;
 
+  /// <summary>Represents an identity of a TODO list task.</summary>
   public interface ITodoListTaskIdentity
   {
     /// <summary>Gets/sets a value that represents an ID of a TODO list task.</summary>

@@ -38,7 +38,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
                           Id = Guid.NewGuid(),
                           Title = requestDto.Title,
                           Description = requestDto.Description,
-                          Type = nameof(TodoListDocument),
+                          PartitionId = nameof(TodoListDocument),
                         }, cancellationToken)
                         .ContinueWith(task => new CreateTodoListResponseDto
                         {

@@ -9,12 +9,6 @@ namespace AzureFunctionsCustomBindingSample.Api.Dtos
   /// <summary>Represents data to a task of a TODO list.</summary>
   public sealed class UpdateTodoListTaskRequestDto : ITodoListIdentity, ITodoListTaskIdentity
   {
-    /// <summary>Gets/sets a value that represents an ID of a TODO list.</summary>
-    public Guid TodoListId { get; set; }
-
-    /// <summary>Gets/sets a value that represents an ID of a TODO list task.</summary>
-    public Guid TodoListTaskId { get; set; }
-
     /// <summary>Gets/sets a value that represents a title of a TODO list task.</summary>
     public string Title { get; set; }
 
@@ -23,5 +17,19 @@ namespace AzureFunctionsCustomBindingSample.Api.Dtos
 
     /// <summary>Gets/sets a value that represents a deadline of a TODO list task.</summary>
     public DateTime Deadline { get; set; }
+
+    #region Members of ITodoListIdentity
+
+    /// <summary>Gets/sets a value that represents an ID of a TODO list.</summary>
+    public Guid TodoListId { get; set; }
+
+    #endregion
+
+    #region Members of ITodoListTaskIdentity
+
+    /// <summary>Gets/sets a value that represents an ID of a TODO list task.</summary>
+    public Guid TodoListTaskId { get; set; }
+
+    #endregion
   }
 }

@@ -16,8 +16,12 @@ namespace AzureFunctionsCustomBindingSample.Api.Dtos
     /// <summary>Represents detail of a TODO list.</summary>
     public sealed class SearchTodoListsItemResponseDto : ITodoListIdentity
     {
+      #region Members of ITodoListIdentity
+
       /// <summary>Gets/sets a value that represents an ID of a TODO list.</summary>
       public Guid TodoListId { get; set; }
+
+      #endregion
 
       /// <summary>Gets/sets a value that represents a title of a TODO list.</summary>
       public string Title { get; set; }

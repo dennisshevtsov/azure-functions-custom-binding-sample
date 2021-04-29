@@ -48,7 +48,8 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
     public async Task<TDocument> FirstOrDefaultAsync<TDocument>(
-      Guid id, string partitionId, CancellationToken cancellationToken) where TDocument : DocumentBase
+      Guid id, string partitionId, CancellationToken cancellationToken)
+      where TDocument : DocumentBase
     {
       using (var responseMessage = await _container.ReadItemStreamAsync(id.ToString(), new PartitionKey(partitionId), null, cancellationToken))
       {
@@ -125,23 +126,13 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
     public async Task<TDocument> InsertAsync<TDocument>(
       TDocument document, CancellationToken cancellationToken) where TDocument : DocumentBase
     {
-      if (document.Id == default)
-      {
-        document.Id = Guid.NewGuid();
-      }
-
-      if (document.Type == null)
-      {
-        document.Type = typeof(TDocument).Name;
-      }
-
       using (var stream = _streamManager.GetStream())
       {
         await _serializer.SerializeAsync(stream, document, cancellationToken);
         stream.Seek(0, SeekOrigin.Begin);
 
         using (var responseMessage = await _container.CreateItemStreamAsync(
-          stream, new PartitionKey(document.Type), null, cancellationToken))
+          stream, new PartitionKey(document.PartitionId), null, cancellationToken))
         {
           responseMessage.EnsureSuccessStatusCode();
 
@@ -167,7 +158,7 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
         stream.Seek(0, SeekOrigin.Begin);
 
         using (var responseMessage = await _container.ReplaceItemStreamAsync(
-          stream, document.Id.ToString(), new PartitionKey(document.Type), null, cancellationToken))
+          stream, document.Id.ToString(), new PartitionKey(document.PartitionId), null, cancellationToken))
         {
           responseMessage.EnsureSuccessStatusCode();
 
