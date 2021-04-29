@@ -5,10 +5,10 @@
 namespace AzureFunctionsCustomBindingSample.Api.Services
 {
   using System;
+  using System.Reflection;
   using System.Threading;
   using System.Threading.Tasks;
 
-  using AzureFunctionsCustomBindingSample.Api.Dtos;
   using AzureFunctionsCustomBindingSample.Binding.Document;
   using AzureFunctionsCustomBindingSample.CosmosDb;
 
@@ -32,27 +32,25 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
     public Task<object> GetDocumentAsync(HttpRequest httpRequest, Type documentType, CancellationToken cancellationToken)
     {
       var requestDto = httpRequest.HttpContext.Items["__request__"];
+      var query = (IDocumentQuery)requestDto;
 
-      if (requestDto is ITodoListIdentity identity)
+      var type = typeof(DocumentClientExtensions);
+      var method = type.GetMethod(nameof(DocumentClientExtensions.FirstOrDefaultAsync),
+                                  BindingFlags.Static | BindingFlags.Public)
+                       .MakeGenericMethod(documentType);
+      var parameters = new object[]
       {
-        var task = (Task)typeof(IDocumentClient).GetMethod(nameof(IDocumentClient.FirstOrDefaultAsync))
-                                                .MakeGenericMethod(documentType)
-                                                .Invoke(_documentClient,
-                                                        new object[]
-                                                        {
-                                                          identity.TodoListId,
-                                                          documentType.Name,
-                                                          cancellationToken,
-                                                        });
-        var taskWithResult = task.ContinueWith(task => typeof(Task<>).MakeGenericType(documentType)
-                                                                     .GetProperty(nameof(Task<object>.Result))
-                                                                     .GetValue(task),
-                                               cancellationToken);
+        _documentClient,
+        query,
+        cancellationToken,
+      };
+      var task = (Task)method.Invoke(null, parameters);
+      var taskWithResult = task.ContinueWith(task => typeof(Task<>).MakeGenericType(documentType)
+                                                                   .GetProperty(nameof(Task<object>.Result))
+                                                                   .GetValue(task),
+                                             cancellationToken);
 
-        return taskWithResult;
-      }
-
-      return Task.FromResult(default(object));
+      return taskWithResult;
     }
 
     /// <summary>Gets a collection of documents for an HTTP request.</summary>
@@ -61,6 +59,27 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
     public Task<object> GetDocumentsAsync(HttpRequest httpRequest, Type documentType, CancellationToken cancellationToken)
-      => Task.FromResult(default(object));
+    {
+      var requestDto = httpRequest.HttpContext.Items["__request__"];
+      var query = (IDocumentCollectionQuery)requestDto;
+
+      var type = typeof(DocumentClientExtensions);
+      var method = type.GetMethod(nameof(DocumentClientExtensions.AsAsyncEnumerable),
+                                  BindingFlags.Static | BindingFlags.Public)
+                       .MakeGenericMethod(documentType);
+      var parameters = new object[]
+      {
+        _documentClient,
+        query,
+        cancellationToken,
+      };
+      var task = (Task)method.Invoke(null, parameters);
+      var taskWithResult = task.ContinueWith(task => typeof(Task<>).MakeGenericType(documentType)
+                                                                   .GetProperty(nameof(Task<object>.Result))
+                                                                   .GetValue(task),
+                                             cancellationToken);
+
+      return taskWithResult;
+    }
   }
 }
