@@ -76,6 +76,12 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
       return documentDictionary;
     }
 
+    /// <summary>Receives a document from its persistence.</summary>
+    /// <typeparam name="TDocument">A type of a document.</typeparam>
+    /// <param name="documentClient">An object that provides a simple API to persistence of documents that inherits the <see cref="AzureFunctionsCustomBindingSample.CosmosDb.DocumentBase"/> class.</param>
+    /// <param name="query">An object that represents conditions to query a document.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an async operation.</returns>
     public static Task<TDocument> FirstOrDefaultAsync<TDocument>(
       this IDocumentClient documentClient,
       IDocumentQuery query,
@@ -96,6 +102,12 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
         query.Id, query.PartitionId, cancellationToken);
     }
 
+    /// <summary>Receives documents from their persistence.</summary>
+    /// <typeparam name="TDocument">A type of a document.</typeparam>
+    /// <param name="documentClient">An object that provides a simple API to persistence of documents that inherits the <see cref="AzureFunctionsCustomBindingSample.CosmosDb.DocumentBase"/> class.</param>
+    /// <param name="query">An object that represents conditions to query a collection of documents.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an async operation.</returns>
     public static IAsyncEnumerable<TDocument> AsAsyncEnumerable<TDocument>(
       this IDocumentClient documentClient,
       IDocumentCollectionQuery query,
