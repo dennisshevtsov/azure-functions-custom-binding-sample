@@ -30,28 +30,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
     public Task<object> GetDocumentAsync(HttpRequest httpRequest, Type documentType, CancellationToken cancellationToken)
-    {
-      var requestDto = httpRequest.HttpContext.Items["__request__"];
-      var query = (IDocumentQuery)requestDto;
-
-      var type = typeof(DocumentClientExtensions);
-      var method = type.GetMethod(nameof(DocumentClientExtensions.FirstOrDefaultAsync),
-                                  BindingFlags.Static | BindingFlags.Public)
-                       .MakeGenericMethod(documentType);
-      var parameters = new object[]
-      {
-        _documentClient,
-        query,
-        cancellationToken,
-      };
-      var task = (Task)method.Invoke(null, parameters);
-      var taskWithResult = task.ContinueWith(task => typeof(Task<>).MakeGenericType(documentType)
-                                                                   .GetProperty(nameof(Task<object>.Result))
-                                                                   .GetValue(task),
-                                             cancellationToken);
-
-      return taskWithResult;
-    }
+      => GetDocumentsAsync(httpRequest, documentType, nameof(DocumentClientExtensions.FirstOrDefaultAsync), cancellationToken);
 
     /// <summary>Gets a collection of documents for an HTTP request.</summary>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
@@ -59,27 +38,34 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
     public Task<object> GetDocumentsAsync(HttpRequest httpRequest, Type documentType, CancellationToken cancellationToken)
+      => GetDocumentsAsync(httpRequest, documentType, nameof(DocumentClientExtensions.AsAsyncEnumerable), cancellationToken);
+
+    public Task<object> GetDocumentsAsync(
+      HttpRequest httpRequest,
+      Type documentType,
+      string methodName,
+      CancellationToken cancellationToken)
     {
       var requestDto = httpRequest.HttpContext.Items["__request__"];
-      var query = (IDocumentCollectionQuery)requestDto;
 
       var type = typeof(DocumentClientExtensions);
-      var method = type.GetMethod(nameof(DocumentClientExtensions.AsAsyncEnumerable),
-                                  BindingFlags.Static | BindingFlags.Public)
+      var method = type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public)
                        .MakeGenericMethod(documentType);
       var parameters = new object[]
       {
         _documentClient,
-        query,
+        requestDto,
         cancellationToken,
       };
       var task = (Task)method.Invoke(null, parameters);
-      var taskWithResult = task.ContinueWith(task => typeof(Task<>).MakeGenericType(documentType)
-                                                                   .GetProperty(nameof(Task<object>.Result))
-                                                                   .GetValue(task),
-                                             cancellationToken);
+      var taskWithResult = task.ContinueWith(
+        task => typeof(Task<>).MakeGenericType(documentType)
+                              .GetProperty(nameof(Task<object>.Result))
+                              .GetValue(task),
+        cancellationToken);
 
       return taskWithResult;
+
     }
   }
 }
