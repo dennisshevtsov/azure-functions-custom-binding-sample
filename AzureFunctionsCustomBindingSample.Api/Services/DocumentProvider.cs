@@ -5,6 +5,7 @@
 namespace AzureFunctionsCustomBindingSample.Api.Services
 {
   using System;
+  using System.Collections.Generic;
   using System.Reflection;
   using System.Threading;
   using System.Threading.Tasks;
@@ -30,24 +31,10 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
     /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an async operation.</returns>
     public Task<object> GetDocumentAsync(HttpRequest httpRequest, Type documentType, CancellationToken cancellationToken)
-      => GetDocumentsAsync(httpRequest, documentType, nameof(DocumentClientExtensions.FirstOrDefaultAsync), cancellationToken);
-
-    /// <summary>Gets a collection of documents for an HTTP request.</summary>
-    /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
-    /// <param name="documentType">An object that represents a type of a document.</param>
-    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
-    /// <returns>An object that represents an async operation.</returns>
-    public Task<object> GetDocumentsAsync(HttpRequest httpRequest, Type documentType, CancellationToken cancellationToken)
-      => GetDocumentsAsync(httpRequest, documentType, nameof(DocumentClientExtensions.AsAsyncEnumerable), cancellationToken);
-
-    private Task<object> GetDocumentsAsync(
-      HttpRequest httpRequest,
-      Type documentType,
-      string methodName,
-      CancellationToken cancellationToken)
     {
       var requestDto = httpRequest.HttpContext.Items["__request__"];
 
+      var methodName = nameof(DocumentClientExtensions.FirstOrDefaultAsync);
       var type = typeof(DocumentClientExtensions);
       var method = type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public)
                        .MakeGenericMethod(documentType);
@@ -65,7 +52,41 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
         cancellationToken);
 
       return taskWithResult;
+    }
 
+    /// <summary>Gets a collection of documents for an HTTP request.</summary>
+    /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
+    /// <param name="documentType">An object that represents a type of a document.</param>
+    /// <param name="cancellationToken">A value that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an async operation.</returns>
+    public Task<object> GetDocumentsAsync(HttpRequest httpRequest, Type documentType, CancellationToken cancellationToken)
+    {
+      var requestDto = httpRequest.HttpContext.Items["__request__"];
+
+      var methodName = nameof(DocumentClientExtensions.ToListAsync);
+      var type = typeof(DocumentClientExtensions);
+      var types = new[]
+      {
+        typeof(IDocumentClient),
+        typeof(IDocumentCollectionQuery),
+        typeof(CancellationToken),
+      };
+      var method = type.GetMethod(methodName, types)
+                       .MakeGenericMethod(documentType);
+      var parameters = new object[]
+      {
+        _documentClient,
+        requestDto,
+        cancellationToken,
+      };
+      var task = (Task)method.Invoke(null, parameters);
+      var taskWithResult = task.ContinueWith(
+        task => typeof(Task<>).MakeGenericType(typeof(IList<>).MakeGenericType(documentType))
+                              .GetProperty(nameof(Task<object>.Result))
+                              .GetValue(task),
+        cancellationToken);
+
+      return taskWithResult;
     }
   }
 }

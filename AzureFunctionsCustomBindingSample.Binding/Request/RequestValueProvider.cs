@@ -77,6 +77,36 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request
         }
       }
 
+      foreach (var queryParameter in _httpRequest.Query)
+      {
+        var property = Type.GetProperty(queryParameter.Key, BindingFlags.Public |
+                                                            BindingFlags.SetProperty |
+                                                            BindingFlags.IgnoreCase |
+                                                            BindingFlags.Instance);
+
+        if (property != null)
+        {
+          if (property.PropertyType == typeof(Guid))
+          {
+            if (Guid.TryParse(queryParameter.Value.ToString(), out var value))
+            {
+              property.SetValue(instance, value);
+            }
+          }
+          else if (property.PropertyType == typeof(int))
+          {
+            if (int.TryParse(queryParameter.Value.ToString(), out var value))
+            {
+              property.SetValue(instance, value);
+            }
+          }
+          else if (property.PropertyType == typeof(string))
+          {
+            property.SetValue(instance, queryParameter.Value.ToString());
+          }
+        }
+      }
+
       _httpRequest.HttpContext.Items[RequestBinding.ParameterDescriptorName] = instance;
 
       return instance;

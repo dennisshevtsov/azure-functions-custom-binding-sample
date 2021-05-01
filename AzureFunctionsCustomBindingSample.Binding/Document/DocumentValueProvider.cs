@@ -35,15 +35,11 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
     public Task<object> GetValueAsync()
     {
       var documentProvider = _httpRequest.HttpContext.RequestServices.GetRequiredService<IDocumentProvider>();
-      var collectionType = Type.GetInterfaces()
-                               .FirstOrDefault(type => type.IsGenericType &&
-                                                       type.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+      var collectionElementType = DocumentValueProvider.GetCollectionElementType(Type);
 
-      if (collectionType != null)
+      if (collectionElementType != null)
       {
-        var elementType = collectionType.GetGenericArguments()[0];
-
-        return documentProvider.GetDocumentsAsync(_httpRequest, elementType, _httpRequest.HttpContext.RequestAborted);
+        return documentProvider.GetDocumentsAsync(_httpRequest, collectionElementType, _httpRequest.HttpContext.RequestAborted);
       }
 
       return documentProvider.GetDocumentAsync(_httpRequest, Type, _httpRequest.HttpContext.RequestAborted);
@@ -52,5 +48,22 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
     /// <summary>Gets an invoke string.</summary>
     /// <returns>An invoke string.</returns>
     public string ToInvokeString() => DocumentBinding.ParameterDescriptorName;
+
+    private static Type GetCollectionElementType(Type parameterType)
+    {
+      Type collectionElementType = null;
+
+      if (parameterType.IsGenericType)
+      {
+        var genericType = parameterType.GetGenericTypeDefinition();
+
+        if (typeof(IEnumerable<>).IsAssignableFrom(genericType))
+        {
+          collectionElementType = parameterType.GetGenericArguments()[0];
+        }
+      }
+
+      return collectionElementType;
+    }
   }
 }
