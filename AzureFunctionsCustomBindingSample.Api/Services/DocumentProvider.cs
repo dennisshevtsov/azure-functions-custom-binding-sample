@@ -40,7 +40,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
     public Task<object> GetDocumentsAsync(HttpRequest httpRequest, Type documentType, CancellationToken cancellationToken)
       => GetDocumentsAsync(httpRequest, documentType, nameof(DocumentClientExtensions.AsAsyncEnumerable), cancellationToken);
 
-    public Task<object> GetDocumentsAsync(
+    private Task<object> GetDocumentsAsync(
       HttpRequest httpRequest,
       Type documentType,
       string methodName,
