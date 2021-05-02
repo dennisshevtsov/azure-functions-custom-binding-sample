@@ -5,6 +5,7 @@
 namespace AzureFunctionsCustomBindingSample.Binding.Request
 {
   using System;
+  using System.Collections.Generic;
   using System.Reflection;
   using System.Text.Json;
   using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request
   using Microsoft.AspNetCore.Http;
   using Microsoft.AspNetCore.Routing;
   using Microsoft.Azure.WebJobs.Host.Bindings;
+  using Microsoft.Extensions.Primitives;
 
   /// <summary>Initializes a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Binding.RequestAttribute"/> attribute.</summary>
   public sealed class RequestValueProvider : IValueProvider
@@ -51,33 +53,23 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request
           _httpRequest.Body, Type, jsonSerializerOptions, _httpRequest.HttpContext.RequestAborted);
       }
 
-      foreach (var route in _httpRequest.HttpContext.GetRouteData().Values)
-      {
-        var property = Type.GetProperty(route.Key, BindingFlags.Public |
-                                                   BindingFlags.SetProperty |
-                                                   BindingFlags.IgnoreCase |
-                                                   BindingFlags.Instance);
+      Populate(instance, _httpRequest.HttpContext.GetRouteData().Values);
+      Populate(instance, _httpRequest.Query);
 
-        if (property != null)
-        {
-          if (property.PropertyType == typeof(Guid))
-          {
-            if (Guid.TryParse(route.Value.ToString(), out var value))
-            {
-              property.SetValue(instance, value);
-            }
-          }
-          else if (property.PropertyType == typeof(int))
-          {
-            if (int.TryParse(route.Value.ToString(), out var value))
-            {
-              property.SetValue(instance, value);
-            }
-          }
-        }
-      }
+      _httpRequest.HttpContext.Items[RequestBinding.ParameterDescriptorName] = instance;
 
-      foreach (var queryParameter in _httpRequest.Query)
+      return instance;
+    }
+
+    /// <summary>Gets an invoke string.</summary>
+    /// <returns>An invoke string.</returns>
+    public string ToInvokeString() => RequestBinding.ParameterDescriptorName;
+
+    private void Populate<TValue>(
+      object instance,
+      IEnumerable<KeyValuePair<string, TValue>> parameters)
+    {
+      foreach (var queryParameter in parameters)
       {
         var property = Type.GetProperty(queryParameter.Key, BindingFlags.Public |
                                                             BindingFlags.SetProperty |
@@ -106,14 +98,6 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request
           }
         }
       }
-
-      _httpRequest.HttpContext.Items[RequestBinding.ParameterDescriptorName] = instance;
-
-      return instance;
     }
-
-    /// <summary>Gets an invoke string.</summary>
-    /// <returns>An invoke string.</returns>
-    public string ToInvokeString() => RequestBinding.ParameterDescriptorName;
   }
 }
