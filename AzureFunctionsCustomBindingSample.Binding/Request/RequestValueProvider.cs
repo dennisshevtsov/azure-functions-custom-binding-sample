@@ -13,14 +13,13 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request
   using Microsoft.AspNetCore.Http;
   using Microsoft.AspNetCore.Routing;
   using Microsoft.Azure.WebJobs.Host.Bindings;
-  using Microsoft.Extensions.Primitives;
 
   /// <summary>Initializes a parameter that is marked with the <see cref="AzureFunctionsCustomBindingSample.Binding.RequestAttribute"/> attribute.</summary>
   public sealed class RequestValueProvider : IValueProvider
   {
     private readonly HttpRequest _httpRequest;
 
-    /// <summary>Initializes a new instance of the <see cref="RequestValueProvider"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Request.RequestValueProvider"/> class.</summary>
     /// <param name="type">A value that represents a parameter type.</param>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
     public RequestValueProvider(Type type, HttpRequest httpRequest)
@@ -36,25 +35,10 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request
     /// <returns>An instance of a parameter.</returns>
     public async Task<object> GetValueAsync()
     {
-      object instance = null;
+      var instance = await ReadBodyAsync();
 
-      if (_httpRequest.Body == null || !_httpRequest.Body.CanSeek || _httpRequest.Body.Length == 0)
-      {
-        instance = Activator.CreateInstance(Type);
-      }
-      else
-      {
-        var jsonSerializerOptions = new JsonSerializerOptions
-        {
-          PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        };
-
-        instance = await JsonSerializer.DeserializeAsync(
-          _httpRequest.Body, Type, jsonSerializerOptions, _httpRequest.HttpContext.RequestAborted);
-      }
-
-      Populate(instance, _httpRequest.HttpContext.GetRouteData().Values);
-      Populate(instance, _httpRequest.Query);
+      PopulateParameters(instance, _httpRequest.HttpContext.GetRouteData().Values);
+      PopulateParameters(instance, _httpRequest.Query);
 
       _httpRequest.HttpContext.Items[RequestBinding.ParameterDescriptorName] = instance;
 
@@ -65,7 +49,23 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request
     /// <returns>An invoke string.</returns>
     public string ToInvokeString() => RequestBinding.ParameterDescriptorName;
 
-    private void Populate<TValue>(
+    private ValueTask<object> ReadBodyAsync()
+    {
+      if (_httpRequest.Body == null || !_httpRequest.Body.CanSeek || _httpRequest.Body.Length == 0)
+      {
+        return new ValueTask<object>(Task.FromResult(Activator.CreateInstance(Type)));
+      }
+
+      var jsonSerializerOptions = new JsonSerializerOptions
+      {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+      };
+
+      return JsonSerializer.DeserializeAsync(
+        _httpRequest.Body, Type, jsonSerializerOptions, _httpRequest.HttpContext.RequestAborted);
+    }
+
+    private void PopulateParameters<TValue>(
       object instance,
       IEnumerable<KeyValuePair<string, TValue>> parameters)
     {
