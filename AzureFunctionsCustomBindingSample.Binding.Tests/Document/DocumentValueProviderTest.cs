@@ -26,9 +26,25 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
     public void Initialize()
     {
       _documentProviderMock = new Mock<IDocumentProvider>();
-      _documentProviderMock.Setup(handler => handler.GetDocumentAsync(It.IsAny<HttpRequest>(), It.IsAny<Type>(), It.IsAny<CancellationToken>()))
+      _documentProviderMock.Setup(provider => provider.GetDocumentAsync(It.IsAny<HttpRequest>(), It.IsAny<Type>(), It.IsAny<CancellationToken>()))
                            .ReturnsAsync((HttpRequest httpRequest, Type type, CancellationToken CancellationToken) =>
-                             new TestDocument());
+                           {
+                             object instance = null;
+
+                             if (httpRequest.HttpContext.Items.TryGetValue(
+                                   "__request__", out var requestObject) &&
+                                 requestObject is GetTestDocumentRequestDto requestDto)
+                             {
+                               instance = new TestDocument
+                               {
+                                 Id = requestDto.TestDocumentId,
+                               };
+                             }
+
+                             return instance;
+                           });
+      _documentProviderMock.Setup(provider => provider.GetDocumentsAsync(It.IsAny<HttpRequest>(), It.IsAny<Type>(), It.IsAny<CancellationToken>()))
+                           .ReturnsAsync((HttpRequest httpRequest, Type type, CancellationToken CancellationToken) => new[] { new TestDocument(), });
 
       _serviceProviderMock = new Mock<IServiceProvider>();
       _serviceProviderMock.Setup(provider => provider.GetService(It.IsAny<Type>()))
