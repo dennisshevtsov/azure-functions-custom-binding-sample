@@ -7,6 +7,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request.Tests
   using System;
   using System.Collections.Generic;
   using System.IO;
+  using System.Linq;
   using System.Text.Json;
   using System.Threading;
   using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request.Tests
   using Microsoft.AspNetCore.Http;
   using Microsoft.AspNetCore.Http.Features;
   using Microsoft.AspNetCore.Routing;
+  using Microsoft.Extensions.Primitives;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
 
@@ -107,6 +109,13 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request.Tests
 
       _httpRequestMock.SetupGet(request => request.HttpContext)
                       .Returns(httpContextMock.Object);
+
+      var queryCollectionMock = new Mock<IQueryCollection>();
+      queryCollectionMock.Setup(collection => collection.GetEnumerator())
+                         .Returns(Enumerable.Empty<KeyValuePair<string, StringValues>>().GetEnumerator());
+
+      _httpRequestMock.SetupGet(request => request.Query)
+                      .Returns(queryCollectionMock.Object);
     }
 
     public sealed class TestRequestDto
