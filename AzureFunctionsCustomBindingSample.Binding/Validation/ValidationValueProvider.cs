@@ -6,7 +6,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
 {
   using System;
   using System.Threading.Tasks;
-
+  using AzureFunctionsCustomBindingSample.Binding.Request;
   using Microsoft.AspNetCore.Http;
   using Microsoft.Azure.WebJobs.Host.Bindings;
   using Microsoft.Extensions.DependencyInjection;
@@ -43,7 +43,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
         _httpContext.RequestServices,
         new[]
         {
-          _httpContext.Items["__request__"],
+          _httpContext.Items[RequestBinding.ParameterDescriptorName],
         }) as IValidator;
       var errors = validator.Validate();
       var validationResult = new ValidationResult(errors);

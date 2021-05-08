@@ -14,6 +14,8 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using Moq;
 
+  using AzureFunctionsCustomBindingSample.Binding.Request;
+
   [TestClass]
   public sealed class DocumentValueProviderTest
   {
@@ -90,7 +92,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
       {
         TestDocumentId = testId,
       };
-      items.Add("__request__", requestDto);
+      items.Add(RequestBinding.ParameterDescriptorName, requestDto);
 
       _httpContextMock.SetupGet(context => context.Items)
                       .Returns(items);
@@ -101,7 +103,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
                              object instance = null;
 
                              if (httpRequest.HttpContext.Items.TryGetValue(
-                                   "__request__", out var requestObject) &&
+                                   RequestBinding.ParameterDescriptorName, out var requestObject) &&
                                  requestObject is GetTestDocumentRequestDto requestDto)
                              {
                                instance = new TestDocument
@@ -123,7 +125,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
         StringProperty = stringProperty,
         DateTimeProperty = dateTimeProperty,
       };
-      items.Add("__request__", requestDto);
+      items.Add(RequestBinding.ParameterDescriptorName, requestDto);
 
       _httpContextMock.SetupGet(context => context.Items)
                       .Returns(items);
@@ -134,7 +136,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
                              object instance = null;
 
                              if (httpRequest.HttpContext.Items.TryGetValue(
-                                   "__request__", out var requestObject) &&
+                                   RequestBinding.ParameterDescriptorName, out var requestObject) &&
                                  requestObject is SearchTestDocumentsRequestDto requestDto)
                              {
                                instance = Enumerable.Range(1, 5)
