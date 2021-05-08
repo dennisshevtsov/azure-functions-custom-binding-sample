@@ -62,6 +62,16 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request.Tests
 
     private async Task SetupAsync(TestRequestDto requestDto, Guid testId)
     {
+      _httpRequestMock.SetupGet(request => request.Body)
+                      .Returns(await RequestValueProviderTest.CreateBodyAsync(requestDto));
+      _httpRequestMock.SetupGet(request => request.HttpContext)
+                      .Returns(RequestValueProviderTest.CreateHttpMock(testId).Object);
+      _httpRequestMock.SetupGet(request => request.Query)
+                      .Returns(RequestValueProviderTest.CreateQueryMock().Object);
+    }
+
+    private static async Task<Stream> CreateBodyAsync(TestRequestDto requestDto)
+    {
       var stream = new MemoryStream();
       var options = new JsonSerializerOptions
       {
@@ -71,9 +81,11 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request.Tests
       await JsonSerializer.SerializeAsync(stream, requestDto, requestDto.GetType(), options, CancellationToken.None);
       stream.Seek(0, SeekOrigin.Begin);
 
-      _httpRequestMock.SetupGet(request => request.Body)
-                      .Returns(stream);
+      return stream;
+    }
 
+    private static Mock<HttpContext> CreateHttpMock(Guid testId)
+    {
       var httpContextMock = new Mock<HttpContext>();
 
       httpContextMock.SetupGet(context => context.RequestAborted)
@@ -107,26 +119,16 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request.Tests
       httpContextMock.SetupGet(context => context.Items)
                      .Returns(items);
 
-      _httpRequestMock.SetupGet(request => request.HttpContext)
-                      .Returns(httpContextMock.Object);
+      return httpContextMock;
+    }
 
+    private static Mock<IQueryCollection> CreateQueryMock()
+    {
       var queryCollectionMock = new Mock<IQueryCollection>();
       queryCollectionMock.Setup(collection => collection.GetEnumerator())
                          .Returns(Enumerable.Empty<KeyValuePair<string, StringValues>>().GetEnumerator());
 
-      _httpRequestMock.SetupGet(request => request.Query)
-                      .Returns(queryCollectionMock.Object);
-    }
-
-    public sealed class TestRequestDto
-    {
-      public Guid TestId { get; set; }
-
-      public Guid GuidProperty { get; set; }
-
-      public int IntProperty { get; set; }
-
-      public string StringProperty { get; set; }
+      return queryCollectionMock;
     }
   }
 }
