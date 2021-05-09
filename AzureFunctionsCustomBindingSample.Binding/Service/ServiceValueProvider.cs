@@ -16,7 +16,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Service
   {
     private readonly HttpRequest _httpRequest;
 
-    /// <summary>Initializes a new instance of the <see cref="ServiceValueProvider"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Service.ServiceValueProvider"/> class.</summary>
     /// <param name="type">A value that represents a parameter type.</param>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
     public ServiceValueProvider(Type type, HttpRequest httpRequest)

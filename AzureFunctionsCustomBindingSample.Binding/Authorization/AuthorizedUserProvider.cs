@@ -15,7 +15,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization
   {
     private readonly Func<HttpRequest, CancellationToken, Task<object>> _authorize;
 
-    /// <summary>Initializes a new instance of the <see cref="AuthorizedUserProvider"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Authorization.AuthorizedUserProvider"/> class.</summary>
     /// <param name="authorize">An object that represents a method to get an authorized user for an HTTP request.</param>
     public AuthorizedUserProvider(Func<HttpRequest, CancellationToken, Task<object>> authorize)
       => _authorize = authorize ?? throw new ArgumentNullException(nameof(authorize));

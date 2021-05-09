@@ -6,16 +6,16 @@ namespace AzureFunctionsCustomBindingSample.CosmosDb
 {
   using Microsoft.IO;
 
-  /// <summary>Provides a simple API to receive an instance of the <see cref="RecyclableMemoryStream"/> class.</summary>
+  /// <summary>Provides a simple API to receive an instance of the <see cref="AzureFunctionsCustomBindingSample.CosmosDb.RecyclableMemoryStream"/> class.</summary>
   public sealed class RecyclableMemoryStreamManagerProvider
   {
     private readonly RecyclableMemoryStreamManager _streamManager;
 
-    /// <summary>Initializes a new instance of the <see cref="RecyclableMemoryStreamManagerProvider"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.CosmosDb.RecyclableMemoryStreamManagerProvider"/> class.</summary>
     public RecyclableMemoryStreamManagerProvider() => _streamManager = new RecyclableMemoryStreamManager();
 
-    /// <summary>Gets an instance of the <see cref="RecyclableMemoryStreamManager"/> class.</summary>
-    /// <returns>An instance of the <see cref="RecyclableMemoryStreamManager"/> class.</returns>
+    /// <summary>Gets an instance of the <see cref="AzureFunctionsCustomBindingSample.CosmosDb.RecyclableMemoryStreamManager"/> class.</summary>
+    /// <returns>An instance of the <see cref="AzureFunctionsCustomBindingSample.CosmosDb.RecyclableMemoryStreamManager"/> class.</returns>
     public RecyclableMemoryStreamManager Get() => _streamManager;
   }
 }

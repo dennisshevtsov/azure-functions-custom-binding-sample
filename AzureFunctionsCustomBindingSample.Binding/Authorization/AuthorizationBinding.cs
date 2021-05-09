@@ -18,7 +18,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization
     private readonly IAuthorizedUserProvider _authorizedUserProvider;
     private readonly Type _parameterType;
 
-    /// <summary>Initializes a new instance of the <see cref="AuthorizationBinding"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Authorization.AuthorizationBinding"/> class.</summary>
     /// <param name="authorizedUserProvider">An object that provides a simple API to get an authorized user.</param>
     /// <param name="parameterType">A value that represents a type of a binded parameter.</param>
     public AuthorizationBinding(IAuthorizedUserProvider authorizedUserProvider, Type parameterType)
@@ -44,8 +44,8 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization
     {
       if (context.TryGetHttpRequest(out var httpRequest))
       {
-        return Task.FromResult<IValueProvider>(
-          new AuthorizationValueProvider(httpRequest, _authorizedUserProvider, _parameterType));
+        return Task.FromResult<IValueProvider>(new AuthorizationValueProvider(
+          httpRequest, context.FunctionCancellationToken, _authorizedUserProvider, _parameterType));
       }
 
       throw new InvalidOperationException();

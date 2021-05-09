@@ -29,6 +29,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization.Tests
 
       _valueProvider = new AuthorizationValueProvider(
         _httpRequestMock.Object,
+        CancellationToken.None,
         _authorizedUserProviderMock.Object,
         typeof(object));
     }

@@ -17,7 +17,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Service
 
     private readonly Type _parameterType;
 
-    /// <summary>Initializes a new instance of the <see cref="ServiceBinding"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Service.ServiceBinding"/> class.</summary>
     /// <param name="parameterType">Gets a value that represents a type of a binded parameter.</param>
     public ServiceBinding(Type parameterType)
       => _parameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));

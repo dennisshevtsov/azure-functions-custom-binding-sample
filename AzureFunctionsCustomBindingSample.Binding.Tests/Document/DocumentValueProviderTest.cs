@@ -96,7 +96,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
 
       _httpContextMock.SetupGet(context => context.Items)
                       .Returns(items);
-      _valueProvider = new DocumentValueProvider(typeof(TestDocument), _httpRequestMock.Object);
+      _valueProvider = new DocumentValueProvider(typeof(TestDocument), _httpRequestMock.Object, CancellationToken.None);
       _documentProviderMock.Setup(provider => provider.GetDocumentAsync(It.IsAny<HttpRequest>(), It.IsAny<Type>(), It.IsAny<CancellationToken>()))
                            .ReturnsAsync((HttpRequest httpRequest, Type type, CancellationToken CancellationToken) =>
                            {
@@ -129,7 +129,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document.Tests
 
       _httpContextMock.SetupGet(context => context.Items)
                       .Returns(items);
-      _valueProvider = new DocumentValueProvider(typeof(IEnumerable<TestDocument>), _httpRequestMock.Object);
+      _valueProvider = new DocumentValueProvider(typeof(IEnumerable<TestDocument>), _httpRequestMock.Object, CancellationToken.None);
       _documentProviderMock.Setup(provider => provider.GetDocumentsAsync(It.IsAny<HttpRequest>(), It.IsAny<Type>(), It.IsAny<CancellationToken>()))
                            .ReturnsAsync((HttpRequest httpRequest, Type type, CancellationToken CancellationToken) =>
                            {

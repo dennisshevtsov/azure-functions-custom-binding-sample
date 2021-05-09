@@ -6,7 +6,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
 {
   using System;
   using System.Collections.Generic;
-  using System.Linq;
+  using System.Threading;
   using System.Threading.Tasks;
 
   using Microsoft.AspNetCore.Http;
@@ -17,14 +17,17 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
   public sealed class DocumentValueProvider : IValueProvider
   {
     private readonly HttpRequest _httpRequest;
+    private readonly CancellationToken _cancellationToken;
 
-    /// <summary>Initializes a new instance of the <see cref="DocumentValueProvider"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Document.DocumentValueProvider"/> class.</summary>
     /// <param name="type">A value that represents a parameter type.</param>
     /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
-    public DocumentValueProvider(Type type, HttpRequest httpRequest)
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    public DocumentValueProvider(Type type, HttpRequest httpRequest, CancellationToken cancellationToken)
     {
       Type = type ?? throw new ArgumentNullException(nameof(type));
       _httpRequest = httpRequest ?? throw new ArgumentNullException(nameof(httpRequest));
+      _cancellationToken = cancellationToken;
     }
 
     /// <summary>Gets a value that represents a type of a parameter.</summary>
@@ -39,10 +42,10 @@ namespace AzureFunctionsCustomBindingSample.Binding.Document
 
       if (collectionElementType != null)
       {
-        return documentProvider.GetDocumentsAsync(_httpRequest, collectionElementType, _httpRequest.HttpContext.RequestAborted);
+        return documentProvider.GetDocumentsAsync(_httpRequest, collectionElementType, _cancellationToken);
       }
 
-      return documentProvider.GetDocumentAsync(_httpRequest, Type, _httpRequest.HttpContext.RequestAborted);
+      return documentProvider.GetDocumentAsync(_httpRequest, Type, _cancellationToken);
     }
 
     /// <summary>Gets an invoke string.</summary>

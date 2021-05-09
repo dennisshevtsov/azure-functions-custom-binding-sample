@@ -19,7 +19,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
   {
     private readonly IDocumentClient _documentClient;
 
-    /// <summary>Initializes a new instance of the <see cref="TodoService"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Api.Services.TodoService"/> class.</summary>
     /// <param name="documentClient">An object that provides a simple API to persistence of documents that inherits the <see cref="AzureFunctionsCustomBindingSample.DocumentPersistence.DocumentBase"/> class.</param>
     public TodoService(IDocumentClient documentClient)
       => _documentClient = documentClient ?? throw new ArgumentNullException(nameof(documentClient));

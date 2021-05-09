@@ -17,7 +17,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request
 
     private readonly Type _parameterType;
 
-    /// <summary>Initializes a new instance of the <see cref="RequestBinding"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Request.RequestBinding"/> class.</summary>
     /// <param name="parameterType">Gets a value that represents a type of a binded parameter.</param>
     public RequestBinding(Type parameterType)
       => _parameterType = parameterType ?? throw new ArgumentNullException(nameof(parameterType));
@@ -39,7 +39,8 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request
     {
       if (context.TryGetHttpRequest(out var httpRequest))
       {
-        return Task.FromResult<IValueProvider>(new RequestValueProvider(_parameterType, httpRequest));
+        return Task.FromResult<IValueProvider>(new RequestValueProvider(
+          _parameterType, httpRequest, context.FunctionCancellationToken));
       }
 
       throw new InvalidOperationException();

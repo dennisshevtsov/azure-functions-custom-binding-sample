@@ -29,7 +29,8 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request.Tests
     public void Initialize()
     {
       _httpRequestMock = new Mock<HttpRequest>();
-      _requestValueProvider = new RequestValueProvider(typeof(TestRequestDto), _httpRequestMock.Object);
+      _requestValueProvider = new RequestValueProvider(
+        typeof(TestRequestDto), _httpRequestMock.Object, CancellationToken.None);
     }
 
     [TestCleanup]

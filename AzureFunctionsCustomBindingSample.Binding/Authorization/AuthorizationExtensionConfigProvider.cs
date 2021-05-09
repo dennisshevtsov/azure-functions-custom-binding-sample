@@ -13,7 +13,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Authorization
   {
     private readonly IAuthorizedUserProvider _authorizedUserProvider;
 
-    /// <summary>Initializes a new instance of the <see cref="AuthorizationExtensionConfigProvider"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="AzureFunctionsCustomBindingSample.Binding.Authorization.AuthorizationExtensionConfigProvider"/> class.</summary>
     /// <param name="authorizedUserProvider">An object that provides a simple API to get an authorized user.</param>
     public AuthorizationExtensionConfigProvider(IAuthorizedUserProvider authorizedUserProvider)
       => _authorizedUserProvider = authorizedUserProvider ?? throw new ArgumentNullException(nameof(authorizedUserProvider));
