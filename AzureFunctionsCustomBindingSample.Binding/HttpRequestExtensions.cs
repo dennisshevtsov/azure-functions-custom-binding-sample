@@ -10,8 +10,12 @@ namespace AzureFunctionsCustomBindingSample.Binding
 
   using AzureFunctionsCustomBindingSample.Binding.Request;
 
+  /// <summary>Extends the API of the <see cref="Microsoft.AspNetCore.Http.HttpRequest"/> class.</summary>
   public static class HttpRequestExtensions
   {
+    /// <summary>Stores a request DTO in a request scope.</summary>
+    /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
+    /// <param name="requestDto">An object that represents parameters of a request.</param>
     public static void SetRequestDto(this HttpRequest httpRequest, object requestDto)
     {
       if (httpRequest == null)
@@ -22,6 +26,10 @@ namespace AzureFunctionsCustomBindingSample.Binding
       httpRequest.HttpContext.Items[RequestBinding.ParameterDescriptorName] = requestDto;
     }
 
+    /// <summary>Gets a request DTO.</summary>
+    /// <typeparam name="TRequestDto">A type of a request DTO.</typeparam>
+    /// <param name="httpRequest">An object that represents the incoming side of an individual HTTP request.</param>
+    /// <returns>An object that represents parameters of a request.</returns>
     public static TRequestDto GetRequestDto<TRequestDto>(this HttpRequest httpRequest)
       where TRequestDto : class
     {
@@ -35,6 +43,9 @@ namespace AzureFunctionsCustomBindingSample.Binding
       return requestDto;
     }
 
+    /// <summary>Gets a request DTO.</summary>
+    /// <param name="httpRequest">An object that represents parameters of a request.</param>
+    /// <returns>An object that represents parameters of a request.</returns>
     public static object GetRequestDto(this HttpRequest httpRequest)
     {
       if (httpRequest == null)
