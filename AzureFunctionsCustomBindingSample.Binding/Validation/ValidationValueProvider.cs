@@ -43,7 +43,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Validation
         _httpContext.RequestServices,
         new[]
         {
-          _httpContext.Items[RequestBinding.ParameterDescriptorName],
+          _httpContext.Request.GetRequestDto(),
         }) as IValidator;
       var errors = validator.Validate();
       var validationResult = new ValidationResult(errors);

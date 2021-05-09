@@ -44,7 +44,7 @@ namespace AzureFunctionsCustomBindingSample.Binding.Request
       PopulateParameters(instance, _httpRequest.HttpContext.GetRouteData().Values);
       PopulateParameters(instance, _httpRequest.Query);
 
-      _httpRequest.HttpContext.Items[RequestBinding.ParameterDescriptorName] = instance;
+      _httpRequest.SetRequestDto(instance);
 
       return instance;
     }
