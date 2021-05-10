@@ -10,6 +10,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
   using System.Threading;
   using System.Threading.Tasks;
 
+  using AzureFunctionsCustomBindingSample.Binding;
   using AzureFunctionsCustomBindingSample.Binding.Document;
   using AzureFunctionsCustomBindingSample.CosmosDb;
 
@@ -32,7 +33,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
     /// <returns>An object that represents an async operation.</returns>
     public Task<object> GetDocumentAsync(HttpRequest httpRequest, Type documentType, CancellationToken cancellationToken)
     {
-      var requestDto = httpRequest.HttpContext.Items["__request__"];
+      var requestDto = httpRequest.GetRequestDto();
 
       var methodName = nameof(DocumentClientExtensions.FirstOrDefaultAsync);
       var type = typeof(DocumentClientExtensions);
@@ -61,7 +62,7 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
     /// <returns>An object that represents an async operation.</returns>
     public Task<object> GetDocumentsAsync(HttpRequest httpRequest, Type documentType, CancellationToken cancellationToken)
     {
-      var requestDto = httpRequest.HttpContext.Items["__request__"];
+      var requestDto = httpRequest.GetRequestDto();
 
       var methodName = nameof(DocumentClientExtensions.ToListAsync);
       var type = typeof(DocumentClientExtensions);
