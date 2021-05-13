@@ -10,11 +10,11 @@ namespace AzureFunctionsCustomBindingSample.Api.Services
   using System.Threading;
   using System.Threading.Tasks;
 
+  using Microsoft.AspNetCore.Http;
+
   using AzureFunctionsCustomBindingSample.Binding;
   using AzureFunctionsCustomBindingSample.Binding.Document;
   using AzureFunctionsCustomBindingSample.CosmosDb;
-
-  using Microsoft.AspNetCore.Http;
 
   /// <summary>Represents a simple API to query documents.</summary>
   public sealed class DocumentProvider : IDocumentProvider
